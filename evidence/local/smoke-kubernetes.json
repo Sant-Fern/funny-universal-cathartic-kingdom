@@ -1,0 +1,52 @@
+{
+  "utc": "2026-11-09T05:07:46.950678+00:00",
+  "origin": "http://127.0.0.1:18080",
+  "scope": "single_room_smoke",
+  "mode": "observation",
+  "matchId": "5d4d6c24-341c-4af9-b780-82506b729446",
+  "secondsRequested": 5,
+  "joins": [
+    {
+      "humans": 1,
+      "bots": 9,
+      "joinToWelcomeMs": 22.673
+    },
+    {
+      "humans": 2,
+      "bots": 8,
+      "joinToWelcomeMs": 16.444
+    }
+  ],
+  "afterDisconnect": {
+    "humans": 1,
+    "bots": 9
+  },
+  "rtt": {
+    "count": 10,
+    "p95Ms": 4.962
+  },
+  "clients": [
+    {
+      "inputs": 84,
+      "snapshots": 101,
+      "rttMs": [
+        2.617,
+        4.233,
+        4.325,
+        3.971,
+        4.962
+      ]
+    },
+    {
+      "inputs": 84,
+      "snapshots": 100,
+      "rttMs": [
+        2.374,
+        4.023,
+        4.158,
+        3.759,
+        4.725
+      ]
+    }
+  ]
+}

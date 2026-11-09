@@ -1,0 +1,17 @@
+{
+  "name": "@pogo/client",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1",
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@babylonjs/core": "9.35.0",
+    "@babylonjs/loaders": "9.35.0"
+  },
+  "devDependencies": {
+    "vite": "8.3.6"
+  }
+}

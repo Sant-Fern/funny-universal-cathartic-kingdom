@@ -1,0 +1,54 @@
+name: Local game checks
+on:
+  push:
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+          cache: npm
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.14'
+          cache: pip
+          cache-dependency-path: server/requirements.txt
+      - run: python -m venv .venv
+      - run: .venv/bin/python -m pip install -r server/requirements.txt
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+      - run: docker compose config --quiet
+      - run: docker compose build
+      - run: docker compose up --wait --wait-timeout 60
+      - name: Check HTTP and WebSocket through Nginx
+        run: |
+          curl --fail --silent --show-error --retry 5 --retry-connrefused http://127.0.0.1:8080/api/config > /dev/null
+          .venv/bin/python loadtest/smoke.py --check-web --output smoke-compose.json
+      - name: Keep smoke-test evidence
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: smoke-compose
+          path: smoke-compose.json
+      - name: Stop test containers
+        if: always()
+        run: docker compose down
+  terraform:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: infra/gcp
+    steps:
+      - uses: actions/checkout@v4
+      - uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: '1.13.5'
+      - run: terraform fmt -check -recursive
+      - run: terraform init -backend=false -input=false -lockfile=readonly
+      - run: terraform validate

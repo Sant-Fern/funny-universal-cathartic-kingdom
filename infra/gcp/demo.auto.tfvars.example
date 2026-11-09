@@ -1,0 +1,5 @@
+project_id = "pogo-demo-example"
+region     = "us-central1"
+zone       = "us-central1-a"
+# Ejemplo no enrutable. Sustituir por la IP pública del operador con /32.
+admin_cidr = "192.0.2.10/32"

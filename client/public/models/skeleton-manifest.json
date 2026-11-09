@@ -1,0 +1,10 @@
+{
+  "source": "https://github.com/Charleeh/ecorche",
+  "sourceSha256": "9744d3dffced835961104447d23a781ad469588289ce322d84d000e0d498326c",
+  "license": "CC BY-SA 4.0",
+  "structures": 262,
+  "sourceTriangles": 246960,
+  "triangles": 74068,
+  "bytes": 1945468,
+  "changes": "Skeleton only; eyes and soft nasal/ear tissue removed; AO tint converted to aged ivory; scale, rigid joint grouping and mesh simplification for game animation."
+}

@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#172b34" />
+    <meta name="description" content="Funny Universal Cathartic Kingdom: esqueletos sobre pogos en un auditorio clínico, bajo la mirada de médicos que registran cada caída." />
+    <title>Funny Universal Cathartic Kingdom</title>
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+  </head>
+  <body>
+    <canvas id="arena" aria-label="Arena 3D de Funny Universal Cathartic Kingdom" tabindex="0"></canvas>
+    <div id="loading" role="status">Preparando el auditorio y los esqueletos…</div>
+    <header id="brand"><span class="brand-icon">☠</span><span class="brand-name">Funny Universal<br /><b>Cathartic Kingdom</b></span><small>PROTOCOLO 07</small></header>
+    <main id="lobby" class="overlay">
+      <section class="intro">
+        <div class="eyebrow"><span class="dot"></span> 5 CONTRA 5 · ARENA 3D</div>
+        <h1 class="game-title">Funny Universal<br /><em>Cathartic Kingdom</em></h1>
+        <p>Los médicos toman notas.<br />Los sujetos no toman precauciones.</p>
+        <form id="join-form">
+          <label for="nickname">¿CÓMO TE LLAMABAS EN VIDA?</label>
+          <div class="join-row"><input id="nickname" name="nickname" maxlength="16" placeholder="Tu apodo" value="Huesitos" autocomplete="off" required pattern="[\p{L}\p{N}_ .\-]+" /><button id="join" type="submit">A REBOTAR <span>↗</span></button></div>
+          <div class="mode-picker">
+            <label for="game-mode">MODO</label>
+            <select id="game-mode" name="mode" aria-describedby="mode-description">
+              <option value="observation">Zona de observación</option>
+              <option value="eliminations">Eliminaciones</option>
+            </select>
+            <small id="mode-description">Sube de la pista a la cima. La altura da más puntos.</small>
+          </div>
+          <div id="error" role="alert" aria-live="polite"></div>
+        </form>
+        <div class="controls"><span><kbd>W A S D</kbd> Dirigir el salto</span><span><kbd>RATÓN</kbd> Apuntar</span><span><kbd>CLIC / F</kbd> Cargar y soltar botella</span><span><kbd>ESPACIO</kbd> Cargar y soltar salto</span></div>
+        <a class="credits-link" href="/models/ATTRIBUTION.md" target="_blank" rel="noopener">Modelo anatómico: Écorché · CC BY-SA 4.0 ↗</a>
+      </section>
+      <aside class="arena-label"><span>ENSAYO CLÍNICO 07</span><strong>AUDITORIO DEL<br />ÚLTIMO REBOTE</strong><p>Cada eliminación se registra. Y se aplaude.</p></aside>
+      <footer><span>10 SUJETOS. OBSERVACIÓN INTENSIVA.</span><span>Los bots completan los equipos <span class="star">✳</span></span></footer>
+    </main>
+    <section id="hud" hidden aria-label="Estado de la partida">
+      <div class="scoreboard"><div class="team mint"><span>MENTA</span><strong id="score-0">0</strong></div><div class="clock"><small id="score-mode">ELIMINACIONES</small><strong id="timer">3:00</strong></div><div class="team coral"><strong id="score-1">0</strong><span>CORAL</span></div></div>
+      <div id="zone-hud" hidden>
+        <span id="zone-direction" aria-hidden="true">↑</span>
+        <div><small>ASCENSO · ZONA DE OBSERVACIÓN</small><strong id="zone-label"></strong><span id="zone-status"></span><small id="zone-next" hidden></small></div>
+        <div class="zone-time"><strong id="zone-timer"></strong><small>ROTACIÓN</small></div>
+      </div>
+      <div class="connection"><span class="dot"></span><span id="network">Conectando</span><button id="mute-audience" type="button" aria-pressed="false">Sonido: sí</button><button id="leave" type="button">Salir</button></div>
+      <div id="crosshair" aria-hidden="true">+</div>
+      <div id="hit-marker" hidden aria-hidden="true"></div>
+      <div id="damage-flash" aria-hidden="true"></div>
+      <div id="death" hidden>
+        <div class="death-code"><span></span> PROTOCOLO 07 · BAJA REGISTRADA</div>
+        <svg viewBox="0 0 230 28" aria-hidden="true"><path d="M0 17 H41 L46 12 L50 20 L56 2 L62 26 L68 17 H230" /></svg>
+        <strong>SIN PULSO.</strong>
+        <span id="death-cause"></span>
+        <span id="respawn">Reapareciendo…</span>
+      </div>
+      <div class="player-info"><span id="team-name">EQUIPO MENTA</span><div><strong id="hp">100</strong><span>VIDA</span></div><div class="health-track"><i id="health-fill"></i></div><small id="stats">0 eliminaciones · 0 caídas</small><small id="jump-tip"><kbd>ESPACIO</kbd> <span id="jump-status">Mantén y suelta para saltar</span><span class="jump-track" aria-hidden="true"><i id="jump-fill"></i></span></small></div>
+      <div class="bottom-controls"><span><kbd>WASD</kbd> Dirigir en el aire</span><span><kbd>TAB</kbd> Marcador</span></div>
+      <div class="throw-info">
+        <span id="bottle-title">BOTELLA DE CRISTAL</span>
+        <div class="bottle-picker" role="group" aria-label="Tipo de botella">
+          <button id="bottle-standard" type="button" aria-pressed="true">1 · Cristal</button>
+          <button id="bottle-heavy" type="button" aria-pressed="false">2 · Pesada</button>
+        </div>
+        <small id="bottle-description">Mayor alcance · daño directo</small>
+        <strong id="throw-status">MANTÉN CLIC O F PARA CARGAR</strong>
+        <div class="power-track"><i id="power-fill"></i></div>
+        <small id="throw-help">Mueve el ratón sobre la arena o usa las flechas. Clic izquierdo o F: carga y suelta.</small>
+        <button id="mouse-mode" type="button" aria-pressed="false">Capturar ratón</button>
+        <small id="mouse-note" role="status" hidden></small>
+      </div>
+      <div id="feed" aria-live="polite"></div>
+      <div id="player-list" hidden></div>
+    </section>
+    <section id="results" class="result-overlay" hidden>
+      <div class="result-card"><div class="eyebrow">SE ACABÓ EL RECREO</div><h2 id="result-title">FIN DE PARTIDA</h2><p id="result-score"></p><div id="result-players"></div><button id="again" type="button">VOLVER AL INICIO ↗</button><small>Resultados locales · aún no se guardan en la nube</small></div>
+    </section>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

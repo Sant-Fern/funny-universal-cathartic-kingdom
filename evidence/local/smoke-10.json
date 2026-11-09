@@ -1,0 +1,180 @@
+{
+  "utc": "2026-11-09T04:45:44.643897+00:00",
+  "origin": "http://127.0.0.1:5190",
+  "scope": "single_room_smoke",
+  "mode": "eliminations",
+  "matchId": "19ed655c-e61e-4966-8016-2bd7b03c3c7e",
+  "secondsRequested": 5,
+  "joins": [
+    {
+      "humans": 1,
+      "bots": 9,
+      "joinToWelcomeMs": 9.931
+    },
+    {
+      "humans": 2,
+      "bots": 8,
+      "joinToWelcomeMs": 12.726
+    },
+    {
+      "humans": 3,
+      "bots": 7,
+      "joinToWelcomeMs": 10.948
+    },
+    {
+      "humans": 4,
+      "bots": 6,
+      "joinToWelcomeMs": 11.574
+    },
+    {
+      "humans": 5,
+      "bots": 5,
+      "joinToWelcomeMs": 11.214
+    },
+    {
+      "humans": 6,
+      "bots": 4,
+      "joinToWelcomeMs": 10.686
+    },
+    {
+      "humans": 7,
+      "bots": 3,
+      "joinToWelcomeMs": 10.842
+    },
+    {
+      "humans": 8,
+      "bots": 2,
+      "joinToWelcomeMs": 11.184
+    },
+    {
+      "humans": 9,
+      "bots": 1,
+      "joinToWelcomeMs": 10.327
+    },
+    {
+      "humans": 10,
+      "bots": 0,
+      "joinToWelcomeMs": 10.495
+    }
+  ],
+  "afterDisconnect": {
+    "humans": 9,
+    "bots": 1
+  },
+  "rtt": {
+    "count": 50,
+    "p95Ms": 4.177
+  },
+  "clients": [
+    {
+      "inputs": 84,
+      "snapshots": 103,
+      "rttMs": [
+        3.399,
+        1.733,
+        4.397,
+        1.63,
+        0.654
+      ]
+    },
+    {
+      "inputs": 84,
+      "snapshots": 102,
+      "rttMs": [
+        3.33,
+        1.754,
+        4.284,
+        1.513,
+        0.773
+      ]
+    },
+    {
+      "inputs": 84,
+      "snapshots": 102,
+      "rttMs": [
+        3.483,
+        1.704,
+        4.177,
+        1.47,
+        0.948
+      ]
+    },
+    {
+      "inputs": 84,
+      "snapshots": 102,
+      "rttMs": [
+        3.436,
+        1.767,
+        4.074,
+        1.457,
+        0.823
+      ]
+    },
+    {
+      "inputs": 84,
+      "snapshots": 102,
+      "rttMs": [
+        3.379,
+        1.719,
+        3.987,
+        1.372,
+        0.794
+      ]
+    },
+    {
+      "inputs": 84,
+      "snapshots": 101,
+      "rttMs": [
+        3.327,
+        1.745,
+        3.934,
+        1.361,
+        0.708
+      ]
+    },
+    {
+      "inputs": 84,
+      "snapshots": 101,
+      "rttMs": [
+        3.303,
+        1.696,
+        3.85,
+        1.284,
+        0.677
+      ]
+    },
+    {
+      "inputs": 84,
+      "snapshots": 101,
+      "rttMs": [
+        3.252,
+        1.702,
+        3.8,
+        1.377,
+        0.647
+      ]
+    },
+    {
+      "inputs": 84,
+      "snapshots": 101,
+      "rttMs": [
+        3.214,
+        1.686,
+        3.9,
+        1.376,
+        0.743
+      ]
+    },
+    {
+      "inputs": 84,
+      "snapshots": 101,
+      "rttMs": [
+        3.213,
+        1.672,
+        3.864,
+        1.324,
+        0.691
+      ]
+    }
+  ]
+}
