@@ -3,6 +3,9 @@ import { readFileSync, writeFileSync, mkdirSync } from 'node:fs';
 import { createHash } from 'node:crypto';
 import { MeshoptSimplifier } from 'meshoptimizer';
 
+const lowDetail = process.argv.includes('--low-detail');
+const ratio = lowDetail ? .075 : .30;
+const maxError = lowDetail ? .04 : .003;
 const raw = readFileSync(new URL('../assets/sources/ecorche.glb', import.meta.url));
 const jsonSize = raw.readUInt32LE(12), src = JSON.parse(raw.subarray(20, 20+jsonSize));
 const binary = raw.subarray(28+jsonSize);
@@ -73,7 +76,8 @@ function add(data,type,componentType,min,max){
 const nodeIndexes={};
 for(const [name,g]of Object.entries(groups)){
   const positions=new Float32Array(g.p),original=new Uint32Array(g.i);
-  const [indices]=MeshoptSimplifier.simplify(original,positions,3,Math.floor(original.length*.30/3)*3,.003,['LockBorder']);
+  const target=Math.max(12,Math.floor(original.length*ratio/3)*3);
+  const [indices]=MeshoptSimplifier.simplify(original,positions,3,Math.min(original.length,target),maxError,lowDetail?[]:['LockBorder']);
   const [remap,count]=MeshoptSimplifier.compactMesh(indices);
   const p=new Float32Array(count*3),n=new Float32Array(count*3),c=new Uint8Array(count*4);
   const min=[Infinity,Infinity,Infinity],max=[-Infinity,-Infinity,-Infinity];
@@ -100,7 +104,7 @@ const bin=Buffer.concat(chunks),header=Buffer.alloc(20),binHeader=Buffer.alloc(8
 header.write('glTF');header.writeUInt32LE(2,4);header.writeUInt32LE(28+json.length+bin.length,8);header.writeUInt32LE(json.length,12);header.write('JSON',16);
 binHeader.writeUInt32LE(bin.length);binHeader.write('BIN\0',4);
 const dest=new URL('../client/public/models/',import.meta.url);mkdirSync(dest,{recursive:true});
-writeFileSync(new URL('anatomical-skeleton.glb',dest),Buffer.concat([header,json,binHeader,bin]));
+writeFileSync(new URL(lowDetail?'anatomical-skeleton-low.glb':'anatomical-skeleton.glb',dest),Buffer.concat([header,json,binHeader,bin]));
 const stats={source:'https://github.com/Charleeh/ecorche',sourceSha256:createHash('sha256').update(raw).digest('hex'),license:'CC BY-SA 4.0',structures,sourceTriangles,triangles,bytes:28+json.length+bin.length,changes:'Skeleton only; eyes and soft nasal/ear tissue removed; AO tint converted to aged ivory; scale, rigid joint grouping and mesh simplification for game animation.'};
-writeFileSync(new URL('skeleton-manifest.json',dest),JSON.stringify(stats,null,2)+'\n');
+writeFileSync(new URL(lowDetail?'skeleton-low-manifest.json':'skeleton-manifest.json',dest),JSON.stringify(stats,null,2)+'\n');
 console.log(JSON.stringify(stats,null,2));

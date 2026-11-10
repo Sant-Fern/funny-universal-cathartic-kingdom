@@ -4,6 +4,7 @@ import { Vector3,Quaternion } from '@babylonjs/core/Maths/math.vector.js';
 import { Color3,Color4 } from '@babylonjs/core/Maths/math.color.js';
 import { MeshBuilder } from '@babylonjs/core/Meshes/meshBuilder.js';
 import { Mesh } from '@babylonjs/core/Meshes/mesh.js';
+import { TransformNode } from '@babylonjs/core/Meshes/transformNode.js';
 import { StandardMaterial } from '@babylonjs/core/Materials/standardMaterial.js';
 import { DynamicTexture } from '@babylonjs/core/Materials/Textures/dynamicTexture.js';
 import { HemisphericLight } from '@babylonjs/core/Lights/hemisphericLight.js';
@@ -13,13 +14,12 @@ import { UniversalCamera } from '@babylonjs/core/Cameras/universalCamera.js';
 import { DefaultRenderingPipeline } from '@babylonjs/core/PostProcesses/RenderPipeline/Pipelines/defaultRenderingPipeline.js';
 import { ImageProcessingConfiguration } from '@babylonjs/core/Materials/imageProcessingConfiguration.js';
 import { createAuditorium } from './auditorium.js';
-import { createBottleFactory,createCharacterFactory,TEAM_COLORS } from './characters.js';
-import { heightAt,launchVelocity,throwOrigin,trajectory,segmentBox,obstacleAt,config } from '../../shared/physics.js';
+import { createBottleFactory,createCharacterFactory,playerColor } from './characters.js';
+import { arenaObstacles,heightAt,launchVelocity,throwOrigin,trajectory,segmentBox,obstacleAt,config } from '../../shared/physics.js';
 
 const color=hex=>Color3.FromHexString(hex),v=(x,y,z)=>new Vector3(x,y,z);
-export async function createWorld(canvas,updateMouse){
-  const engine=new Engine(canvas,true,{stencil:true});
-  engine.setHardwareScalingLevel(Math.max(1,devicePixelRatio/1.65));
+export async function createWorld(canvas,updateMouse,initialQuality='high'){
+  const engine=new Engine(canvas,false,{stencil:true});
   const scene=new Scene(engine);scene.clearColor=new Color4(.12,.19,.23,1);
   scene.fogMode=Scene.FOGMODE_EXP2;scene.fogColor=color('#223b48');scene.fogDensity=.0045;
   const camera=new UniversalCamera('camera',v(24,13,-30),scene);camera.minZ=.12;camera.maxZ=600;camera.fov=.89;
@@ -35,11 +35,30 @@ export async function createWorld(canvas,updateMouse){
   sun.shadowMinZ=1;sun.shadowMaxZ=180;
   const shadow=new ShadowGenerator(2048,sun);shadow.usePercentageCloserFiltering=true;shadow.filteringQuality=ShadowGenerator.QUALITY_MEDIUM;
   shadow.bias=.0008;shadow.normalBias=.028;shadow.setDarkness(.12);
-  const pipeline=new DefaultRenderingPipeline('acabado',true,scene,[camera]);
-  pipeline.fxaaEnabled=true;pipeline.samples=1;pipeline.bloomEnabled=true;pipeline.bloomThreshold=.95;pipeline.bloomWeight=.16;pipeline.bloomKernel=46;
+  const pipeline=new DefaultRenderingPipeline('acabado',true,scene,[camera],false);
+  pipeline.bloomThreshold=.95;pipeline.bloomWeight=.16;pipeline.bloomKernel=46;
   scene.imageProcessingConfiguration.toneMappingEnabled=true;scene.imageProcessingConfiguration.toneMappingType=ImageProcessingConfiguration.TONEMAPPING_ACES;
   scene.imageProcessingConfiguration.exposure=1.12;scene.imageProcessingConfiguration.contrast=1.09;
-  pipeline.imageProcessing.vignetteEnabled=true;pipeline.imageProcessing.vignetteWeight=.76;pipeline.imageProcessing.vignetteStretch=.30;
+  scene.imageProcessingConfiguration.vignetteWeight=.76;scene.imageProcessingConfiguration.vignetteStretch=.30;
+  let lowQuality=false;
+  function resize(){
+    const highScale=Math.max(1,devicePixelRatio/1.65);
+    const scale=lowQuality
+      ? Math.max(highScale*1.8,canvas.clientWidth/960,canvas.clientHeight/540)
+      : highScale;
+    engine.setHardwareScalingLevel(scale);
+  }
+  function applyQuality(quality){
+    lowQuality=quality==='low';
+    scene.shadowsEnabled=!lowQuality;
+    scene.imageProcessingConfiguration.vignetteEnabled=!lowQuality;
+    pipeline.fxaaEnabled=!lowQuality;
+    pipeline.bloomEnabled=!lowQuality;
+    pipeline.imageProcessingEnabled=!lowQuality;
+    pipeline.prepare();
+    resize();
+  }
+  applyQuality(initialQuality);
   const materials=new Map();
   function material(hex,glow=false){
     const key=`${hex}:${glow}`;if(materials.has(key))return materials.get(key);
@@ -60,28 +79,41 @@ export async function createWorld(canvas,updateMouse){
     mesh.material=material(hex);mesh.parent=parent||null;return mesh;
   }
   const auditorium=createAuditorium({scene,material,box,bone,shadow});
+  auditorium.setLowQuality(lowQuality);
   const bottleFactory=createBottleFactory(scene);
   const makeCharacter=await createCharacterFactory(scene,shadow,material,bone,box,bottleFactory);
   const players=new Map(),projectiles=new Map(),labels=new Map(),shards=[],seenImpacts=new Set();
-  const zoneMaterial=new StandardMaterial('zona-activa',scene);
-  zoneMaterial.disableLighting=true;
-  const zoneRing=MeshBuilder.CreateTorus('límite-zona',{diameter:2,thickness:.035,tessellation:56},scene);
-  const zoneBeacon=MeshBuilder.CreateCylinder('baliza-zona',{diameter:.055,height:6,tessellation:8},scene);
-  const zoneFlag=MeshBuilder.CreatePolyhedron('señal-zona',{type:1,size:.35},scene);
-  const zoneMeshes=[zoneRing,zoneBeacon,zoneFlag];
-  for(const mesh of zoneMeshes){
-    mesh.material=zoneMaterial;
+  const finish=config.obstacles.find(o=>o.route==='summit');
+  const finishY=heightAt(finish.x,finish.z)+finish.h;
+  const finishRing=MeshBuilder.CreateTorus('meta',{diameter:2*config.race.finishRadius,thickness:.08,tessellation:40},scene);
+  const finishBeacon=MeshBuilder.CreateCylinder('baliza-de-meta',{diameter:.065,height:4,tessellation:8},scene);
+  const finishFlag=MeshBuilder.CreatePolyhedron('señal-de-meta',{type:1,size:.40},scene);
+  const finishMeshes=[finishRing,finishBeacon,finishFlag];
+  for(const mesh of finishMeshes){
+    mesh.material=material('#ffda80',true);
+    mesh.isPickable=false;
+  }
+  finishRing.position.set(finish.x,finishY+.055,finish.z);
+  finishBeacon.position.set(finish.x,finishY+2,finish.z);
+  finishFlag.position.set(finish.x,finishY+4,finish.z);
+  const balloonSources=['#f6c86c','#f28e8b','#79d7db'].map(hex=>{
+    const mesh=MeshBuilder.CreateSphere('globo',{diameter:2*config.balloons.radius,segments:8},scene);
+    mesh.material=material(hex,true);
     mesh.isPickable=false;
     mesh.setEnabled(false);
-  }
-  function showZone(zone){
-    for(const mesh of zoneMeshes)mesh.setEnabled(Boolean(zone));
-    if(!zone)return;
-    zoneMaterial.emissiveColor=color(zone.owner===null?'#f4ce7e':TEAM_COLORS[zone.owner]);
-    zoneRing.position.set(zone.x,zone.y+.045,zone.z);
-    zoneRing.scaling.set(zone.radius,1,zone.radius);
-    zoneBeacon.position.set(zone.x,zone.y+3,zone.z);
-    zoneFlag.position.set(zone.x,zone.y+6,zone.z);
+    return mesh;
+  });
+  function addBalloons(parent){
+    const root=new TransformNode('globos-del-sujeto',scene);
+    root.parent=parent;
+    const targets=config.balloons.targets.map(([x,y,z],i)=>{
+      const balloon=balloonSources[i].createInstance('globo-vivo');
+      balloon.position.set(x,y,z);
+      balloon.parent=root;
+      const string=bone('cordel-de-globo',[0,2.48,0],[x,y-config.balloons.radius,z],.012,'#d4d5c6',root);
+      return {balloon,string};
+    });
+    return {root,targets};
   }
   const shardSource=MeshBuilder.CreatePolyhedron('fragmento',{type:1,size:.07},scene);
   shardSource.material=material('#aec9ba');shardSource.setEnabled(false);
@@ -102,7 +134,7 @@ export async function createWorld(canvas,updateMouse){
   }
   function floorBelow(p,time){
     let floor=heightAt(p.x,p.z);
-    for(const o of config.obstacles){
+    for(const o of obstacles){
       const box=obstacleAt(o,time);
       if(box.top<=p.y+.012&&Math.abs(p.x-box.x)<o.w/2+.12&&Math.abs(p.z-box.z)<o.d/2+.12)floor=Math.max(floor,box.top);
     }
@@ -128,7 +160,7 @@ export async function createWorld(canvas,updateMouse){
       const volume=local ? .16 : .095*Math.max(0,1-distance/20);
       auditorium.impact(impact.hits>0,volume,local,heavy,impact.downs>0);
     }
-    if(heavy){
+    if(heavy&&mode==='race'){
       pulse(impact.x,impact.y,impact.z,config.heavyBottle.splashRadius);
     }
     scatter(shardSource,impact.x,impact.y,impact.z,heavy?18:impact.hits?12:8,heavy?4.6:3,.55);
@@ -137,21 +169,33 @@ export async function createWorld(canvas,updateMouse){
   }
   function nameLabel(p){
     const texture=new DynamicTexture(`nombre-${p.id}`,{width:512,height:64},scene,false);texture.hasAlpha=true;
-    texture.drawText(`${p.name}${p.bot?' · BOT':''}`,null,46,'bold 31px Arial',TEAM_COLORS[p.team],'transparent',true);
+    texture.drawText(`${p.name}${p.bot?' · BOT':''}`,null,46,'bold 31px Arial',playerColor(p.team),'transparent',true);
     const mat=new StandardMaterial(`nombre-${p.id}`,scene);mat.diffuseTexture=texture;mat.emissiveColor=Color3.White();mat.useAlphaFromDiffuseTexture=true;mat.disableLighting=true;mat.backFaceCulling=false;
     const mesh=MeshBuilder.CreatePlane(`nombre-${p.id}`,{width:2.5,height:.32},scene);mesh.material=mat;mesh.billboardMode=Mesh.BILLBOARDMODE_ALL;
     labels.set(p.id,{mesh,texture,material:mat,name:p.name,bot:p.bot});
   }
   let latest=null,previous=null,receivedAt=0,localId=null,active=false,yaw=Math.PI/2,pitch=-.08,power=.6,charging=false,jumpCharge=null,bottle='standard';
+  let mode,obstacles;
+  function disposeLabel(label){
+    label.mesh.dispose();label.texture.dispose();label.material.dispose();
+  }
   function setSnapshot(s){
     if(s.matchId!==latest?.matchId)seenImpacts.clear();
     previous=latest;latest=s;receivedAt=performance.now();
     auditorium.onSnapshot(s);
-    showZone(s.status==='playing'?s.zone:null);
     for(const p of s.players){
-      if(!players.has(p.id))players.set(p.id,makeCharacter(p.id,p.team));
+      if(!players.has(p.id)){
+        const player=makeCharacter(p.id,p.team,lowQuality);
+        if(p.team===null)player.balloons=addBalloons(player.root);
+        players.set(p.id,player);
+      }
+      const balloons=players.get(p.id).balloons;
+      if(balloons)balloons.targets.forEach(({balloon,string},i)=>{
+        const intact=Boolean(p.balloons & (1<<i));
+        balloon.setEnabled(intact);string.setEnabled(intact);
+      });
       const old=labels.get(p.id);
-      if(!old||old.name!==p.name||old.bot!==p.bot){if(old){old.mesh.dispose();old.texture.dispose();old.material.dispose();}nameLabel(p);}
+      if(!old||old.name!==p.name||old.bot!==p.bot){if(old)disposeLabel(old);nameLabel(p);}
       const was=previous?.players.find(o=>o.id===p.id);
       if(active&&was?.health>0&&p.health===0){
         const floor=floorBelow(p,s.time);
@@ -179,7 +223,7 @@ export async function createWorld(canvas,updateMouse){
   splashPreview.material=splashMaterial;splashPreview.setEnabled(false);splashPreview.isPickable=false;
   function updateGuide(p,time){
     if(!p||p.health<=0||latest?.status==='finished'){guide?.setEnabled(false);marker.setEnabled(false);splashPreview.setEnabled(false);return;}
-    const origin=throwOrigin(p.x,p.y,p.z,yaw),vel=launchVelocity(yaw,pitch,power,bottle),points=trajectory(origin,vel,bottle,time);
+    const origin=throwOrigin(p.x,p.y,p.z,yaw),vel=launchVelocity(yaw,pitch,power,bottle),points=trajectory(origin,vel,bottle,time,obstacles);
     const path=Array.from({length:81},(_,i)=>{
       const f=i/80*(points.length-1),index=Math.min(points.length-2,Math.floor(f)),a=points[index],b=points[index+1],t=f-index;
       return v(a.x+(b.x-a.x)*t,a.y+(b.y-a.y)*t,a.z+(b.z-a.z)*t);
@@ -188,12 +232,12 @@ export async function createWorld(canvas,updateMouse){
     else MeshBuilder.CreateTube('arco-blanco',{path,instance:guide},scene);
     guide.setEnabled(true);marker.setEnabled(true);marker.position.copyFrom(path.at(-1));
     marker.position.y+=.025;marker.scaling.setAll(1+Math.sin(performance.now()*.005)*.08);
-    splashPreview.setEnabled(bottle==='heavy');
+    splashPreview.setEnabled(bottle==='heavy'&&mode==='race');
     splashPreview.position.copyFrom(marker.position);
   }
   function clearCameraReach(target,wanted,time){
     let nearest=1;
-    for(const o of config.obstacles){
+    for(const o of obstacles){
       const box=obstacleAt(o,time);
       const t=segmentBox(target,wanted,{x:box.x-o.w/2-.2,y:box.bottom-.2,z:box.z-o.d/2-.2},
         {x:box.x+o.w/2+.2,y:box.top+.2,z:box.z+o.d/2+.2});
@@ -227,8 +271,10 @@ export async function createWorld(canvas,updateMouse){
             jumpedAt:airborne?previewTime-t:-100,landedAt:t>=flight?previewTime-t+flight:-100,impactSpeed:speed},previewTime,0,preload);
         }else player.animate(p.id===localId?{...p,bottle,yaw:facing}:p,simTime,p.id===localId&&charging?power:0,p.id===localId?(jumpCharge??0):0);
         player.root.rotation.y=facing;
+        if(player.balloons)player.balloons.root.rotation.y=-facing;
         player.root.setEnabled(p.health>0||(falling&&timeSinceDown<2.2));
-        const label=labels.get(p.id).mesh;label.position.copyFrom(player.root.position).addInPlace(v(0,3.12,0));label.setEnabled(p.health>0&&p.id!==localId);
+        const label=labels.get(p.id).mesh;label.position.copyFrom(player.root.position);label.position.y+=mode==='race'?3.12:4.05;
+        label.setEnabled(p.health>0&&p.id!==localId);
         if(p.id===localId)me={...p,x:player.root.position.x,y:falling?p.y:player.root.position.y,z:player.root.position.z};
       }
       for(const s of latest.shots){
@@ -287,19 +333,52 @@ export async function createWorld(canvas,updateMouse){
       effect.mesh.scaling.set(radius,1,radius);
       if(effect.age>.32){effect.mesh.dispose();splashEffects.splice(i,1);}
     }
-    zoneFlag.rotation.y+=dt*1.5;
-    auditorium.update(now/1000,platformTime);scene.render();
+    if(mode==='race')finishFlag.rotation.y+=dt*1.5;
+    auditorium.update(now/1000,platformTime,lowQuality,mode);
+    scene.render();
   }
-  engine.runRenderLoop(render);window.addEventListener('resize',()=>engine.resize());
-  const deckPositions=config.obstacles.filter(o=>o.tier).map(o=>[o.x,o.z,o.h]);
-  const idlePositions=[[10,-9,0],...deckPositions];
-  const idle={time:0,status:'waiting',players:idlePositions.map(([x,z,h],i)=>({
-    id:`slot-${i}`,name:['Tibia','Fémur','Costilla','Cráneo','Rótula'][i%5],team:i%2,bot:true,x,y:heightAt(x,z)+h,z,
-    yaw:i===0?2.42:i%2?-Math.PI/2:Math.PI/2,health:100,
-  })),shots:[],impacts:[]};
-  setSnapshot(idle);
-  return{setSnapshot,enableAudio:auditorium.enableAudio,muteAudience:auditorium.mute,enter(id,team){localId=id;active=true;yaw=team?-Math.PI/2:Math.PI/2;pitch=-.08;},
-    leave(){localId=null;active=false;charging=false;jumpCharge=null;bottle='standard';setSnapshot(idle);},
+  engine.runRenderLoop(render);window.addEventListener('resize',resize);
+  function showLobby(){
+    const positions=mode==='race'
+      ? [[10,-9,0],...obstacles.filter(o=>o.tier).map(o=>[o.x,o.z,o.h])]
+      : [[12,-9,0],[-11,-7,0],[2,7,0],[9,6,1.65]];
+    setSnapshot({mode,time:0,status:'waiting',players:positions.map(([x,z,h],i)=>({
+      id:`slot-${i}`,name:['Tibia','Fémur','Costilla','Cráneo','Rótula'][i%5],team:mode==='race'?i%2:null,bot:true,
+      x,y:heightAt(x,z)+h,z,yaw:i===0?2.42:i%2?-Math.PI/2:Math.PI/2,health:100,
+      balloons:(1<<config.balloons.targets.length)-1,
+    })),shots:[],impacts:[]});
+  }
+  function rebuildCharacters(){
+    for(const player of players.values())player.dispose();
+    for(const label of labels.values())disposeLabel(label);
+    players.clear();labels.clear();
+    latest=null;
+    showLobby();
+  }
+  function setMode(value){
+    if(value===mode)return;
+    mode=value;
+    obstacles=arenaObstacles(mode);
+    auditorium.setMode(mode);
+    for(const mesh of finishMeshes)mesh.setEnabled(mode==='race');
+    rebuildCharacters();
+  }
+  function setQuality(quality){
+    if(active||lowQuality===(quality==='low'))return;
+    applyQuality(quality);
+    auditorium.setLowQuality(lowQuality);
+    rebuildCharacters();
+  }
+  setMode('eliminations');
+  return{setSnapshot,setMode,setQuality,getFPS:()=>engine.getFps(),renderer:engine.getGlInfo().renderer,
+    enableAudio:auditorium.enableAudio,muteAudience:auditorium.mute,
+    enter(id,facing){localId=id;active=true;yaw=facing;pitch=-.08;},
+    leave(){
+      localId=null;active=false;charging=false;jumpCharge=null;bottle='standard';
+      for(const player of players.values())player.root.setEnabled(false);
+      for(const label of labels.values())label.mesh.setEnabled(false);
+      showLobby();
+    },
     look(dx,dy){yaw=Math.atan2(Math.sin(yaw+dx*.0025),Math.cos(yaw+dx*.0025));pitch=Math.max(-.65,Math.min(.64,pitch-dy*.002));},
     setCharge(value,held){power=value;charging=held;},setBottle(kind){bottle=kind;},setJumpCharge(value){jumpCharge=value;},get aim(){return{yaw,pitch};}};
 }

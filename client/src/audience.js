@@ -7,12 +7,14 @@ import { DynamicTexture } from '@babylonjs/core/Materials/Textures/dynamicTextur
 
 const up=new Vector3(0,1,0),ivory='#e5eeee',skins=['#d6ad8d','#a47860','#815c49','#e2baa1','#b89073'];
 export function createAudience(scene,seats,material){
-  const batches=[],mat=material;
+  const staticBatches=[],movingBatches=[],mat=material;
   function batch(name,geometry,matName,moving=false){
     const mesh=geometry==='box'?MeshBuilder.CreateBox(name,{size:1},scene):geometry==='sphere'
       ?MeshBuilder.CreateSphere(name,{diameter:1,segments:7},scene):MeshBuilder.CreateCylinder(name,{height:1,diameter:1,tessellation:8},scene);
     mesh.material=typeof matName==='string'?mat(matName):matName;mesh.isPickable=false;mesh.alwaysSelectAsActiveMesh=true;
-    const b={mesh,moving,matrices:[],buffer:null};batches.push(b);return b;
+    const b={mesh,moving,matrices:[],buffer:null,offset:0};
+    (moving?movingBatches:staticBatches).push(b);
+    return b;
   }
   const clipboardTexture=new DynamicTexture('hojas-de-observacion',{width:128,height:192},scene,false);
   const c=clipboardTexture.getContext();c.fillStyle='#d9e4dd';c.fillRect(0,0,128,192);c.fillStyle='#49676d';c.fillRect(12,14,104,20);
@@ -26,21 +28,37 @@ export function createAudience(scene,seats,material){
   const sleeves=batch('mangas-animadas','cylinder',ivory,true),hands=skins.map((hex,i)=>batch(`mano-${i}`,'sphere',hex,true));
   const boards=batch('tablas-de-observacion','box',paper,true),pens=batch('boligrafos','cylinder','#46767b',true);
   const rot=new Quaternion(),scale=new Vector3(),matrix=new Matrix();
-  const point=(d,x,y,z)=>new Vector3(d.x+x*d.c+z*d.s,d.y+y,d.z-x*d.s+z*d.c);
-  function instance(b,d,x,y,z,sx,sy,sz,rx=0,rz=0){
-    Matrix.ComposeToRef(scale.set(sx,sy,sz),Quaternion.RotationYawPitchRollToRef(d.yaw,rx,rz,rot),point(d,x,y,z),matrix);
-    b.matrices.push(...matrix.m);
+  const start=new Vector3(),end=new Vector3(),axis=new Vector3();
+  function pointToRef(d,x,y,z,result){
+    result.set(d.x+x*d.c+z*d.s,d.y+y,d.z-x*d.s+z*d.c);
   }
-  function limb(b,d,a,e,width){
-    const start=point(d,...a),end=point(d,...e),axis=end.subtract(start),length=axis.length();
+  function writeMatrix(b){
+    matrix.copyToArray(b.buffer??b.matrices,b.offset);
+    b.offset+=16;
+  }
+  function instance(b,d,x,y,z,sx,sy,sz,rx=0,rz=0){
+    pointToRef(d,x,y,z,start);
+    Matrix.ComposeToRef(scale.set(sx,sy,sz),Quaternion.RotationYawPitchRollToRef(d.yaw,rx,rz,rot),start,matrix);
+    writeMatrix(b);
+  }
+  function limb(b,d,ax,ay,az,ex,ey,ez,width){
+    pointToRef(d,ax,ay,az,start);
+    pointToRef(d,ex,ey,ez,end);
+    end.subtractToRef(start,axis);
+    const length=axis.length();
     Quaternion.FromUnitVectorsToRef(up,axis.normalize(),rot);
-    Matrix.ComposeToRef(scale.set(width,length,width),rot,start.add(end).scale(.5),matrix);b.matrices.push(...matrix.m);
+    Matrix.ComposeToRef(scale.set(width,length,width),rot,start.addInPlace(end).scaleInPlace(.5),matrix);
+    writeMatrix(b);
   }
   const doctors=seats.map((seat,i)=>{
     const yaw=Math.atan2(-seat.x,-seat.z);
-    return{...seat,yaw,c:Math.cos(yaw),s:Math.sin(yaw),skin:i%skins.length,cohort:i%3,phase:(i*2.39996)%(Math.PI*2)};
+    return{...seat,index:i,yaw,c:Math.cos(yaw),s:Math.sin(yaw),skin:i%skins.length,cohort:i%3,phase:(i*2.39996)%(Math.PI*2)};
   });
-  for(const [i,d]of doctors.entries()){
+  // Keep seats from every stand in the first quarter for the low graphics preset.
+  doctors.sort((a,b)=>(a.index%4)-(b.index%4));
+  const lowCount=Math.ceil(doctors.length/4);
+  for(const [position,d]of doctors.entries()){
+    const i=d.index;
     instance(coats,d,0,.91,0,.49,.68,.34);
     instance(undershirt,d,0,1.10,.171,.18,.23,.028);
     instance(collars,d,-.095,1.095,.185,.09,.25,.029,0,-.37);instance(collars,d,.095,1.095,.185,.09,.25,.029,0,.37);
@@ -52,31 +70,50 @@ export function createAudience(scene,seats,material){
       instance(pants,d,side*.132,.25,.365,.145,.44,.145);
       instance(shoes,d,side*.132,.07,.42,.16,.10,.26);
     }
+    if(position+1===lowCount){
+      for(const b of staticBatches)b.lowCount=b.offset/16;
+    }
   }
   function upload(b){
-    if(!b.matrices.length){b.mesh.setEnabled(false);return;}
-    if(!b.buffer){b.buffer=new Float32Array(b.matrices);b.mesh.thinInstanceSetBuffer('matrix',b.buffer,16,!b.moving);b.mesh.thinInstanceRefreshBoundingInfo();}
-    else{b.buffer.set(b.matrices);b.mesh.thinInstanceBufferUpdated('matrix');}
+    if(!b.offset){b.mesh.setEnabled(false);return;}
+    if(!b.buffer){
+      b.buffer=new Float32Array(b.matrices);
+      b.matrices=null;
+      b.mesh.thinInstanceSetBuffer('matrix',b.buffer,16,!b.moving);
+      b.mesh.thinInstanceRefreshBoundingInfo();
+    }else b.mesh.thinInstanceBufferUpdated('matrix');
   }
-  for(const b of batches.filter(b=>!b.moving))upload(b);
-  let applauseUntil=-1,last=-1,writingCohort=0;
-  function update(time){
-    if(time-last<.045)return;last=time;
-    for(const b of batches.filter(b=>b.moving))b.matrices.length=0;
-    for(const d of doctors){
+  for(const b of staticBatches)upload(b);
+  let applauseUntil=-1,last=-1,writingCohort=0,previousLow=false;
+  function update(time,lowQuality=false){
+    if(lowQuality!==previousLow){
+      for(const b of staticBatches)b.mesh.thinInstanceCount=lowQuality?b.lowCount:b.offset/16;
+      previousLow=lowQuality;
+    }else if(time-last<(lowQuality ? .09 : .045))return;
+    last=time;
+    for(const b of movingBatches)b.offset=0;
+    const count=lowQuality?lowCount:doctors.length;
+    for(let i=0;i<count;i++){
+      const d=doctors[i];
       const clap=time<applauseUntil&&d.cohort!==writingCohort;
       const excitement=clap?Math.sin(time*17+d.phase)*.045:0;
       const separation=.047+.17*(.5+.5*Math.cos(time*23+d.phase));
       for(const side of [-1,1]){
-        const shoulder=[side*.235,1.14,0],elbow=[side*.31,clap?1.08+excitement:.88,.14];
-        const hand=clap?[side*separation,1.22+excitement,.43]:[side*.13+(side>0?Math.sin(time*5+d.phase)*.077:0),.87+(side>0?Math.sin(time*9+d.phase)*.018:0),.455];
-        limb(sleeves,d,shoulder,elbow,.143);limb(sleeves,d,elbow,hand,.112);
-        instance(hands[d.skin],d,...hand,.087,.106,.076,clap?-.17:.38);
-        if(side>0)limb(pens,d,[hand[0],hand[1]+.045,hand[2]],[hand[0]+.025,hand[1]-.09,hand[2]+.035],.016);
+        const elbowY=clap?1.08+excitement:.88;
+        const handX=clap?side*separation:side*.13+(side>0?Math.sin(time*5+d.phase)*.077:0);
+        const handY=clap?1.22+excitement:.87+(side>0?Math.sin(time*9+d.phase)*.018:0);
+        const handZ=clap?.43:.455;
+        limb(sleeves,d,side*.235,1.14,0,side*.31,elbowY,.14,.143);
+        limb(sleeves,d,side*.31,elbowY,.14,handX,handY,handZ,.112);
+        instance(hands[d.skin],d,handX,handY,handZ,.087,.106,.076,clap?-.17:.38);
+        if(side>0)limb(pens,d,handX,handY+.045,handZ,handX+.025,handY-.09,handZ+.035,.016);
       }
       instance(boards,d,0,clap?.61:.81,clap?.34:.44,.34,.40,.028,clap?-1.25:-.64);
     }
-    for(const b of batches.filter(b=>b.moving))upload(b);
+    for(const b of movingBatches){
+      upload(b);
+      b.mesh.thinInstanceCount=b.offset/16;
+    }
   }
   update(0);
   return{update,applaud(time){applauseUntil=time+2.35;writingCohort=(writingCohort+1)%3;},count:doctors.length};

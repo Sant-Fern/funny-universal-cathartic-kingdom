@@ -1,6 +1,7 @@
 import config from './arena.json' with { type: 'json' };
 
 export { config };
+export const arenaObstacles = mode => mode === 'race' ? config.obstacles : config.flatObstacles;
 export function heightAt(x, z) {
   const t = config.terrain;
   return t.waveHeight * Math.sin(x * t.waveX) * Math.cos(z * t.waveZ)
@@ -50,13 +51,13 @@ export function segmentBox(start, end, low, high) {
   return near;
 }
 // Same 50 ms collision samples and ballistic equation as the server.
-export function trajectory(origin, velocity, kind = 'standard', startTime = 0) {
+export function trajectory(origin, velocity, kind = 'standard', startTime = 0, obstacles = config.obstacles) {
   const stats = bottleStats(kind);
   const points = [origin], step = 1 / config.tickRate, r = stats.shotRadius;
   for (let t = step; t <= stats.shotLifetime + 1e-6; t += step) {
     const a = points.at(-1), b = positionAt(origin, velocity, t, kind);
     let nearest = 1, collided = false;
-    for (const o of config.obstacles) {
+    for (const o of obstacles) {
       const box = obstacleAt(o, startTime+t);
       let start = a;
       if (o.motion) {

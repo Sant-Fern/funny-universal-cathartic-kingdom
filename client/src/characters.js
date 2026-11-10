@@ -9,8 +9,9 @@ import { PBRMaterial } from '@babylonjs/core/Materials/PBR/pbrMaterial.js';
 import { config } from '../../shared/physics.js';
 
 export const TEAM_COLORS = ['#79d6b5','#eb9278'];
+export const playerColor = team => TEAM_COLORS[team] ?? '#f3d58e';
 export function createBottleFactory(scene) {
-  const materials=TEAM_COLORS.map((hex,i)=>{
+  const materials=[...TEAM_COLORS,playerColor(null)].map((hex,i)=>{
     const glass=new PBRMaterial(`vidrio-${i}`,scene);
     glass.albedoColor=Color3.FromHexString(i?'#a9d0c1':'#90bfae');
     glass.metallic=0;glass.roughness=.12;glass.alpha=.62;glass.indexOfRefraction=1.5;
@@ -24,28 +25,42 @@ export function createBottleFactory(scene) {
   heavyLabel.diffuseColor=Color3.FromHexString('#efad59');
   heavyLabel.emissiveColor=Color3.FromHexString('#51381d');
   return function bottle(team,parent,kind='standard'){
+    const style=materials[team??2];
     const root=new TransformNode('botella-de-cristal',scene);root.parent=parent||null;
     const body=MeshBuilder.CreateLathe('cristal',{shape:profile,tessellation:14,closed:false},scene);
-    body.material=materials[team].glass;body.parent=root;
+    body.material=style.glass;body.parent=root;
     const label=MeshBuilder.CreateCylinder('etiqueta',{diameter:.22,height:.13,tessellation:14},scene);
-    label.material=kind==='heavy'?heavyLabel:materials[team].label;label.position.y=-.08;label.parent=root;
+    label.material=kind==='heavy'?heavyLabel:style.label;label.position.y=-.08;label.parent=root;
     const lip=MeshBuilder.CreateTorus('boca',{diameter:.08,thickness:.012,tessellation:14},scene);
-    lip.material=materials[team].glass;lip.position.y=.275;lip.parent=root;
+    lip.material=style.glass;lip.position.y=.275;lip.parent=root;
     if(kind==='heavy')root.scaling.set(1.65,1.1,1.65);
     return root;
   };
 }
 
 export async function createCharacterFactory(scene,shadow,material,bone,box,bottleFactory){
-  const template=await LoadAssetContainerAsync('/models/anatomical-skeleton.glb',scene);
-  return function character(id,team){
+  const [fullModel,lightModel]=await Promise.all([
+    LoadAssetContainerAsync('/models/anatomical-skeleton.glb',scene),
+    LoadAssetContainerAsync('/models/anatomical-skeleton-low.glb',scene),
+  ]);
+  const lowBoneMaterial=new StandardMaterial('hueso-ligero',scene);
+  lowBoneMaterial.diffuseColor=Color3.White();
+  lowBoneMaterial.emissiveColor=new Color3(.24,.21,.16);
+  lowBoneMaterial.specularColor=Color3.Black();
+  lowBoneMaterial.maxSimultaneousLights=2;
+  for(const mesh of fullModel.meshes)if(mesh.getTotalVertices())mesh.receiveShadows=true;
+  for(const mesh of lightModel.meshes)if(mesh.getTotalVertices())mesh.material=lowBoneMaterial;
+  return function character(id,team,lowQuality){
     const root=new TransformNode(`personaje-${id}`,scene),balance=new TransformNode('balance-del-pogo',scene),elastic=new TransformNode('cuerpo-elastico',scene);
     balance.parent=root;balance.setPivotPoint(new Vector3(0,.03,.52));elastic.parent=balance;
     elastic.setPivotPoint(new Vector3(0,.63,.10));
-    const entries=template.instantiateModelsToScene(name=>`${id}:${name}`,false,{doNotInstantiate:true});
+    // The anatomical model has rigid joints and one shared material.
+    const template=lowQuality?lightModel:fullModel;
+    const entries=template.instantiateModelsToScene(name=>`${id}:${name}`,false,{doNotInstantiate:false});
     for(const model of entries.rootNodes){model.parent=elastic;model.setEnabled(true);}
     const nodes=elastic.getDescendants(),joint=name=>nodes.find(n=>n.name.endsWith(`:${name}`));
-    for(const mesh of elastic.getChildMeshes()){mesh.receiveShadows=true;mesh.isPickable=false;shadow.addShadowCaster(mesh);}
+    const casters=elastic.getChildMeshes();
+    for(const mesh of casters){mesh.isPickable=false;shadow.addShadowCaster(mesh);}
     const upperR=joint('upperArmR'),foreR=joint('forearmR'),upperL=joint('upperArmL'),foreL=joint('forearmL'),head=joint('head');
     const thighs=[joint('thighL'),joint('thighR')],shins=[joint('shinL'),joint('shinR')];
     for(const node of [upperR,foreR,upperL,foreL,head,...thighs,...shins])if(node)node.rotationQuaternion=null;
@@ -57,7 +72,7 @@ export async function createCharacterFactory(scene,shadow,material,bone,box,bott
     const pogo=new TransformNode('pogo',scene);pogo.parent=balance;
     const springPath=Array.from({length:120},(_,i)=>new Vector3(Math.cos(i/119*Math.PI*16)*.115,.09+i/119*.43,.52+Math.sin(i/119*Math.PI*16)*.115));
     const spring=MeshBuilder.CreateTube('resorte-flexible',{path:springPath,radius:.026,tessellation:6},scene);
-    spring.material=material(TEAM_COLORS[team]);spring.parent=pogo;
+    spring.material=material(playerColor(team));spring.parent=pogo;
     const shaft=bone('vástago',[0,.15,.52],[0,1.86,.52],.033,'#6b7775',pogo);
     box('soporte-estribos',[.63,.075,.13],[0,.56,.47],'#3b4540',pogo);
     for(const side of [-1,1]){
@@ -65,11 +80,11 @@ export async function createCharacterFactory(scene,shadow,material,bone,box,bott
       box('apoyo-del-pie',[.19,.065,.33],[side*.145,.60,.10],'#3b4540',pogo);
     }
     box('manillar',[.73,.055,.08],[0,1.88,.54],'#6b7775',pogo);
-    for(const side of [-1,1])box('empuñadura',[.15,.075,.11],[side*.29,1.88,.54],TEAM_COLORS[team],pogo);
+    for(const side of [-1,1])box('empuñadura',[.15,.075,.11],[side*.29,1.88,.54],playerColor(team),pogo);
     const foot=MeshBuilder.CreateSphere('tope-goma',{diameter:.19,segments:10},scene);
     foot.scaling.y=.45;foot.position.set(0,.04,.52);foot.material=material('#2d3933');foot.parent=pogo;
     const sash=MeshBuilder.CreateTorus('identificador-equipo',{diameter:.16,thickness:.026,tessellation:16},scene);
-    sash.parent=elastic;sash.position.set(0,2.43,0);sash.material=material(TEAM_COLORS[team]);
+    sash.parent=elastic;sash.position.set(0,2.43,0);sash.material=material(playerColor(team));
     function animate(p,time,throwCharge=0,jumpCharge=0){
       const since=Math.max(0,time-(p.landedAt??-100)),sinceJump=Math.max(0,time-(p.jumpedAt??-100));
       const vy=p.vy||0,strength=Math.min(1,(p.impactSpeed||0)/config.jumpMaxSpeed);
@@ -104,6 +119,9 @@ export async function createCharacterFactory(scene,shadow,material,bone,box,bott
       held.standard.setEnabled(p.health>0&&!throwing&&kind==='standard');
       held.heavy.setEnabled(p.health>0&&!throwing&&kind==='heavy');
     }
-    return{root,animate};
+    return{root,animate,dispose(){
+      for(const mesh of casters)shadow.removeShadowCaster(mesh);
+      root.dispose();
+    }};
   };
 }

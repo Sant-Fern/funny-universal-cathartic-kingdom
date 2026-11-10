@@ -1,10 +1,9 @@
 import math
-from collections import Counter, defaultdict
 
 import pytest
 
 from server.app import Input
-from server.game import Arena, CONFIG, DECKS, HEAD_CLEARANCE, MIRADOR, STATION, SUMMIT, UPPER_ROUTES, boxes_at, hop_endpoint, overlaps, segment_box, segment_sphere
+from server.game import Arena, BALLOON_TARGETS, CONFIG, HEAD_CLEARANCE, MIRADOR, STATION, SUMMIT, UPPER_ROUTES, boxes_at, hop_endpoint, overlaps, segment_box, segment_sphere
 
 
 def controls(seq=0, **kwargs):
@@ -13,7 +12,7 @@ def controls(seq=0, **kwargs):
 
 
 def test_humans_replace_bots_balanced_and_capacity_is_ten():
-    arena = Arena(seed=1)
+    arena = Arena(seed=1, mode="race")
     for i in range(10):
         arena.join(f"Jugador {i}")
         assert len(arena.players) == 10
@@ -27,7 +26,7 @@ def test_humans_replace_bots_balanced_and_capacity_is_ten():
 
 
 def test_player_can_only_move_while_airborne():
-    arena = Arena(seed=2)
+    arena = Arena(seed=2, mode="race")
     p = arena.join("Prueba")
     arena.players = {p.id: p}
     p.x, p.z = -22, 9
@@ -53,7 +52,7 @@ def test_player_can_only_move_while_airborne():
 
 
 def test_old_sequences_do_not_override_new_input():
-    arena = Arena(seed=1)
+    arena = Arena(seed=1, mode="race")
     p = arena.join("Prueba")
     arena.apply_input(p.id, controls(seq=5))
     arena.apply_input(p.id, controls(seq=4))
@@ -61,7 +60,7 @@ def test_old_sequences_do_not_override_new_input():
 
 
 def test_collisions_boundaries_and_obstacle():
-    arena = Arena()
+    arena = Arena(mode="race")
     assert not arena.can_move(CONFIG["width"]/2, 0, 0)
     assert arena.can_move(0, 0, 0)
     assert not arena.can_move(0, 0, MIRADOR["h"]-.1)
@@ -70,27 +69,19 @@ def test_collisions_boundaries_and_obstacle():
     assert segment_sphere((-5, 1, 0), (5, 1, 0), (0, 1, 0), 1) == pytest.approx(0.4)
 
 
-def test_damage_kill_score_no_friendly_fire_and_respawn():
-    arena = Arena(seed=4)
-    attacker = arena.join("Uno")
-    victim = arena.players["slot-1"]
-    ally = arena.players["slot-2"]
-    arena.time = 2
-    arena.damage(ally, attacker)
-    assert ally.health == 100
-    for _ in range(3):
-        arena.damage(victim, attacker)
-    assert victim.health == 16
-    arena.damage(victim, attacker)
-    assert victim.health == 0
-    assert attacker.kills == 1
-    assert arena.score == [1, 0]
-    arena.damage(victim, attacker)
-    assert arena.score == [1, 0]
-    arena.time = victim.respawn_at
-    arena.step(0.05)
-    assert victim.health == 100
-    assert victim.deaths == 1
+def test_balloon_round_awards_the_most_intact_balloons_at_timeout():
+    arena = Arena(seed=4, duration=2)
+    first = arena.join("Uno")
+    second = arena.join("Dos")
+    assert all(p.team is None for p in arena.players.values())
+    for p in arena.players.values():
+        if p not in (first, second):
+            p.balloons, p.health = 0, 0
+    second.balloons = 1
+    arena.time = 1.95
+    arena.step(.05)
+    assert arena.snapshot()["winner"] == first.id
+    assert arena.snapshot()["status"] == "finished"
 
 
 def test_timer_tie_and_simulation_freezes_at_end():
@@ -106,35 +97,11 @@ def test_timer_tie_and_simulation_freezes_at_end():
     assert arena.snapshot() == snapshot
 
 
-def test_observation_scores_only_uncontested_grounded_presence_and_rotates():
-    arena = Arena(seed=1, mode="observation")
-    mint, coral = arena.join("Menta"), arena.join("Coral")
-    arena.players = {p.id: p for p in (mint, coral)}
-    mint.x, mint.y, mint.z = (arena.zone[key] for key in ("x", "y", "z"))
-    for _ in range(20):
-        arena.step(.05)
-    assert arena.score == [1, 0]
-    assert arena.snapshot()["zone"]["owner"] == 0
-
-    coral.x, coral.y, coral.z = mint.x, mint.y, mint.z
-    for _ in range(25):
-        arena.step(.05)
-    assert arena.score == [1, 0]
-    assert arena.snapshot()["zone"]["state"] == "contested"
-    coral.grounded, coral.y = False, 2.5
-    arena.step(.05)
-    assert arena.snapshot()["zone"]["owner"] == 0
-    coral.health = 1
-    assert arena.damage(coral, mint)
-    assert mint.kills == 1 and arena.score == [1, 0]
-
-    arena.time = CONFIG["zoneRotationSeconds"]-4
-    assert arena.snapshot()["zone"]["nextLabel"] == "Relevo sur"
-    arena.time = CONFIG["zoneRotationSeconds"]-.05
-    arena.step(.05)
-    zone = arena.snapshot()["zone"]
-    assert zone["index"] == 1 and zone["y"] > 0 and zone["owner"] is None
-    assert zone["remaining"] == CONFIG["zoneRotationSeconds"]
+def test_flat_arena_has_low_cover_and_no_tower_collision():
+    flat, tower = Arena(), Arena(mode="race")
+    assert max(top for _, _, top in boxes_at(0, "eliminations")) < 2
+    assert flat.can_move(0, 0, MIRADOR["h"]-.1)
+    assert not tower.can_move(0, 0, MIRADOR["h"]-.1)
 
 
 @pytest.mark.parametrize("branch", ["direct", "covered"])
@@ -148,32 +115,36 @@ def test_summit_can_be_reached_via_both_upper_routes(branch):
         assert overlaps(deck, p.x, p.z)
 
 
-def test_summit_control_is_worth_four_points_per_second():
-    arena = Arena(seed=1, mode="observation")
-    p = arena.join("Prueba")
-    arena.players = {p.id: p}
-    arena.time = CONFIG["zoneRotationSeconds"]*(len(CONFIG["zones"])-1)
+def test_race_requires_landing_in_the_finish_ring():
+    arena = Arena(seed=1, mode="race")
+    mint, coral = arena.join("Menta"), arena.join("Coral")
+    arena.players = {p.id: p for p in (mint, coral)}
+    mint.x, mint.y, mint.z = SUMMIT["x"], SUMMIT["h"]+.35, SUMMIT["z"]
+    mint.grounded, mint.vy = False, -1
     arena.step(.05)
-    p.x, p.y, p.z = SUMMIT["x"], SUMMIT["h"], SUMMIT["z"]
-    for _ in range(20):
+    assert not arena.finished
+    for _ in range(15):
         arena.step(.05)
-    assert arena.score == [4, 0]
+    assert arena.finished and arena.winner == mint.team
+    assert arena.score == [SUMMIT["h"], 0]
+    assert coral.health == mint.health == 100
 
 
-def test_bots_take_elevated_objectives_in_observation_mode():
-    arena = Arena(seed=1, mode="observation")
+@pytest.mark.parametrize("seed", [1, 2])
+def test_race_bots_can_finish(seed):
+    arena = Arena(seed=seed, mode="race")
     arena.join("Prueba")
-    defended = set()
-    for _ in range(round(arena.duration*CONFIG["tickRate"])):
+    for _ in range(2000):
         arena.step(.05)
-        if arena.zone_owner is not None:
-            defended.add(arena.zone_index)
-    assert defended == set(range(len(CONFIG["zones"])))
-    assert all(points > 0 for points in arena.score)
+        if arena.finished:
+            break
+    assert arena.finished and max(arena.score) == SUMMIT["h"]
+    assert arena.time > 30
+    assert all(p.health == 100 for p in arena.players.values())
 
 
 def test_pogo_cannot_pass_upward_through_a_suspended_deck():
-    arena = Arena(seed=1)
+    arena = Arena(seed=1, mode="race")
     p = arena.join("Prueba")
     arena.players = {p.id: p}
     p.x, p.z = MIRADOR["x"], MIRADOR["z"]
@@ -188,7 +159,7 @@ def test_pogo_cannot_pass_upward_through_a_suspended_deck():
 
 @pytest.mark.parametrize("shuttle_index", range(3))
 def test_moving_platform_carries_a_grounded_player(shuttle_index):
-    arena = Arena(seed=1)
+    arena = Arena(seed=1, mode="race")
     p = arena.join("Prueba")
     arena.players = {p.id: p}
     def shuttle(tick):
@@ -206,7 +177,7 @@ def test_moving_platform_carries_a_grounded_player(shuttle_index):
 def test_manual_jump_height_and_single_landing():
     heights = []
     for power in (None, 0, .5, 1):
-        arena = Arena(seed=3)
+        arena = Arena(seed=3, mode="race")
         p = arena.join("Prueba")
         arena.players = {p.id: p}
         arena.apply_input(p.id, controls(1, jumpPower=power))
@@ -228,10 +199,10 @@ def test_manual_jump_height_and_single_landing():
 
 
 @pytest.mark.parametrize(("axis", "side"), [("x", -1), ("x", 1), ("z", -1), ("z", 1)])
-def test_observation_deck_can_be_climbed_from_each_entrance(axis, side):
+def test_tower_can_be_climbed_from_each_entrance(axis, side):
     decks = {o["tier"]: o for o in CONFIG["obstacles"]
              if o.get("tier") and (o[axis]*side > 0 or o["tier"] == 3)}
-    arena = Arena(seed=3)
+    arena = Arena(seed=3, mode="race")
     p = arena.join("Saltador")
     arena.players = {p.id: p}
     first = decks[1]
@@ -257,29 +228,14 @@ def test_observation_deck_can_be_climbed_from_each_entrance(axis, side):
         assert arena.can_move(p.x, p.z, p.y)
 
 
-def test_bots_move_by_hopping_and_use_platforms_in_combat():
-    arena = Arena(seed=1, duration=30)
-    arena.join("Prueba")
-    hops, elevated_throws = Counter(), Counter()
-    reached = defaultdict(set)
-    for _ in range(601):
-        arena.step(0.05)
-        for p in arena.players.values():
-            if not p.bot or p.health <= 0:
-                continue
-            if p.jumped_at == arena.time:
-                hops[p.id] += 1
-            if p.grounded:
-                for deck in DECKS:
-                    if abs(p.y-deck["h"]) < .01 and overlaps(deck, p.x, p.z, .12):
-                        reached[p.id].add(deck["tier"])
-            if p.last_throw_at == arena.time and p.grounded and p.y == MIRADOR["h"]:
-                elevated_throws[p.team] += 1
-    assert arena.finished
-    assert len(hops) == 9 and min(hops.values()) >= 8
-    for team in (0, 1):
-        assert any(reached[p.id] >= {1, 2, 3} for p in arena.players.values() if p.team == team)
-        assert elevated_throws[team] > 0
-    assert sum(arena.score) > 0
-    assert sum(p.kills for p in arena.players.values()) == sum(arena.score)
+def test_idle_human_does_not_cause_bots_to_eliminate_each_other():
+    arena = Arena(seed=1, duration=35)
+    human = arena.join("Prueba")
+    for _ in range(700):
+        arena.step(.05)
+    bots = [p for p in arena.players.values() if p.bot]
+    assert all(p.balloons.bit_count() == len(BALLOON_TARGETS) for p in bots)
+    assert any(p.jumped_at > 0 for p in bots)
+    assert any(p.last_throw_at > 0 for p in bots)
+    assert human.balloons.bit_count() < len(BALLOON_TARGETS)
     assert all(math.isfinite(p.x+p.y+p.z) for p in arena.players.values())

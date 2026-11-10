@@ -36,16 +36,20 @@
     "pushSpeed": 6,
     "pushSeconds": 0.35
   },
-  "zoneRotationSeconds": 45,
-  "zones": [
-    { "label": "Pista sur", "x": 0, "y": 0, "z": 16.5, "radius": 3.2, "points": 1 },
-    { "label": "Relevo sur", "x": 0, "y": 2.65, "z": 5.75, "radius": 1.65, "points": 1 },
-    { "label": "Mirador", "x": 0, "y": 3.95, "z": 0, "radius": 2.1, "points": 2 },
-    { "label": "Estación", "x": 5.65, "y": 6.65, "z": 5.9, "radius": 1.46, "points": 3 },
-    { "label": "Cima", "x": 5.9, "y": 12.3, "z": -1.35, "radius": 1.85, "points": 4 }
+  "race": { "duration": 225, "finishRadius": 1.85 },
+  "balloons": {
+    "radius": 0.35,
+    "targets": [[-0.64, 3.07, -0.13], [0, 3.47, 0.28], [0.64, 3.19, -0.13]]
+  },
+  "flatObstacles": [
+    { "x": -9, "z": -6, "w": 3.4, "d": 3, "h": 1.65 },
+    { "x": 9, "z": 6, "w": 3.4, "d": 3, "h": 1.65 },
+    { "x": -7, "z": 8, "w": 2.5, "d": 4, "h": 1.25 },
+    { "x": 7, "z": -8, "w": 2.5, "d": 4, "h": 1.25 },
+    { "x": 0, "z": 3.4, "w": 4.2, "d": 2.5, "h": 0.85 },
+    { "x": 0, "z": -3.4, "w": 4.2, "d": 2.5, "h": 0.85 }
   ],
   "terrain": { "waveHeight": 0, "waveX": 0.19, "waveZ": 0.23, "rippleHeight": 0, "rippleFrequency": 0.31, "mounds": [] },
-  "respawnSeconds": 3,
   "obstacles": [
     { "x": 0, "z": 0, "w": 5.6, "d": 4.8, "h": 3.95, "thickness": 0.44, "tier": 3 },
     { "x": -9, "z": -6, "w": 3, "d": 3, "h": 2.6 },

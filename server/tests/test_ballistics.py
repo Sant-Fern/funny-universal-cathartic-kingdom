@@ -6,11 +6,11 @@ from pathlib import Path
 import pytest
 
 from server.app import Input
-from server.game import Arena,Shot,CONFIG,SUMMIT,boxes_at,height_at,launch_velocity,throw_origin
+from server.game import Arena,Shot,BALLOON_TARGETS,CONFIG,SUMMIT,boxes_at,height_at,launch_velocity,throw_origin
 
 
 def lone_arena():
-    arena=Arena(seed=7)
+    arena=Arena(seed=7, mode="race")
     player=arena.join("Botellas")
     arena.players={player.id:player}
     player.x,player.y,player.z=-18,5,-12
@@ -54,7 +54,7 @@ def test_bottle_breaks_on_ground_and_produces_one_impact():
 
 
 def test_heavy_bottle_can_hit_several_enemies_but_cover_blocks_splash():
-    arena = Arena(seed=7)
+    arena = Arena(seed=7, mode="race")
     shooter = arena.join("Lanzador")
     enemy = arena.join("Cerca")
     enemy_two = arena.players["slot-3"]
@@ -65,16 +65,16 @@ def test_heavy_bottle_can_hit_several_enemies_but_cover_blocks_splash():
                          ((4.65,-9.0),(5.2,-10.7),(6.95,-10.75),(4.9,-9.7))):
         p.bot = False
         p.x, p.y, p.z = x, 0, z
-    enemy.health = 20
     arena.time = 2
     arena.shots = [Shot(1, shooter.id, shooter.team, 5.4, .7, -9.25, 8, 0, 0, kind="heavy")]
     arena.step(.05)
     assert arena.impacts[0]["kind"] == "heavy"
     assert arena.impacts[0]["owner"] == shooter.id
     assert arena.impacts[0]["hits"] == 2
-    assert arena.impacts[0]["downs"] == 1
-    assert enemy.health == 0 and enemy_two.health < 100
-    assert shielded.health == ally.health == 100
+    assert arena.impacts[0]["downs"] == 0
+    assert all(p.health == 100 for p in arena.players.values())
+    assert enemy.push_until > 2 and enemy_two.push_until > 2
+    assert shielded.push_until == ally.push_until == 0
     victim_state = next(p for p in arena.snapshot()["players"] if p["id"] == enemy.id)
     assert victim_state["hitAt"] == pytest.approx(arena.time)
     assert victim_state["hitForce"] > 0 and victim_state["hitBy"] == shooter.id
@@ -83,7 +83,7 @@ def test_heavy_bottle_can_hit_several_enemies_but_cover_blocks_splash():
 
 @pytest.mark.parametrize("steering", [0, 1])
 def test_heavy_can_displace_a_defender_at_the_edge_but_steering_still_works(steering):
-    arena = Arena(seed=3)
+    arena = Arena(seed=3, mode="race")
     attacker, victim = arena.join("Atacante"), arena.join("Defensor")
     arena.players = {p.id: p for p in (attacker, victim)}
     victim.x, victim.y, victim.z = SUMMIT["x"]-SUMMIT["w"]/2+.39, SUMMIT["h"], SUMMIT["z"]
@@ -92,7 +92,7 @@ def test_heavy_can_displace_a_defender_at_the_edge_but_steering_still_works(stee
     shot = Shot(1, attacker.id, attacker.team, start+.55, victim.y+.2, victim.z, 0, -2, 0, kind="heavy")
     arena.shots = [shot]
     arena.step(.05)
-    assert 0 < victim.health < 100 and not victim.grounded
+    assert victim.health == 100 and not victim.grounded
     for seq in range(45):
         arena.apply_input(victim.id, Input(type="input",seq=seq,moveX=steering,moveZ=0,yaw=0,pitch=0,fire=False))
         arena.step(.05)
@@ -151,3 +151,37 @@ console.log(JSON.stringify(end.at(-1)));"""
     predicted = json.loads(subprocess.run(["node","--input-type=module","-e",js],
                            cwd=root,check=True,capture_output=True,text=True).stdout)
     assert [arena.impacts[0][k] for k in ("x","y","z")] == pytest.approx(list(predicted.values()),abs=.002)
+
+
+@pytest.mark.parametrize("kind", ["standard", "heavy"])
+def test_balloons_require_direct_contact_and_last_pop_disqualifies(kind):
+    arena = Arena(seed=2)
+    shooter, victim = arena.join("Lanzador"), arena.join("Objetivo")
+    shooter.x, shooter.z = -12, -12
+    victim.x, victim.z = 12, 12
+    arena.players = {p.id: p for p in (shooter, victim)}
+    arena.time = 2
+    arena.shots = [Shot(1, shooter.id, None, victim.x, 1.65, victim.z, 0, 0, 0, kind=kind)]
+    arena.step(.05)
+    assert victim.balloons.bit_count() == 3
+    arena.shots.clear()
+    for index, (dx, dy, dz) in enumerate(BALLOON_TARGETS):
+        arena.time = max(arena.time, victim.protected_until)
+        arena.shots = [Shot(index+2, shooter.id, None, victim.x+dx, victim.y+dy, victim.z+dz, 0, 0, 0, kind=kind)]
+        arena.step(.05)
+        assert not victim.balloons & (1 << index)
+        assert victim.balloons.bit_count() == 2-index
+    assert victim.health == 0 and shooter.pops == 3
+    assert arena.finished and arena.winner == shooter.id
+
+
+def test_race_standard_bottle_pushes_without_damage():
+    arena = Arena(seed=3, mode="race")
+    shooter, victim = arena.join("Lanzador"), arena.join("Objetivo")
+    arena.players = {p.id: p for p in (shooter, victim)}
+    arena.time = 2
+    victim.x, victim.z = 14, 12
+    arena.shots = [Shot(1, shooter.id, shooter.team, 13, CONFIG["hitHeight"], 12, 15, 0, 0)]
+    arena.step(.05)
+    assert victim.health == 100 and victim.push_x > 0
+    assert arena.impacts[0]["hits"] == 1 and arena.impacts[0]["downs"] == 0

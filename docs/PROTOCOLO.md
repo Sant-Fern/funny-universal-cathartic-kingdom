@@ -1,10 +1,10 @@
-# Protocolo local v0.1
+# Protocolo local v0.2
 
 HTTP y WebSocket comparten origen a través del proxy de Vite o Nginx. No hay URL de nube compilada dentro del cliente.
 
-1. `POST /api/join` con `{"name":"Huesitos","mode":"observation"}` devuelve token de un solo uso con 30 segundos de vigencia y `websocketPath`. Omitir el modo selecciona `eliminations`. Cada modo tiene su propia sala local.
+1. `POST /api/join` con `{"name":"Huesitos","mode":"race"}` devuelve token de un solo uso con 30 segundos de vigencia y `websocketPath`. Omitir el modo selecciona `eliminations`. Cada modo tiene su propia sala local. observation se acepta como alias de race al ingresar.
 2. Abrir `/ws?token=...`. El servidor valida origen de navegador, vigencia, token y cupo. Las reservas no conectadas también ocupan cupo hasta vencer.
-3. Recibir `welcome` con `playerId`, `team` (0 menta, 1 coral) y configuración.
+3. Recibir `welcome` con `playerId`, `team` (0 menta, 1 coral o null en globos), yaw inicial y configuración.
 4. Enviar `input` a 20 Hz y recibir `snapshot` a 20 Hz. Los renderizados interpolan los dos últimos snapshots.
 5. Cuando `status` sea `finished`, mostrar resultados y volver al inicio cerrando la conexión.
 
@@ -16,15 +16,15 @@ HTTP y WebSocket comparten origen a través del proxy de Vite o Nginx. No hay UR
 
 `jumpPower` es `null` durante el movimiento o una fuerza de 0 a 1 enviada una sola vez al soltar Espacio. El servidor solo acepta la solicitud en suelo, conserva el evento ante nuevos paquetes de movimiento y aplica la velocidad cuando termina la recuperación del aterrizaje. Se descarta si vence tras 0.2 segundos o el jugador deja de estar apoyado.
 
-`fire=true` es un evento de soltar la carga, no un disparo continuo. `power` es la fuerza normalizada de 0 a 1. La simulación conserva una solicitud de lanzamiento aunque llegue un paquete de movimiento antes del próximo tick. El servidor aplica su cadencia, calcula la parábola con gravedad y resuelve el primer contacto de la botella. El cliente predice la misma parábola contra la geometría estática; un oponente en movimiento puede interceptarla.
+`fire=true` es un evento de soltar la carga, no un disparo continuo. `power` es la fuerza normalizada de 0 a 1. La simulación conserva una solicitud de lanzamiento aunque llegue un paquete de movimiento antes del próximo tick. El servidor aplica su cadencia, calcula la parábola con gravedad y resuelve el primer contacto de la botella. El cliente predice la misma parábola contra la geometría del mapa. Un oponente en movimiento puede interceptarla.
 
-`bottle` acepta `standard` y `heavy`. La pesada causa daño en área y tiene sus propios parámetros balísticos. `shots` incluye `kind`; cada elemento de `impacts` incluye `owner`, `kind`, `hits` (rivales dañados) y `downs` (bajas). Los impactos se conservan brevemente y el cliente los identifica por su ID.
+`bottle` acepta las clases standard y heavy. En Eliminación de globos, una botella revienta como máximo un globo y debe alcanzarlo directamente. En Carrera de torre, la pesada empuja en área y la de cristal empuja al acertar de lleno. Cada impacto incluye owner, kind, hits (impactos confirmados) y downs (descalificaciones). El cliente deduplica los impactos por id.
 
-`mode` identifica las reglas. En observación, `score` contiene puntos de control y `zone` indica posición, radio, estado, equipo que controla, tiempo hasta rotar y puntos por segundo. En los últimos cinco segundos de una etapa se envía `nextLabel` cuando hay otro objetivo. En eliminaciones, `zone` es nulo y `score` cuenta bajas.
+En modo eliminations, cada jugador tiene balloons (máscara de globos intactos), balloonCount y pops. Si se termina la ronda con un primer lugar único, winner contiene el identificador del jugador. En modo race, score contiene la mejor altura de cada equipo, bestHeight la mejor altura de cada participante y winner el índice del equipo que aterrizó primero dentro de la meta. winner es null si hay empate o la partida sigue en curso.
 
-La posición de cada plataforma móvil se deriva de `snapshot.time` y de su recorrido en `shared/arena.json`. El servidor aplica el traslado y comprueba impactos con las plataformas en movimiento. El cliente usa ese reloj para dibujar la plataforma y predecir el arco.
+La posición de cada plataforma móvil se deriva de snapshot.time y de su recorrido en shared/arena.json. El servidor aplica el traslado y comprueba impactos con las plataformas en movimiento. El cliente usa ese reloj para dibujar la plataforma y predecir el arco. La pista plana usa flatObstacles del mismo archivo.
 
-`snapshot` incluye identificador de partida, tiempo, estado, marcador, ganador, humanos, bots, jugadores, proyectiles y eventos de eliminación. Cada jugador tiene identidad de espacio, nombre, equipo, tipo bot/humano, posición XYZ, orientación, vida, eliminaciones, muertes y tiempo hasta reaparición.
+El snapshot incluye identificador de partida, reloj, estado, marcador, ganador, humanos, bots, jugadores, proyectiles y eventos. Cada jugador tiene identidad de espacio, nombre, equipo, tipo bot/humano, posición y orientación. health es 100 mientras participa o 0 si se descalificó por quedarse sin globos.
 
 Las muestras incluyen `grounded`, `vy`, `jumpedAt`, `landedAt` e `impactSpeed` para animar el pogo; `lastThrowAt` y `throwCooldown` alimentan el brazo y el HUD. `shots` contiene posición, velocidad y edad de las botellas. `impacts` informa roturas y `events` registra eliminaciones que hacen reaccionar a la audiencia.
 

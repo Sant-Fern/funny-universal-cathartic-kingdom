@@ -27,7 +27,7 @@ def test_two_clients_share_match_and_ping_and_reject_token_reuse():
             token2 = client.post("/api/join", json={"name": "Dos"}).json()["token"]
             with client.websocket_connect(f"/ws?token={token2}") as two:
                 second = two.receive_json()
-                assert second["team"] != welcome["team"]
+                assert second["team"] is welcome["team"] is None
                 shared = read_until(two, "snapshot")
                 assert shared["matchId"] == snap["matchId"]
                 assert shared["humans"] == 2 and shared["bots"] == 8
@@ -61,12 +61,13 @@ def test_reservations_count_toward_capacity():
 def test_local_modes_have_separate_matches():
     with TestClient(create_app()) as client:
         classic = client.post("/api/join", json={"name": "Uno"}).json()
-        zone = client.post("/api/join", json={"name": "Dos", "mode": "observation"}).json()
+        zone = client.post("/api/join", json={"name": "Dos", "mode": "race"}).json()
         with client.websocket_connect(f"/ws?token={classic['token']}") as one:
             with client.websocket_connect(f"/ws?token={zone['token']}") as two:
                 assert read_until(one, "welcome")["mode"] == "eliminations"
-                assert read_until(two, "welcome")["mode"] == "observation"
+                assert read_until(two, "welcome")["mode"] == "race"
                 one_state, two_state = read_until(one, "snapshot"), read_until(two, "snapshot")
                 assert one_state["matchId"] != two_state["matchId"]
                 assert one_state["humans"] == two_state["humans"] == 1
-                assert one_state["zone"] is None and two_state["zone"]["label"] == "Pista sur"
+                assert all(p["balloonCount"] == 3 and p["team"] is None for p in one_state["players"])
+                assert all(p["balloonCount"] is None and p["team"] in (0, 1) for p in two_state["players"])

@@ -22,7 +22,7 @@ log = logging.getLogger("pogo")
 class JoinRequest(BaseModel):
     model_config = ConfigDict(extra="forbid", str_strip_whitespace=True)
     name: str = Field(min_length=1, max_length=16, pattern=r"^[\w .\-]+$")
-    mode: Literal["eliminations", "observation"] = "eliminations"
+    mode: Literal["eliminations", "race", "observation"] = "eliminations"
 
 
 class Input(BaseModel):
@@ -59,7 +59,7 @@ class Room:
 
 class Runtime:
     def __init__(self):
-        self.rooms = {mode: Room(Arena(mode=mode)) for mode in ("eliminations", "observation")}
+        self.rooms = {mode: Room(Arena(mode=mode)) for mode in ("eliminations", "race")}
         self.tokens = {}
         self.ticks = 0
         self.tick_work = 0
@@ -120,16 +120,17 @@ def create_app():
     async def join(body: JoinRequest):
         now = time.monotonic()
         runtime.tokens = {t: v for t, v in runtime.tokens.items() if v[1] > now}
-        room = runtime.rooms[body.mode]
+        mode = "race" if body.mode == "observation" else body.mode
+        room = runtime.rooms[mode]
         if room.arena.finished and not room.connections:
-            room.arena = Arena(mode=body.mode)
+            room.arena = Arena(mode=mode)
         if room.arena.finished:
             raise HTTPException(409, "La partida terminó. Espera a que los jugadores vuelvan al inicio.")
-        reserved = sum(mode == body.mode for _, _, mode in runtime.tokens.values())
+        reserved = sum(reserved_mode == mode for _, _, reserved_mode in runtime.tokens.values())
         if room.arena.humans + reserved >= 2*CONFIG["teamSize"]:
             raise HTTPException(409, "La sala está llena (10 jugadores).")
         token = secrets.token_urlsafe(32)
-        runtime.tokens[token] = (body.name, now + 30, body.mode)
+        runtime.tokens[token] = (body.name, now + 30, mode)
         return {"token": token, "websocketPath": "/ws", "expiresIn": 30, "mode": "local"}
 
     @app.websocket("/ws")
@@ -169,7 +170,7 @@ def create_app():
         sender_task = None
         window_start, count = time.monotonic(), 0
         try:
-            await conn.send({"type": "welcome", "playerId": player.id, "team": player.team,
+            await conn.send({"type": "welcome", "playerId": player.id, "team": player.team, "yaw": player.yaw,
                              "mode": arena.mode, "config": CONFIG})
             await conn.send(arena.snapshot())
             sender_task = asyncio.create_task(sender())

@@ -14,7 +14,7 @@
     <header id="brand"><span class="brand-icon">☠</span><span class="brand-name">Funny Universal<br /><b>Cathartic Kingdom</b></span><small>PROTOCOLO 07</small></header>
     <main id="lobby" class="overlay">
       <section class="intro">
-        <div class="eyebrow"><span class="dot"></span> 5 CONTRA 5 · ARENA 3D</div>
+        <div class="eyebrow"><span class="dot"></span> 10 SUJETOS · DOS PRUEBAS</div>
         <h1 class="game-title">Funny Universal<br /><em>Cathartic Kingdom</em></h1>
         <p>Los médicos toman notas.<br />Los sujetos no toman precauciones.</p>
         <form id="join-form">
@@ -23,10 +23,19 @@
           <div class="mode-picker">
             <label for="game-mode">MODO</label>
             <select id="game-mode" name="mode" aria-describedby="mode-description">
-              <option value="observation">Zona de observación</option>
-              <option value="eliminations">Eliminaciones</option>
+              <option value="eliminations">Eliminación de globos</option>
+              <option value="race">Carrera de torre</option>
             </select>
-            <small id="mode-description">Sube de la pista a la cima. La altura da más puntos.</small>
+            <small id="mode-description">Todos contra todos. Conserva tus tres globos.</small>
+          </div>
+          <div class="mode-picker">
+            <label for="graphics-quality">GRÁFICOS</label>
+            <select id="graphics-quality" aria-describedby="graphics-description">
+              <option value="high">Calidad</option>
+              <option value="low">Rendimiento</option>
+            </select>
+            <small id="graphics-description">Sombras y efectos de luz.</small>
+            <span id="lobby-fps" class="fps-reading"></span>
           </div>
           <div id="error" role="alert" aria-live="polite"></div>
         </form>
@@ -37,24 +46,24 @@
       <footer><span>10 SUJETOS. OBSERVACIÓN INTENSIVA.</span><span>Los bots completan los equipos <span class="star">✳</span></span></footer>
     </main>
     <section id="hud" hidden aria-label="Estado de la partida">
-      <div class="scoreboard"><div class="team mint"><span>MENTA</span><strong id="score-0">0</strong></div><div class="clock"><small id="score-mode">ELIMINACIONES</small><strong id="timer">3:00</strong></div><div class="team coral"><strong id="score-1">0</strong><span>CORAL</span></div></div>
+      <div class="scoreboard"><div id="mint-score" class="team mint"><span>MENTA</span><strong id="score-0">0</strong></div><div class="clock"><small id="score-mode">GLOBOS</small><strong id="timer">3:00</strong></div><div id="coral-score" class="team coral"><strong id="score-1">0</strong><span>CORAL</span></div></div>
       <div id="zone-hud" hidden>
         <span id="zone-direction" aria-hidden="true">↑</span>
-        <div><small>ASCENSO · ZONA DE OBSERVACIÓN</small><strong id="zone-label"></strong><span id="zone-status"></span><small id="zone-next" hidden></small></div>
-        <div class="zone-time"><strong id="zone-timer"></strong><small>ROTACIÓN</small></div>
+        <div><small>CARRERA DE TORRE</small><strong id="zone-label">Meta en la cima</strong><span id="zone-status">Aterriza dentro del anillo dorado.</span></div>
+        <div class="zone-time"><strong id="zone-timer">12,3 m</strong><small>META</small></div>
       </div>
-      <div class="connection"><span class="dot"></span><span id="network">Conectando</span><button id="mute-audience" type="button" aria-pressed="false">Sonido: sí</button><button id="leave" type="button">Salir</button></div>
+      <div class="connection"><span class="dot"></span><span id="network">Conectando</span><span id="match-fps" class="fps-reading"></span><button id="mute-audience" type="button" aria-pressed="false">Sonido: sí</button><button id="leave" type="button">Salir</button></div>
       <div id="crosshair" aria-hidden="true">+</div>
       <div id="hit-marker" hidden aria-hidden="true"></div>
       <div id="damage-flash" aria-hidden="true"></div>
       <div id="death" hidden>
         <div class="death-code"><span></span> PROTOCOLO 07 · BAJA REGISTRADA</div>
         <svg viewBox="0 0 230 28" aria-hidden="true"><path d="M0 17 H41 L46 12 L50 20 L56 2 L62 26 L68 17 H230" /></svg>
-        <strong>SIN PULSO.</strong>
+        <strong>DESCALIFICADO.</strong>
         <span id="death-cause"></span>
         <span id="respawn">Reapareciendo…</span>
       </div>
-      <div class="player-info"><span id="team-name">EQUIPO MENTA</span><div><strong id="hp">100</strong><span>VIDA</span></div><div class="health-track"><i id="health-fill"></i></div><small id="stats">0 eliminaciones · 0 caídas</small><small id="jump-tip"><kbd>ESPACIO</kbd> <span id="jump-status">Mantén y suelta para saltar</span><span class="jump-track" aria-hidden="true"><i id="jump-fill"></i></span></small></div>
+      <div class="player-info"><span id="team-name">TODOS CONTRA TODOS</span><div><strong id="hp">3</strong><span id="hp-label">GLOBOS</span></div><div class="health-track"><i id="health-fill"></i></div><small id="stats">0 globos reventados</small><small id="jump-tip"><kbd>ESPACIO</kbd> <span id="jump-status">Mantén y suelta para saltar</span><span class="jump-track" aria-hidden="true"><i id="jump-fill"></i></span></small></div>
       <div class="bottom-controls"><span><kbd>WASD</kbd> Dirigir en el aire</span><span><kbd>TAB</kbd> Marcador</span></div>
       <div class="throw-info">
         <span id="bottle-title">BOTELLA DE CRISTAL</span>

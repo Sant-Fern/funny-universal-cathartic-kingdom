@@ -1,6 +1,6 @@
 # Anatomical skeleton — attribution and model license
 
-The anatomical model `anatomical-skeleton.glb` is an adaptation of **Écorché**:
+The anatomical models `anatomical-skeleton.glb` and `anatomical-skeleton-low.glb` are adaptations of **Écorché**:
 
 Écorché (https://github.com/Charleeh/ecorche), CC BY-SA 4.0. Based on BodyParts3D, © The Database Center for Life Science, CC BY 4.0, and Z-Anatomy by Gauthier Kervyn, CC BY-SA 4.0.
 
@@ -12,6 +12,8 @@ The anatomical model `anatomical-skeleton.glb` is an adaptation of **Écorché**
 ## Changes for Funny Universal Cathartic Kingdom
 
 Selected skeletal structures; removed muscles, eyes and soft ear/nasal structures. Retained 262 anatomical structures. Grouped the geometry into rigid joints for animation, changed scale and tint to aged ivory while preserving ambient occlusion, and simplified the mesh to 74,068 triangles. The adapted mesh is distributed under CC BY-SA 4.0.
+
+`anatomical-skeleton-low.glb` uses the same joints and a further simplified mesh of 18,508 triangles. Run `node scripts/prepare-skeleton.mjs --low-detail` after downloading the source to reproduce it.
 
 `skeleton-manifest.json` records the source SHA-256, counts and changes. The reproducible adaptation script is `scripts/prepare-skeleton.mjs`. Download the source GLB from the source URL into `assets/sources/ecorche.glb`, run `npm ci`, then `node scripts/prepare-skeleton.mjs` from the project root.
 

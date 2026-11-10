@@ -41,8 +41,8 @@ export function createAuditorium({scene,material,box,bone,shadow}){
   }
   ink.shadowColor='#08131bbc';ink.shadowBlur=22;ink.shadowOffsetY=4;
   ink.fillStyle='#07141b88';
-  for(const o of config.obstacles){
-    if(o.thickness||o.motion)continue;
+  for(const o of config.flatObstacles){
+    if(!config.obstacles.some(race=>race.x===o.x&&race.z===o.z))continue;
     ink.fillRect(px(o.x-o.w/2)-2,py(o.z+o.d/2)-2,o.w*1024/width+4,o.d*1024/depth+4);
   }
   ink.shadowBlur=0;ink.shadowOffsetY=0;
@@ -150,7 +150,11 @@ export function createAuditorium({scene,material,box,bone,shadow}){
   }
   // Visible decks and instrument benches use the shared collision volumes.
   const movingDecks=[];
-  config.obstacles.forEach((o,i)=>{
+  const layouts={
+    eliminations:new TransformNode('pista-de-globos',scene),
+    race:new TransformNode('torre-del-instituto',scene),
+  };
+  function addObstacle(o,i){
     if(o.tier||o.route){
       const firstMesh=scene.meshes.length;
       buildDeck(o);
@@ -184,12 +188,20 @@ export function createAuditorium({scene,material,box,bone,shadow}){
       for(let c=-1;c<=1;c++)lab('tirador',[.19,.047,.049],[o.x+c*o.w*.21,y+o.h*.53,front+side*.03],light);
     }
     for(const side of [-1,1])lab('moldura-esquina',[.13,o.h,.13],[o.x+side*(o.w/2-.06),y+o.h/2,o.z-o.d/2+.05],steel);
-  });
+  }
+  for(const [mode,obstacles] of Object.entries({eliminations:config.flatObstacles,race:config.obstacles})){
+    const layout=layouts[mode],first=scene.meshes.length;
+    obstacles.forEach(addObstacle);
+    for(const mesh of scene.meshes.slice(first))mesh.parent=layout;
+  }
+  for(const {root} of movingDecks)root.parent=layouts.race;
+  const startLines=scene.meshes.length;
   for(const team of [0,1]){
     const x=(team?1:-1)*config.spawnX,hex=team?'#e39b84':'#80d5b8';
     const ring=MeshBuilder.CreateTorus('zona-de-entrada',{diameter:5.6,thickness:.055,tessellation:56},scene);ring.position.set(x,.033,0);ring.material=material(hex,true);
     for(const z of [-2.5,2.5])glow('esquina-de-zona',[.62,.018,.12],[x,.021,z],hex);
   }
+  for(const mesh of scene.meshes.slice(startLines))mesh.parent=layouts.race;
   // Tiered grandstands with seats, aisle lights and railings on all four sides.
   const seat=(x,y,z,yaw)=>{
     seats.push({x,y,z});
@@ -246,6 +258,7 @@ export function createAuditorium({scene,material,box,bone,shadow}){
     glow('difusor-quirurgico',[7.62,.10,2.22],[x,13.55+ceilingLift,z],Math.abs(x)>=32?'#7296a3':'#a5bfc1');
     for(const off of [-.76,0,.76])lab('rejilla',[7.52,.045,.037],[x,13.46+ceilingLift,z+off],light);
   }
+  const accentEffects=[];
   function surgicalLamp(name,x,y,z,hex,direction,intensity){
     const mount=config.ceilingHeight-.55;
     lab('brazo-de-lámpara',[.14,mount-y,.14],[x,(mount+y)/2,z],steel);
@@ -279,6 +292,7 @@ export function createAuditorium({scene,material,box,bone,shadow}){
     mist.useAlphaFromDiffuseTexture=true;mist.disableLighting=true;mist.disableDepthWrite=true;mist.backFaceCulling=false;
     const shaft=MeshBuilder.CreatePlane('haz-de-examen',{width:12,height:8.5},scene);
     shaft.position.set(x,y-4.47,z);shaft.billboardMode=Mesh.BILLBOARDMODE_Y;shaft.material=mist;shaft.isPickable=false;
+    accentEffects.push(spot,shaft);
     return mist;
   }
   const hazeMaterials=new Set([
@@ -306,27 +320,32 @@ export function createAuditorium({scene,material,box,bone,shadow}){
   const groups=new Map();
   for(const mesh of scene.meshes.slice(start)){
     if(mesh.material===glass||mesh.material===screenMat||hazeMaterials.has(mesh.material)||mesh===mainFloor||mesh===floorDetail||!mesh.getTotalVertices())continue;
-    const key=`${mesh.material.uniqueId}:${casters.has(mesh)}:${movingMeshes.get(mesh)?.uniqueId??'static'}`;
+    const root=movingMeshes.get(mesh)??mesh.parent;
+    const key=`${mesh.material.uniqueId}:${casters.has(mesh)}:${root?.uniqueId??'static'}`;
     if(!groups.has(key))groups.set(key,[]);groups.get(key).push(mesh);
   }
   for(const meshes of groups.values()){
-    const first=meshes[0],cast=casters.has(first),movingRoot=movingMeshes.get(first);
+    const first=meshes[0],cast=casters.has(first),movingRoot=movingMeshes.get(first),root=movingRoot??first.parent;
     const merged=meshes.length>1?Mesh.MergeMeshes(meshes,true,true):first;
     if(!merged)continue;
     merged.receiveShadows=true;merged.isPickable=false;
-    if(movingRoot)merged.parent=movingRoot;
-    else merged.freezeWorldMatrix();
+    if(root)merged.parent=root;
+    if(!movingRoot)merged.freezeWorldMatrix();
     if(cast)shadow.addShadowCaster(merged);
   }
   const audience=createAudience(scene,seats,material),applause=createApplause();
   let lastScore=[0,0],lastStatus='waiting',lastEvent=-100,lastPaint=-100,eventText='ESPERANDO SUJETOS';
+  let displayMode='eliminations',remaining=10;
   function paint(time){
     const excited=time-lastEvent<2.35;
+    const race=displayMode==='race';
     ctx.fillStyle=excited?'#33232b':'#122a32';ctx.fillRect(0,0,1024,384);ctx.strokeStyle=excited?'#bd755f':'#44867e';ctx.lineWidth=4;ctx.strokeRect(8,8,1008,368);
     ctx.fillStyle='#85d7c2';ctx.font='bold 30px Arial';ctx.fillText('INSTITUTO DE REBOTE POST MORTEM',36,55);
     ctx.fillStyle='#92aeb0';ctx.font='18px Arial';ctx.fillText(`ENSAYO 07    /    ${audience.count} OBSERVADORES`,36,91);
-    ctx.fillStyle='#dbe9da';ctx.font='bold 76px Arial';ctx.fillText(`${lastScore[0]}   :   ${lastScore[1]}`,36,207);
-    ctx.fillStyle='#85d7c2';ctx.font='bold 18px Arial';ctx.fillText('MENTA',38,241);ctx.fillStyle='#ecab96';ctx.fillText('CORAL',211,241);
+    ctx.fillStyle='#dbe9da';ctx.font='bold 76px Arial';
+    ctx.fillText(race?`${lastScore[0].toFixed(1)}  :  ${lastScore[1].toFixed(1)}`:String(remaining),36,207);
+    ctx.fillStyle='#85d7c2';ctx.font='bold 18px Arial';ctx.fillText(race?'MENTA':'SUJETOS EN JUEGO',38,241);
+    if(race){ctx.fillStyle='#ecab96';ctx.fillText('CORAL',252,241);}
     ctx.strokeStyle='#28505a';ctx.lineWidth=1;
     for(let i=0;i<12;i++){ctx.beginPath();ctx.moveTo(520+i*38,120);ctx.lineTo(520+i*38,278);ctx.stroke();}
     for(let i=0;i<5;i++){ctx.beginPath();ctx.moveTo(520,120+i*39);ctx.lineTo(960,120+i*39);ctx.stroke();}
@@ -342,15 +361,24 @@ export function createAuditorium({scene,material,box,bone,shadow}){
   }
   paint(0);
   return{
+    setLowQuality(low){
+      for(const effect of accentEffects)effect.setEnabled(!low);
+    },
+    setMode(mode){
+      displayMode=mode;
+      lastPaint=-100;
+      for(const [name,layout] of Object.entries(layouts))layout.setEnabled(name===mode);
+    },
     onSnapshot(snapshot){
       lastScore=snapshot.score||[0,0];lastStatus=snapshot.status;
+      if(displayMode==='eliminations')remaining=snapshot.players.filter(p=>p.health>0).length;
       if(snapshot.events?.length){lastEvent=performance.now()/1000;eventText='SIN PULSO   /   BAJA REGISTRADA';audience.applaud(lastEvent);applause.play();lastPaint=-100;}
       else if(lastStatus==='waiting')eventText='ESPERANDO SUJETOS';
     },
-    update(time,platformTime){
-      audience.update(time);
-      for(const {obstacle,root} of movingDecks){
-        root.position[obstacle.motion.axis]=platformOffset(obstacle,platformTime);
+    update(time,platformTime,lowQuality,mode){
+      audience.update(time,lowQuality);
+      if(mode==='race'){
+        for(const {obstacle,root} of movingDecks)root.position[obstacle.motion.axis]=platformOffset(obstacle,platformTime);
       }
       if(time-lastEvent>2.35)eventText=lastStatus==='playing'?'ENSAYO EN CURSO · REGISTRANDO DATOS':lastStatus==='finished'?'ENSAYO FINALIZADO':'ESPERANDO SUJETOS';
       if(time-lastPaint>.35)paint(time);

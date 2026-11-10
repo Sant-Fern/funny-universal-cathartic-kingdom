@@ -41,8 +41,8 @@ def has_roster(snapshot, ids, mode):
     return (snapshot["mode"] == mode and snapshot["humans"] == len(ids)
             and snapshot["bots"] == 10 - len(ids) and len(roster) == 10
             and {p["id"] for p in roster if not p["bot"]} == set(ids)
-            and sum(p["team"] == 0 for p in roster) == 5
-            and sum(p["team"] == 1 for p in roster) == 5)
+            and (all(p["team"] is None for p in roster) if mode == "eliminations" else
+                 sum(p["team"] == 0 for p in roster) == sum(p["team"] == 1 for p in roster) == 5))
 
 
 async def exchange(socket, seconds):
@@ -150,7 +150,7 @@ async def run(origin, mode, players, seconds, check_web):
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--url", default="http://127.0.0.1:8080", help="Origen de una instalación propia para pruebas")
-    parser.add_argument("--mode", choices=("observation", "eliminations"), default="observation")
+    parser.add_argument("--mode", choices=("race", "eliminations"), default="race")
     parser.add_argument("--players", type=int, choices=range(2, 11), default=2)
     parser.add_argument("--seconds", type=int, choices=range(2, 31), default=5)
     parser.add_argument("--check-web", action="store_true", help="Verifica también el HTML del cliente")

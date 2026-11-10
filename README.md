@@ -9,7 +9,7 @@ El diseño está definido y la ejecución local se ha probado. El despliegue dep
 Requisitos: Node.js 22.12 o posterior (probado con 24.14.1), Python 3.14 y un navegador con WebGL. Chrome o Edge son preferibles para capturar el ratón; el navegador incrustado puede restringir esta función.
 
 ```powershell
-python -m venv .venv
+py -3.14 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r server/requirements.txt
 npm ci
 npm run dev
@@ -19,7 +19,7 @@ Abrir **http://127.0.0.1:5173/**. Escribir un apodo y pulsar **A rebotar**. Move
 
 Los procesos se ejecutan en primer plano. `Ctrl+C` detiene el lanzador. No se necesita activar el entorno virtual ni cambiar la política de ejecución de PowerShell. Si los puertos están ocupados, cerrar el proceso previo antes de volver a ejecutar el comando.
 
-En Linux/macOS, crear `.venv` con `python3 -m venv .venv` e instalar con `.venv/bin/python -m pip install -r server/requirements.txt`. Los comandos de npm son los mismos.
+En Linux/macOS, crear `.venv` con `python3.14 -m venv .venv` e instalar con `.venv/bin/python -m pip install -r server/requirements.txt`. Los comandos de npm son los mismos.
 
 | Control | Acción |
 | --- | --- |
@@ -33,21 +33,20 @@ En Linux/macOS, crear `.venv` con `python3 -m venv .venv` e instalar con `.venv/
 | Salir | Desconectarse y volver al inicio |
 | Aplausos | Silenciar o reactivar el público |
 
-## Reglas del prototipo
+## Modos y rendimiento
 
-- Dos equipos de cinco, menta y coral. Diez participantes totales, con bots identificados.
-- Tres minutos; gana el equipo con más eliminaciones. El empate es válido.
-- Saltos manuales con compresión del resorte al cargar, estiramiento al despegar y pausa breve tras el impacto. La barra de salto se llena en unos 0.8 s. Los pies apoyan en estribos separados, con el resorte delante del cuerpo.
-- Arena ampliada a 60 × 46, con más separación entre equipos, coberturas laterales y cuatro rutas al mirador. Alinéate con «01 Impulso», carga Espacio, suéltalo y avanza en el aire. Repite para llegar a «02 Relevo» y «03 Mirador».
-- Los bots también se desplazan a saltos. Algunos rodean las coberturas y otros encadenan las plataformas para lanzar desde el mirador.
-- **Zona de observación** sube de Pista a Relevo, Mirador, Estación y Cima en cinco etapas de 45 segundos. Controlar la Estación da 3 puntos por segundo y la Cima da 4. El **Atajo A** y la **Cubierta B** continúan por plataformas suspendidas. Las tres plataformas móviles, señaladas en violeta, trasladan al jugador cuando aterriza sobre ellas.
-- La botella de cristal alcanza más lejos y daña al acertar de lleno. La pesada tiene menos alcance, tarda más en recargarse y puede dañar a varios rivales cerca de la rotura. El arco muestra dónde caerá y el anillo ámbar indica el radio aproximado.
-- Botellas de cristal: 28 de daño por impacto directo y 0.9 segundos entre lanzamientos. La pesada empuja a los rivales que sobreviven. El jugador puede corregir su trayectoria en el aire con WASD.
-- Reaparición a los tres segundos, con protección inicial de 1.5 segundos.
-- El servidor controla posición, impactos, daño, puntuación y reloj. El cliente envía controles, no resultados.
-- Los resultados se mantienen en memoria. Para comenzar una nueva partida, todos los humanos deben volver al inicio. Una sala sin humanos se reinicia tras 15 segundos.
+| Modo | Mapa | Cómo se gana |
+| --- | --- | --- |
+| Eliminación de globos | Pista del instituto, con coberturas bajas | Diez participantes sin equipos. Cada uno empieza con tres globos. Solo un impacto directo revienta un globo. Al perder los tres, quedas fuera hasta la próxima partida. Gana quien conserve más globos al cumplirse tres minutos o sea el último en pie. Se permite empate. Los bots pueden acertar a humanos y solo los humanos pueden reventar globos de bots. |
+| Carrera de torre | Torre del instituto, con plataformas suspendidas | Equipos de cinco. El primer participante que aterrice dentro del anillo dorado a 12,3 m gana para su equipo. La botella de cristal empuja al acertar y la pesada empuja en área. Se puede caer y volver a subir. El límite es 3:45 y hay empate si nadie alcanza la meta. |
 
-El esqueleto anatómico es una adaptación de [Écorché](https://github.com/Charleeh/ecorche) (CC BY-SA 4.0), basado en BodyParts3D y Z-Anatomy. Ver `client/public/models/ATTRIBUTION.md`. El juego carga el modelo local de 1.95 MB y no necesita descargarlo durante la partida.
+Mantén Espacio y suelta para saltar. WASD dirige el pogo en el aire. En la torre, las rampas iniciales convergen en el Mirador. El Atajo A y la Cubierta B conducen a la Cima y las plataformas móviles violetas ofrecen cruces adicionales. La botella pesada tiene menos alcance y tarda más en recargarse en ambos modos.
+
+Para reducir carga gráfica, elige **Gráficos → Rendimiento** en el menú. El contador muestra FPS en el menú y en partida. La preferencia se guarda en el navegador.
+
+Los bots completan diez espacios y el servidor decide la posición, los impactos, el tiempo y el ganador. Los resultados se conservan en memoria. Para iniciar otra partida, vuelve al menú con todos los participantes humanos.
+
+El esqueleto anatómico es una adaptación de [Écorché](https://github.com/Charleeh/ecorche) (CC BY-SA 4.0), basado en BodyParts3D y Z-Anatomy. Ver `client/public/models/ATTRIBUTION.md`. Los modelos se sirven desde la misma aplicación. La variante de Rendimiento usa 18 508 triángulos y la de Calidad usa 74 068.
 
 ## Comprobar
 
@@ -57,7 +56,7 @@ npm run build
 docker compose config --quiet
 ```
 
-La suite comprueba simulación y WebSocket con dos clientes, validación, capacidad, tokens de un solo uso, puntuación, reaparición y temporizador. El build queda en `client/dist`. La configuración de CI está en `.github/workflows/checks.yml`; aún no se ha ejecutado en GitHub.
+La suite comprueba simulación y WebSocket con dos clientes, validación, capacidad, tokens de un solo uso, globos, empujones, meta y temporizador. El build queda en `client/dist`. La configuración de CI está en `.github/workflows/checks.yml`.
 
 ## Docker local
 
@@ -73,7 +72,7 @@ Abrir **http://127.0.0.1:8080/**. Nginx sirve el cliente y enruta `/api` y `/ws`
 docker compose down
 ```
 
-La configuración de Compose fue validada; la construcción y ejecución de imágenes están pendientes porque el motor Docker no estaba activo. Los tags de imágenes base son de series y deben fijarse por digest al preparar el despliegue estable.
+La configuración y el arranque de Compose se comprobaron con una prueba externa de HTTP y WebSocket. Los tags de imágenes base son de series y deben fijarse por digest al preparar el despliegue estable.
 
 ## Estructura y arquitectura
 
