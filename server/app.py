@@ -54,7 +54,6 @@ class Connection:
 class Room:
     arena: Arena
     connections: dict = field(default_factory=dict)
-    last_human_at: float = field(default_factory=time.monotonic)
 
 
 class Runtime:
@@ -71,12 +70,9 @@ class Runtime:
             started = time.perf_counter()
             now = time.monotonic()
             self.tokens = {t: v for t, v in self.tokens.items() if v[1] > now}
-            for mode, room in self.rooms.items():
-                if not room.connections and room.arena.started and (room.arena.finished or now-room.last_human_at > 15):
-                    room.arena = Arena(mode=mode)
+            for room in self.rooms.values():
                 room.arena.step(interval)
                 if room.connections:
-                    room.last_human_at = now
                     snapshot = room.arena.snapshot()
                     for conn in room.connections.values():
                         if conn.queue.full():
@@ -195,6 +191,16 @@ def create_app():
                         if not isinstance(stamp, (float, int)) or not math.isfinite(stamp):
                             raise ValueError("Invalid timestamp")
                         await conn.send({"type": "pong", "timestamp": stamp})
+                    elif data == {"type": "restart"}:
+                        if len(room.connections) != 1:
+                            await conn.send({"type": "restartDenied", "message": "Hay otros jugadores en esta sala. Puedes salir y cambiar de modo."})
+                            continue
+                        arena = Arena(mode=arena.mode)
+                        player = arena.join(player.name, slot_id=player.id)
+                        if not conn.queue.empty():
+                            conn.queue.get_nowait()
+                        room.arena = arena
+                        await conn.send({"type": "restarted", "matchId": arena.id, "yaw": player.yaw})
                     else:
                         arena.apply_input(player.id, Input.model_validate(data))
                 except (ValidationError, ValueError, TypeError):
@@ -208,6 +214,8 @@ def create_app():
                     await sender_task
             room.connections.pop(player.id, None)
             arena.leave(player.id)
+            if not room.connections:
+                room.arena = Arena(mode=arena.mode)
 
     return app
 

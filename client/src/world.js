@@ -16,6 +16,7 @@ import { ImageProcessingConfiguration } from '@babylonjs/core/Materials/imagePro
 import { createAuditorium } from './auditorium.js';
 import { createBottleFactory,createCharacterFactory,playerColor } from './characters.js';
 import { arenaObstacles,heightAt,launchVelocity,throwOrigin,trajectory,segmentBox,obstacleAt,config } from '../../shared/physics.js';
+import { nextTowerPad,summit as finish,towerTracks } from '../../shared/tower.js';
 
 const color=hex=>Color3.FromHexString(hex),v=(x,y,z)=>new Vector3(x,y,z);
 export async function createWorld(canvas,updateMouse,initialQuality='high'){
@@ -24,15 +25,16 @@ export async function createWorld(canvas,updateMouse,initialQuality='high'){
   scene.fogMode=Scene.FOGMODE_EXP2;scene.fogColor=color('#223b48');scene.fogDensity=.0045;
   const camera=new UniversalCamera('camera',v(24,13,-30),scene);camera.minZ=.12;camera.maxZ=600;camera.fov=.89;
   let cameraReach=1;
+  let spectating=false,flightInput=[0,0,0,false],leanX=0,leanZ=0;
   const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
   camera.setTarget(v(0,3,7));
   const ambient=new HemisphericLight('relleno-de-gradas',v(.2,1,.1),scene);
-  ambient.intensity=.49;ambient.diffuse=color('#bddce6');ambient.groundColor=color('#566477');
+  ambient.intensity=.62;ambient.diffuse=color('#cce4eb');ambient.groundColor=color('#687685');
   const sun=new DirectionalLight('luz-oblicua-de-servicio',v(.62,-1,.38),scene);
   sun.position=v(-19,28,-11);sun.diffuse=color('#ffe4c2');sun.intensity=1.55;
   sun.autoUpdateExtends=false;sun.orthoLeft=-config.width/2-18;sun.orthoRight=config.width/2+18;
   sun.orthoTop=config.depth/2+22;sun.orthoBottom=-sun.orthoTop;
-  sun.shadowMinZ=1;sun.shadowMaxZ=180;
+  sun.shadowMinZ=1;sun.shadowMaxZ=160;
   const shadow=new ShadowGenerator(2048,sun);shadow.usePercentageCloserFiltering=true;shadow.filteringQuality=ShadowGenerator.QUALITY_MEDIUM;
   shadow.bias=.0008;shadow.normalBias=.028;shadow.setDarkness(.12);
   const pipeline=new DefaultRenderingPipeline('acabado',true,scene,[camera],false);
@@ -83,7 +85,9 @@ export async function createWorld(canvas,updateMouse,initialQuality='high'){
   const bottleFactory=createBottleFactory(scene);
   const makeCharacter=await createCharacterFactory(scene,shadow,material,bone,box,bottleFactory);
   const players=new Map(),projectiles=new Map(),labels=new Map(),shards=[],seenImpacts=new Set();
-  const finish=config.obstacles.find(o=>o.route==='summit');
+  const assistedTrails=new Map();
+  const trailMaterial=material('#b7fff0',true);
+  trailMaterial.disableLighting=true;trailMaterial.alpha=.72;
   const finishY=heightAt(finish.x,finish.z)+finish.h;
   const finishRing=MeshBuilder.CreateTorus('meta',{diameter:2*config.race.finishRadius,thickness:.08,tessellation:40},scene);
   const finishBeacon=MeshBuilder.CreateCylinder('baliza-de-meta',{diameter:.065,height:4,tessellation:8},scene);
@@ -96,6 +100,10 @@ export async function createWorld(canvas,updateMouse,initialQuality='high'){
   finishRing.position.set(finish.x,finishY+.055,finish.z);
   finishBeacon.position.set(finish.x,finishY+2,finish.z);
   finishFlag.position.set(finish.x,finishY+4,finish.z);
+  const nextRing=MeshBuilder.CreateTorus('siguiente-descanso',{diameter:1.12,thickness:.048,tessellation:26},scene);
+  nextRing.material=material('#ffda80',true);
+  nextRing.isPickable=false;
+  nextRing.setEnabled(false);
   const balloonSources=['#f6c86c','#f28e8b','#79d7db'].map(hex=>{
     const mesh=MeshBuilder.CreateSphere('globo',{diameter:2*config.balloons.radius,segments:8},scene);
     mesh.material=material(hex,true);
@@ -180,8 +188,17 @@ export async function createWorld(canvas,updateMouse,initialQuality='high'){
     label.mesh.dispose();label.texture.dispose();label.material.dispose();
   }
   function setSnapshot(s){
-    if(s.matchId!==latest?.matchId)seenImpacts.clear();
-    previous=latest;latest=s;receivedAt=performance.now();
+    const newRound=s.matchId!==latest?.matchId;
+    if(newRound){
+      seenImpacts.clear();
+      for(const mesh of projectiles.values())mesh.dispose();
+      projectiles.clear();
+      for(const trail of assistedTrails.values())trail.mesh.dispose();
+      assistedTrails.clear();
+      for(const effect of [...shards,...dust,...splashEffects])effect.mesh.dispose();
+      shards.length=dust.length=splashEffects.length=0;
+    }
+    previous=newRound?null:latest;latest=s;receivedAt=performance.now();
     auditorium.onSnapshot(s);
     for(const p of s.players){
       if(!players.has(p.id)){
@@ -209,36 +226,42 @@ export async function createWorld(canvas,updateMouse,initialQuality='high'){
     }
     const ids=new Set(s.shots.map(p=>p.id));
     for(const[id,mesh]of projectiles)if(!ids.has(id)){mesh.dispose();projectiles.delete(id);}
+    for(const[id,trail]of assistedTrails)if(!ids.has(id)){trail.mesh.dispose();assistedTrails.delete(id);}
     for(const shot of s.shots)if(!projectiles.has(shot.id))projectiles.set(shot.id,bottleFactory(shot.team,null,shot.kind));
-    let hits=0,downs=0;
+    let hits=0,downs=0,pops=0;
     for(const impact of s.impacts||[]){
-      if(burst(impact)){hits+=impact.hits;downs+=impact.downs||0;}
+      if(burst(impact)){hits+=impact.hits;downs+=impact.downs||0;pops+=impact.pops||0;}
     }
-    return {hits,downs};
+    return {hits,downs,pops};
   }
   const guideMaterial=material('#ffffff',true);guideMaterial.disableLighting=true;guideMaterial.alpha=.88;guideMaterial.disableDepthWrite=true;
-  let guide=null;
+  let guide=null,lastGuide=null;
   const marker=MeshBuilder.CreateTorus('punto-de-caida',{diameter:.65,thickness:.035,tessellation:28},scene);marker.material=guideMaterial;marker.setEnabled(false);
   const splashPreview=MeshBuilder.CreateTorus('alcance-pesada',{diameter:config.heavyBottle.splashRadius*2,thickness:.026,tessellation:48},scene);
   splashPreview.material=splashMaterial;splashPreview.setEnabled(false);splashPreview.isPickable=false;
   function updateGuide(p,time){
-    if(!p||p.health<=0||latest?.status==='finished'){guide?.setEnabled(false);marker.setEnabled(false);splashPreview.setEnabled(false);return;}
+    if(!p||p.health<=0||latest?.status==='finished'){guide?.setEnabled(false);marker.setEnabled(false);splashPreview.setEnabled(false);lastGuide=null;return;}
+    const state=[p.x,p.y,p.z,yaw,pitch,power,bottle];
+    if(lastGuide&&state.every((value,index)=>value===lastGuide.state[index])&&(mode!=='race'||time-lastGuide.time<.05))return;
+    lastGuide={state,time};
     const origin=throwOrigin(p.x,p.y,p.z,yaw),vel=launchVelocity(yaw,pitch,power,bottle),points=trajectory(origin,vel,bottle,time,obstacles);
-    const path=Array.from({length:81},(_,i)=>{
-      const f=i/80*(points.length-1),index=Math.min(points.length-2,Math.floor(f)),a=points[index],b=points[index+1],t=f-index;
+    const path=Array.from({length:49},(_,i)=>{
+      const f=i/48*(points.length-1),index=Math.min(points.length-2,Math.floor(f)),a=points[index],b=points[index+1],t=f-index;
       return v(a.x+(b.x-a.x)*t,a.y+(b.y-a.y)*t,a.z+(b.z-a.z)*t);
     });
     if(!guide){guide=MeshBuilder.CreateTube('arco-blanco',{path,radius:.027,tessellation:6,updatable:true},scene);guide.material=guideMaterial;guide.isPickable=false;}
     else MeshBuilder.CreateTube('arco-blanco',{path,instance:guide},scene);
     guide.setEnabled(true);marker.setEnabled(true);marker.position.copyFrom(path.at(-1));
-    marker.position.y+=.025;marker.scaling.setAll(1+Math.sin(performance.now()*.005)*.08);
+    marker.position.y+=.025;
     splashPreview.setEnabled(bottle==='heavy'&&mode==='race');
     splashPreview.position.copyFrom(marker.position);
   }
   function clearCameraReach(target,wanted,time){
     let nearest=1;
+    const minY=Math.min(target.y,wanted.y)-.2,maxY=Math.max(target.y,wanted.y)+.2;
     for(const o of obstacles){
       const box=obstacleAt(o,time);
+      if(box.top<minY||box.bottom>maxY)continue;
       const t=segmentBox(target,wanted,{x:box.x-o.w/2-.2,y:box.bottom-.2,z:box.z-o.d/2-.2},
         {x:box.x+o.w/2+.2,y:box.top+.2,z:box.z+o.d/2+.2});
       if(t!==null)nearest=Math.min(nearest,t);
@@ -269,7 +292,8 @@ export async function createWorld(canvas,updateMouse,initialQuality='high'){
           player.root.position.y=p.y+(airborne?speed*t-.5*config.gravity*t*t:0);
           player.animate({...p,vy:airborne?speed-config.gravity*t:0,
             jumpedAt:airborne?previewTime-t:-100,landedAt:t>=flight?previewTime-t+flight:-100,impactSpeed:speed},previewTime,0,preload);
-        }else player.animate(p.id===localId?{...p,bottle,yaw:facing}:p,simTime,p.id===localId&&charging?power:0,p.id===localId?(jumpCharge??0):0);
+        }else player.animate(p.id===localId?{...p,bottle,yaw:facing,moveX:leanX,moveZ:leanZ}:p,
+          simTime,p.id===localId&&charging?power:0,p.id===localId?(jumpCharge??0):0,dt);
         player.root.rotation.y=facing;
         if(player.balloons)player.balloons.root.rotation.y=-facing;
         player.root.setEnabled(p.health>0||(falling&&timeSinceDown<2.2));
@@ -279,26 +303,57 @@ export async function createWorld(canvas,updateMouse,initialQuality='high'){
       }
       for(const s of latest.shots){
         const mesh=projectiles.get(s.id),old=previous?.shots.find(o=>o.id===s.id)||s;
-        mesh.position.set(old.x+(s.x-old.x)*alpha,old.y+(s.y-old.y)*alpha,old.z+(s.z-old.z)*alpha);
+        const span=Math.max(0,s.age-old.age),t=alpha,t2=t*t,t3=t2*t;
+        for(const axis of ['x','y','z']){
+          mesh.position[axis]=(2*t3-3*t2+1)*old[axis]+(t3-2*t2+t)*span*old['v'+axis]
+            +(-2*t3+3*t2)*s[axis]+(t3-t2)*span*s['v'+axis];
+        }
         mesh.rotation.set(s.age*11,s.age*3,s.age*5);
+        if(s.assisted){
+          let trail=assistedTrails.get(s.id);
+          if(!trail){
+            const path=Array.from({length:12},(_,i)=>mesh.position.add(v(0,0,-i*.001)));
+            const ribbon=MeshBuilder.CreateTube('estela-de-botella',{path,radius:.025,tessellation:5,updatable:true},scene);
+            ribbon.material=trailMaterial;ribbon.isPickable=false;
+            trail={mesh:ribbon,path};assistedTrails.set(s.id,trail);
+          }
+          trail.path.shift();trail.path.push(mesh.position.clone());
+          MeshBuilder.CreateTube('estela-de-botella',{path:trail.path,instance:trail.mesh},scene);
+          mesh.rotation.x=Math.atan2(Math.hypot(s.vx,s.vz),s.vy);
+          mesh.rotation.y=Math.atan2(s.vx,s.vz);
+          mesh.rotation.z=s.age*14;
+        }else if(assistedTrails.has(s.id)){
+          assistedTrails.get(s.id).mesh.dispose();assistedTrails.delete(s.id);
+        }
       }
     }
-    if(active&&me){
+    if(active&&spectating){
+      const [forward,right,up,fast]=flightInput;
+      const amount=(fast?18:8)*dt/Math.max(1,Math.hypot(forward,right,up));
+      const sin=Math.sin(yaw),cos=Math.cos(yaw);
+      camera.position.x=Math.max(-config.width*.64,Math.min(config.width*.64,camera.position.x+(sin*forward+cos*right)*amount));
+      camera.position.z=Math.max(-config.depth*.68,Math.min(config.depth*.68,camera.position.z+(cos*forward-sin*right)*amount));
+      camera.position.y=Math.max(.65,Math.min(mode==='race'?finishY+18:config.ceilingHeight-1,camera.position.y+up*amount));
+      camera.setTarget(camera.position.add(v(sin*Math.cos(pitch),Math.sin(pitch),cos*Math.cos(pitch))));
+      updateGuide(null,platformTime);
+    }else if(active&&me){
+      scene.fogDensity=mode==='race'?.006:.0045;
       const aim=v(Math.sin(yaw)*Math.cos(pitch),Math.sin(pitch),Math.cos(yaw)*Math.cos(pitch)),right=v(Math.cos(yaw),0,-Math.sin(yaw));
       const impact=Math.min(1,(me.impactSpeed??0)/config.jumpMaxSpeed)*Math.exp(-11*Math.max(0,simTime-(me.landedAt??-100)));
       const target=v(me.x,me.y+1.9,me.z),wanted=target.subtract(aim.scale(7.4)).add(v(0,1.2-.24*impact,0)).add(right.scale(1.1));
       const xLimit=config.width/2+2.6,zLimit=config.depth/2+2.6;
       wanted.x=Math.max(-xLimit,Math.min(xLimit,wanted.x));
       wanted.z=Math.max(-zLimit,Math.min(zLimit,wanted.z));
-      wanted.y=Math.min(config.ceilingHeight-1.35,Math.max(heightAt(wanted.x,wanted.z)+.6,wanted.y));
+      const ceiling=mode==='race'?finishY+9:config.ceilingHeight-1.35;
+      wanted.y=Math.min(ceiling,Math.max(heightAt(wanted.x,wanted.z)+.6,wanted.y));
       const safe=clearCameraReach(target,wanted,platformTime);
       cameraReach=Math.min(safe,cameraReach+(safe-cameraReach)*(1-Math.exp(-8*dt)));
       const lookTarget=target.add(aim.scale(30));
       Vector3.LerpToRef(target,wanted,cameraReach,camera.position);
       const age=Math.max(0,simTime-(me.hitAt??-100));
-      if(age<.19&&!reducedMotion.matches){
-        const rise=Math.min(1,age/.045),decay=1-Math.max(0,(age-.045)/.145);
-        const kick=v(Math.sin(me.hitYaw),.18,Math.cos(me.hitYaw)).scale(.34*me.hitForce*rise*decay**2);
+      if(age<.27&&!reducedMotion.matches){
+        const rise=Math.min(1,age/.045),decay=1-Math.max(0,(age-.045)/.225);
+        const kick=v(Math.sin(me.hitYaw),.24,Math.cos(me.hitYaw)).scale(.63*me.hitForce*rise*decay**2);
         if(cameraReach>.42){
           camera.position.addInPlace(kick);
           lookTarget.addInPlace(kick);
@@ -311,7 +366,16 @@ export async function createWorld(canvas,updateMouse,initialQuality='high'){
       updateGuide(me,platformTime);
     }else{
       guide?.setEnabled(false);marker.setEnabled(false);splashPreview.setEnabled(false);
-      camera.position.set(config.width*.45+Math.sin(now*.00004)*1.3,12.7,-config.depth*.66);camera.setTarget(v(0,5.4,5));
+      lastGuide=null;
+      if(mode==='race'){
+        scene.fogDensity=.00145;
+        camera.position.set(66+Math.sin(now*.00004)*2,finishY*.42,-168);
+        camera.setTarget(v(-18,finishY*.45,0));
+      }else{
+        scene.fogDensity=.0045;
+        camera.position.set(config.width*.45+Math.sin(now*.00004)*1.3,12.7,-config.depth*.66);
+        camera.setTarget(v(0,5.4,5));
+      }
       cameraReach=1;
     }
     for(let i=shards.length-1;i>=0;i--){
@@ -333,15 +397,25 @@ export async function createWorld(canvas,updateMouse,initialQuality='high'){
       effect.mesh.scaling.set(radius,1,radius);
       if(effect.age>.32){effect.mesh.dispose();splashEffects.splice(i,1);}
     }
-    if(mode==='race')finishFlag.rotation.y+=dt*1.5;
-    auditorium.update(now/1000,platformTime,lowQuality,mode);
+    if(mode==='race'){
+      finishFlag.rotation.y+=dt*1.5;
+      const next=active&&me?nextTowerPad(me):null;
+      nextRing.setEnabled(Boolean(next&&next!==finish&&latest.status==='playing'));
+      if(next&&next!==finish){
+        const pad=obstacleAt(next,platformTime);
+        nextRing.position.set(pad.x,pad.top+.04,pad.z);
+      }
+    }
+    // Keep the light's shadow volume around the subjects all the way to the crown.
+    sun.position.y=(active?camera.position.y:mode==='race'?finishY*.45:0)+32;
+    auditorium.update(now/1000,platformTime,lowQuality,mode,active?camera.position.y:null);
     scene.render();
   }
   engine.runRenderLoop(render);window.addEventListener('resize',resize);
   function showLobby(){
     const positions=mode==='race'
-      ? [[10,-9,0],...obstacles.filter(o=>o.tier).map(o=>[o.x,o.z,o.h])]
-      : [[12,-9,0],[-11,-7,0],[2,7,0],[9,6,1.65]];
+      ? towerTracks.flatMap(track=>[track[0],track[5],track[12],track[36],track[71]].map(o=>[o.x,o.z,o.h]))
+      : [[12,-9,0],[-11,-7,0],[2,7,0],[9.5,-4.5,1.08]];
     setSnapshot({mode,time:0,status:'waiting',players:positions.map(([x,z,h],i)=>({
       id:`slot-${i}`,name:['Tibia','Fémur','Costilla','Cráneo','Rótula'][i%5],team:mode==='race'?i%2:null,bot:true,
       x,y:heightAt(x,z)+h,z,yaw:i===0?2.42:i%2?-Math.PI/2:Math.PI/2,health:100,
@@ -360,6 +434,7 @@ export async function createWorld(canvas,updateMouse,initialQuality='high'){
     mode=value;
     obstacles=arenaObstacles(mode);
     auditorium.setMode(mode);
+    nextRing.setEnabled(false);
     for(const mesh of finishMeshes)mesh.setEnabled(mode==='race');
     rebuildCharacters();
   }
@@ -372,13 +447,16 @@ export async function createWorld(canvas,updateMouse,initialQuality='high'){
   setMode('eliminations');
   return{setSnapshot,setMode,setQuality,getFPS:()=>engine.getFps(),renderer:engine.getGlInfo().renderer,
     enableAudio:auditorium.enableAudio,muteAudience:auditorium.mute,
-    enter(id,facing){localId=id;active=true;yaw=facing;pitch=-.08;},
+    enter(id,facing){localId=id;active=true;spectating=false;leanX=leanZ=0;yaw=facing;pitch=-.08;cameraReach=1;},
+    spectate(){spectating=true;flightInput=[0,0,0,false];camera.position.y+=1.4;},
+    fly(forward,right,up,fast){flightInput=[forward,right,up,fast];},
     leave(){
-      localId=null;active=false;charging=false;jumpCharge=null;bottle='standard';
+      localId=null;active=false;spectating=false;charging=false;jumpCharge=null;bottle='standard';
       for(const player of players.values())player.root.setEnabled(false);
       for(const label of labels.values())label.mesh.setEnabled(false);
       showLobby();
     },
-    look(dx,dy){yaw=Math.atan2(Math.sin(yaw+dx*.0025),Math.cos(yaw+dx*.0025));pitch=Math.max(-.65,Math.min(.64,pitch-dy*.002));},
+    look(dx,dy){yaw=Math.atan2(Math.sin(yaw+dx*.0025),Math.cos(yaw+dx*.0025));pitch=Math.max(spectating?-1.46:-.65,Math.min(spectating?1.46:.64,pitch-dy*.002));},
+    setLean(x,z){leanX=x;leanZ=z;},
     setCharge(value,held){power=value;charging=held;},setBottle(kind){bottle=kind;},setJumpCharge(value){jumpCharge=value;},get aim(){return{yaw,pitch};}};
 }

@@ -71,3 +71,26 @@ def test_local_modes_have_separate_matches():
                 assert one_state["humans"] == two_state["humans"] == 1
                 assert all(p["balloonCount"] == 3 and p["team"] is None for p in one_state["players"])
                 assert all(p["balloonCount"] is None and p["team"] in (0, 1) for p in two_state["players"])
+
+
+def test_restart_starts_a_fresh_round_without_displacing_other_players():
+    with TestClient(create_app()) as client:
+        first = client.post("/api/join", json={"name": "Uno"}).json()["token"]
+        with client.websocket_connect(f"/ws?token={first}") as one:
+            player_id = read_until(one, "welcome")["playerId"]
+            original = read_until(one, "snapshot")["matchId"]
+            second = client.post("/api/join", json={"name": "Dos"}).json()["token"]
+            with client.websocket_connect(f"/ws?token={second}") as two:
+                assert read_until(two, "snapshot")["matchId"] == original
+                one.send_json({"type": "restart"})
+                read_until(one, "restartDenied")
+                assert read_until(two, "snapshot")["matchId"] == original
+            one.send_json({"type": "restart"})
+            restarted = read_until(one, "restarted")["matchId"]
+            assert restarted != original
+            new_round = read_until(one, "snapshot")
+            assert new_round["matchId"] == restarted
+            assert next(p for p in new_round["players"] if p["id"] == player_id)["name"] == "Uno"
+        fresh = client.post("/api/join", json={"name": "Tres"}).json()["token"]
+        with client.websocket_connect(f"/ws?token={fresh}") as three:
+            assert read_until(three, "snapshot")["matchId"] != restarted

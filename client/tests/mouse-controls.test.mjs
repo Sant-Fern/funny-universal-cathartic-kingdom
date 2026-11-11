@@ -2,12 +2,12 @@ import assert from 'node:assert/strict';
 import test from 'node:test';
 import {bindMouseControls} from '../src/mouse-controls.js';
 
-function fixture(){
+function fixture(capture=false){
   const canvas=new EventTarget(),doc=new EventTarget(),events=[];
   canvas.focus=()=>{};canvas.clientWidth=800;doc.pointerLockElement=null;
   const controls=bindMouseControls({canvas,doc,active:()=>true,aim:(x,y)=>events.push(['aim',x,y]),
     charge:()=>events.push('charge'),release:()=>events.push('release'),tap:()=>events.push('tap'),
-    cancel:()=>events.push('cancel'),now:()=>1000});
+    cancel:()=>events.push('cancel'),capture:capture?()=>events.push('capture'):undefined,now:()=>1000});
   const send=(target,type,data)=>target.dispatchEvent(Object.assign(new Event(type,{cancelable:true}),data));
   return{canvas,doc,events,controls,send};
 }
@@ -50,6 +50,15 @@ test('click-only input is usable without capture',()=>{
   const {canvas,events,send}=fixture();
   send(canvas,'click',{button:0});
   assert.deepEqual(events,['tap']);
+});
+
+test('the first press requests capture without consuming the throw',()=>{
+  const {canvas,doc,events,send}=fixture(true);
+  send(canvas,'mousedown',{button:0});
+  doc.pointerLockElement=canvas;
+  send(doc,'pointerlockchange',{});
+  send(doc,'mouseup',{button:0});
+  assert.deepEqual(events,['capture','charge','release']);
 });
 
 test('a release lost outside the window cancels the charge instead of throwing later',()=>{

@@ -6,7 +6,7 @@ HTTP y WebSocket comparten origen a través del proxy de Vite o Nginx. No hay UR
 2. Abrir `/ws?token=...`. El servidor valida origen de navegador, vigencia, token y cupo. Las reservas no conectadas también ocupan cupo hasta vencer.
 3. Recibir `welcome` con `playerId`, `team` (0 menta, 1 coral o null en globos), yaw inicial y configuración.
 4. Enviar `input` a 20 Hz y recibir `snapshot` a 20 Hz. Los renderizados interpolan los dos últimos snapshots.
-5. Cuando `status` sea `finished`, mostrar resultados y volver al inicio cerrando la conexión.
+5. Cuando `status` sea `finished`, mostrar resultados. El cliente puede volver al inicio cerrando la conexión o solicitar un reinicio en la misma sala.
 
 ```json
 {"type":"input","seq":1,"moveX":0,"moveZ":1,"yaw":0,"pitch":0,"fire":false,"jumpPower":null,"power":0.6,"bottle":"standard"}
@@ -14,13 +14,13 @@ HTTP y WebSocket comparten origen a través del proxy de Vite o Nginx. No hay UR
 
 `moveX` y `moveZ` van de -1 a 1 en coordenadas de mundo. El servidor normaliza diagonales y aplica el desplazamiento solo durante el salto. `yaw` y `pitch` son radianes. La secuencia debe aumentar. Los controles caducan después de 0.5 segundos sin renovación. No se aceptan coordenadas ni daño decididos por el cliente.
 
-`jumpPower` es `null` durante el movimiento o una fuerza de 0 a 1 enviada una sola vez al soltar Espacio. El servidor solo acepta la solicitud en suelo, conserva el evento ante nuevos paquetes de movimiento y aplica la velocidad cuando termina la recuperación del aterrizaje. Se descarta si vence tras 0.2 segundos o el jugador deja de estar apoyado.
+`jumpPower` es `null` durante el movimiento o una fuerza de 0 a 1 enviada una sola vez al soltar Espacio. El servidor conserva la fuerza y la dirección enviada con ese paquete y ejecuta el salto cuando termina la recuperación del aterrizaje. Descarta la solicitud si caduca, el jugador pierde apoyo o recibe un impacto.
 
 `fire=true` es un evento de soltar la carga, no un disparo continuo. `power` es la fuerza normalizada de 0 a 1. La simulación conserva una solicitud de lanzamiento aunque llegue un paquete de movimiento antes del próximo tick. El servidor aplica su cadencia, calcula la parábola con gravedad y resuelve el primer contacto de la botella. El cliente predice la misma parábola contra la geometría del mapa. Un oponente en movimiento puede interceptarla.
 
-`bottle` acepta las clases standard y heavy. En Eliminación de globos, una botella revienta como máximo un globo y debe alcanzarlo directamente. En Carrera de torre, la pesada empuja en área y la de cristal empuja al acertar de lleno. Cada impacto incluye owner, kind, hits (impactos confirmados) y downs (descalificaciones). El cliente deduplica los impactos por id.
+`bottle` acepta las clases standard y heavy. En Eliminación de globos, un impacto al cuerpo empuja y aturde. Cada botella revienta como máximo un globo y debe alcanzarlo directamente. En Carrera de torre, la pesada empuja en área y la de cristal empuja al acertar de lleno. Cada impacto incluye owner, kind, hits (impactos confirmados), pops (globos reventados) y downs (descalificaciones). El cliente deduplica los impactos por id.
 
-En modo eliminations, cada jugador tiene balloons (máscara de globos intactos), balloonCount y pops. Si se termina la ronda con un primer lugar único, winner contiene el identificador del jugador. En modo race, score contiene la mejor altura de cada equipo, bestHeight la mejor altura de cada participante y winner el índice del equipo que aterrizó primero dentro de la meta. winner es null si hay empate o la partida sigue en curso.
+En modo eliminations, cada jugador tiene balloons (máscara de globos intactos), balloonCount y pops. Si se termina la ronda con un primer lugar único, winner contiene el identificador del jugador. En modo race, score contiene la mejor altura de cada equipo, bestHeight la mejor altura de cada participante y winner el índice del equipo que aterrizó primero dentro de la meta. raceStep indica el último nivel de aterrizaje por plataforma (−1 en el suelo, 0 en el peldaño de salida) para orientar la guía de saltos. winner es null si hay empate o la partida sigue en curso.
 
 La posición de cada plataforma móvil se deriva de snapshot.time y de su recorrido en shared/arena.json. El servidor aplica el traslado y comprueba impactos con las plataformas en movimiento. El cliente usa ese reloj para dibujar la plataforma y predecir el arco. La pista plana usa flatObstacles del mismo archivo.
 
@@ -28,7 +28,9 @@ El snapshot incluye identificador de partida, reloj, estado, marcador, ganador, 
 
 Las muestras incluyen `grounded`, `vy`, `jumpedAt`, `landedAt` e `impactSpeed` para animar el pogo; `lastThrowAt` y `throwCooldown` alimentan el brazo y el HUD. `shots` contiene posición, velocidad y edad de las botellas. `impacts` informa roturas y `events` registra eliminaciones que hacen reaccionar a la audiencia.
 
-`hitAt`, `hitYaw`, `hitForce` y `hitBy` describen el último golpe del jugador. El cliente los usa para mostrar el retroceso, animar la caída y acreditar el botellazo en el aviso de baja.
+`hitAt`, `hitYaw`, `hitForce` y `hitBy` describen el último golpe del jugador. `stunnedUntil` indica cuándo recupera los controles. `moveX` y `moveZ` del jugador permiten animar la inclinación del pogo.
+
+`{"type":"restart"}` abre otra ronda si la conexión es la única en la sala. `restarted` devuelve el nuevo `matchId` y `yaw`, conserva `playerId` y permite reiniciar `seq`. `restartDenied` indica que la sala sigue compartida. Cuando se desconecta el último jugador, la siguiente conexión recibe una ronda nueva.
 
 `{"type":"ping","timestamp":123}` recibe `pong` con el mismo timestamp para calcular RTT en el cliente. El RTT mostrado en pantalla es la última muestra, no p95 ni p99.
 

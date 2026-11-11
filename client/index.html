@@ -50,9 +50,10 @@
       <div id="zone-hud" hidden>
         <span id="zone-direction" aria-hidden="true">↑</span>
         <div><small>CARRERA DE TORRE</small><strong id="zone-label">Meta en la cima</strong><span id="zone-status">Aterriza dentro del anillo dorado.</span></div>
-        <div class="zone-time"><strong id="zone-timer">12,3 m</strong><small>META</small></div>
+        <div class="zone-time"><strong id="zone-timer"></strong><small>META</small></div>
       </div>
-      <div class="connection"><span class="dot"></span><span id="network">Conectando</span><span id="match-fps" class="fps-reading"></span><button id="mute-audience" type="button" aria-pressed="false">Sonido: sí</button><button id="leave" type="button">Salir</button></div>
+      <div class="connection"><span class="dot"></span><span id="network">Conectando</span><span id="match-fps" class="fps-reading"></span><button id="mute-audience" type="button" aria-pressed="false">Sonido: sí</button><button id="restart" type="button">Reiniciar</button><button id="leave" type="button">Salir</button></div>
+      <div id="match-notice" role="status" hidden></div>
       <div id="crosshair" aria-hidden="true">+</div>
       <div id="hit-marker" hidden aria-hidden="true"></div>
       <div id="damage-flash" aria-hidden="true"></div>
@@ -64,7 +65,9 @@
         <span id="respawn">Reapareciendo…</span>
       </div>
       <div class="player-info"><span id="team-name">TODOS CONTRA TODOS</span><div><strong id="hp">3</strong><span id="hp-label">GLOBOS</span></div><div class="health-track"><i id="health-fill"></i></div><small id="stats">0 globos reventados</small><small id="jump-tip"><kbd>ESPACIO</kbd> <span id="jump-status">Mantén y suelta para saltar</span><span class="jump-track" aria-hidden="true"><i id="jump-fill"></i></span></small></div>
-      <div class="bottom-controls"><span><kbd>WASD</kbd> Dirigir en el aire</span><span><kbd>TAB</kbd> Marcador</span></div>
+      <div class="bottom-controls" id="player-controls"><span><kbd>WASD</kbd> Inclinar y dirigir</span><span><kbd>TAB</kbd> Marcador</span></div>
+      <div class="bottom-controls" id="spectator-controls" hidden><span>CÁMARA LIBRE</span><span><kbd>WASD</kbd> Moverse</span><span><kbd>E / Q</kbd> Subir / bajar</span><span><kbd>SHIFT</kbd> Acelerar</span></div>
+      <div id="stun-status" hidden>ATURDIDO</div>
       <div class="throw-info">
         <span id="bottle-title">BOTELLA DE CRISTAL</span>
         <div class="bottle-picker" role="group" aria-label="Tipo de botella">
@@ -82,7 +85,7 @@
       <div id="player-list" hidden></div>
     </section>
     <section id="results" class="result-overlay" hidden>
-      <div class="result-card"><div class="eyebrow">SE ACABÓ EL RECREO</div><h2 id="result-title">FIN DE PARTIDA</h2><p id="result-score"></p><div id="result-players"></div><button id="again" type="button">VOLVER AL INICIO ↗</button><small>Resultados locales · aún no se guardan en la nube</small></div>
+      <div class="result-card"><div class="eyebrow">SE ACABÓ EL RECREO</div><h2 id="result-title">FIN DE PARTIDA</h2><p id="result-score"></p><div id="result-players"></div><button id="again" type="button">VOLVER AL INICIO ↗</button><button id="restart-results" type="button">NUEVA RONDA</button><small id="result-notice" role="status" hidden></small><small>Resultados locales · aún no se guardan en la nube</small></div>
     </section>
     <script type="module" src="/src/main.js"></script>
   </body>

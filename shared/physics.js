@@ -1,7 +1,8 @@
 import config from './arena.json' with { type: 'json' };
+import { towerObstacles } from './tower.js';
 
 export { config };
-export const arenaObstacles = mode => mode === 'race' ? config.obstacles : config.flatObstacles;
+export const arenaObstacles = mode => mode === 'race' ? towerObstacles : config.flatObstacles;
 export function heightAt(x, z) {
   const t = config.terrain;
   return t.waveHeight * Math.sin(x * t.waveX) * Math.cos(z * t.waveZ)
@@ -51,13 +52,19 @@ export function segmentBox(start, end, low, high) {
   return near;
 }
 // Same 50 ms collision samples and ballistic equation as the server.
-export function trajectory(origin, velocity, kind = 'standard', startTime = 0, obstacles = config.obstacles) {
+export function trajectory(origin, velocity, kind = 'standard', startTime = 0, obstacles = towerObstacles) {
   const stats = bottleStats(kind);
   const points = [origin], step = 1 / config.tickRate, r = stats.shotRadius;
+  const reachable = obstacles.filter(o => {
+    const top = heightAt(o.x,o.z)+o.h;
+    return top-(o.thickness??o.h) <= origin.y+Math.max(0,velocity.y)**2/(2*stats.shotGravity)+r;
+  });
   for (let t = step; t <= stats.shotLifetime + 1e-6; t += step) {
     const a = points.at(-1), b = positionAt(origin, velocity, t, kind);
     let nearest = 1, collided = false;
-    for (const o of obstacles) {
+    for (const o of reachable) {
+      const top=heightAt(o.x,o.z)+o.h;
+      if(top < Math.min(a.y,b.y)-r || top-(o.thickness??o.h) > Math.max(a.y,b.y)+r)continue;
       const box = obstacleAt(o, startTime+t);
       let start = a;
       if (o.motion) {

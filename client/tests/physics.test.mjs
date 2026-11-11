@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {heightAt,launchVelocity,throwOrigin,trajectory,positionAt,config} from '../../shared/physics.js';
+import {arenaObstacles,heightAt,launchVelocity,throwOrigin,trajectory,positionAt,config} from '../../shared/physics.js';
+import {towerTracks} from '../../shared/tower.js';
 
 test('power changes speed and distance; gravity produces a descending arc',()=>{
   const origin={x:-15,y:4,z:-10},low=launchVelocity(0,.1,.15),high=launchVelocity(0,.1,1);
@@ -10,14 +11,15 @@ test('power changes speed and distance; gravity produces a descending arc',()=>{
   assert.ok(after.y<before.y);
 });
 test('bottles can fly underneath a suspended deck but stop against its side',()=>{
-  const deck=config.obstacles[0], left=deck.x-deck.w/2-config.shotRadius;
-  const underneath=trajectory({x:-5,y:1.8,z:0},{x:20,y:0,z:0}).at(-1);
-  assert.ok(underneath.x>deck.w/2);
-  const side=trajectory({x:-5,y:deck.h-deck.thickness/2,z:0},{x:20,y:1,z:0}).at(-1);
+  const deck=towerTracks[0][3], left=deck.x-deck.w/2-config.shotRadius;
+  const underneath=trajectory({x:deck.x-5,y:1.8,z:deck.z},{x:20,y:0,z:0},'standard',0,[deck]).at(-1);
+  assert.ok(underneath.x>deck.x+deck.w/2);
+  const side=trajectory({x:deck.x-5,y:deck.h-deck.thickness/2,z:deck.z},{x:20,y:1,z:0},'standard',0,[deck]).at(-1);
   assert.ok(Math.abs(side.x-left)<.01);
 });
 test('guide lands on the same arena floor used by the player',()=>{
-  const origin=throwOrigin(-15,heightAt(-15,-10),-10,0),points=trajectory(origin,launchVelocity(0,-.2,.25)),end=points.at(-1);
+  const origin=throwOrigin(-15,heightAt(-15,-10),-10,0);
+  const end=trajectory(origin,launchVelocity(0,-.2,.25),'standard',0,arenaObstacles('eliminations')).at(-1);
   assert.ok(Math.abs(end.y-config.shotRadius-heightAt(end.x,end.z))<.02);
 });
 test('maximum power and extreme camera pitch stay finite and inside the arena',()=>{

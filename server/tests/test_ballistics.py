@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 
 from server.app import Input
-from server.game import Arena,Shot,BALLOON_TARGETS,CONFIG,SUMMIT,boxes_at,height_at,launch_velocity,throw_origin
+from server.game import Arena,Shot,BALLOON_TARGETS,CONFIG,TOWER_TRACKS,boxes_at,height_at,launch_velocity,throw_origin
 
 
 def lone_arena():
@@ -15,6 +15,53 @@ def lone_arena():
     arena.players={player.id:player}
     player.x,player.y,player.z=-18,5,-12
     return arena,player
+
+
+@pytest.mark.parametrize('mode', ['race', 'eliminations'])
+def test_near_miss_curves_into_rival_for_humans_but_bots_keep_their_misses(mode):
+    for bot in (False, True):
+        arena = Arena(seed=1, mode=mode)
+        shooter, victim = arena.join('Uno'), arena.join('Dos')
+        arena.players = {p.id:p for p in (shooter,victim)}
+        shooter.bot, shooter.next_think = bot, 100
+        shooter.x, shooter.z, victim.x, victim.z = -18,-15,12,12
+        arena.time = 5
+        y = 3.05 if mode == 'eliminations' else 1.8
+        shot = Shot(1,shooter.id,shooter.team,9,y,13,18,0,0,age=.2)
+        arena.shots = [shot]
+        for _ in range(18):
+            arena.step(.05)
+            if arena.impacts:
+                break
+        assert arena.impacts[0]['hits'] == int(not bot)
+        assert (shot.assist_started >= 0) == (not bot)
+        if mode == 'eliminations':
+            assert victim.balloons.bit_count() == (3 if bot else 2)
+
+
+@pytest.mark.parametrize('condition', ['cover','ally','behind','far','protected','eliminated'])
+def test_assistance_respects_cover_and_target_eligibility(condition):
+    arena = Arena(seed=1, mode='race')
+    shooter, victim = arena.join('Uno'), arena.join('Dos')
+    arena.players = {p.id:p for p in (shooter,victim)}
+    arena.time = 5
+    victim.x,victim.y,victim.z = 12,0,12
+    shot = Shot(1,shooter.id,shooter.team,9.5,1.8,12.7,18,0,0,age=.2)
+    boxes = ()
+    if condition == 'cover':
+        boxes = (({'x':11,'z':12,'w':.3,'d':5},0,5),)
+    elif condition == 'ally':
+        victim.team = shooter.team
+    elif condition == 'behind':
+        shot.vx = -18
+    elif condition == 'far':
+        victim.x = 20
+    elif condition == 'protected':
+        victim.protected_until = 10
+    else:
+        victim.health = 0
+    arena.assist_shot(shot,.05,boxes)
+    assert shot.assist_target is None
 
 
 def test_ballistic_flight_matches_closed_form_at_multiple_ticks():
@@ -62,11 +109,11 @@ def test_heavy_bottle_can_hit_several_enemies_but_cover_blocks_splash():
     ally = arena.players["slot-2"]
     arena.players = {p.id:p for p in (shooter, enemy, enemy_two, shielded, ally)}
     for p, (x, z) in zip((enemy, enemy_two, shielded, ally),
-                         ((4.65,-9.0),(5.2,-10.7),(6.95,-10.75),(4.9,-9.7))):
+                         ((1.2,-3.2),(.8,-2.7),(2.7,-.96),(1.7,-2.95))):
         p.bot = False
         p.x, p.y, p.z = x, 0, z
     arena.time = 2
-    arena.shots = [Shot(1, shooter.id, shooter.team, 5.4, .7, -9.25, 8, 0, 0, kind="heavy")]
+    arena.shots = [Shot(1, shooter.id, shooter.team, 1.7, .7, -2.7, 0, 0, 10, kind="heavy")]
     arena.step(.05)
     assert arena.impacts[0]["kind"] == "heavy"
     assert arena.impacts[0]["owner"] == shooter.id
@@ -86,22 +133,26 @@ def test_heavy_can_displace_a_defender_at_the_edge_but_steering_still_works(stee
     arena = Arena(seed=3, mode="race")
     attacker, victim = arena.join("Atacante"), arena.join("Defensor")
     arena.players = {p.id: p for p in (attacker, victim)}
-    victim.x, victim.y, victim.z = SUMMIT["x"]-SUMMIT["w"]/2+.39, SUMMIT["h"], SUMMIT["z"]
+    deck = TOWER_TRACKS[0][0]
+    victim.x, victim.y, victim.z = deck["x"]-deck["w"]/2+.39, deck["h"], deck["z"]
     start = victim.x
     arena.time = 2
     shot = Shot(1, attacker.id, attacker.team, start+.55, victim.y+.2, victim.z, 0, -2, 0, kind="heavy")
     arena.shots = [shot]
     arena.step(.05)
     assert victim.health == 100 and not victim.grounded
-    for seq in range(45):
+    assert victim.stunned_until > arena.time
+    arena.apply_input(victim.id, Input(type="input",seq=0,moveX=steering,moveZ=0,yaw=0,pitch=0,fire=True))
+    assert not victim.throw_requested
+    for seq in range(1,46):
         arena.apply_input(victim.id, Input(type="input",seq=seq,moveX=steering,moveZ=0,yaw=0,pitch=0,fire=False))
         arena.step(.05)
         if victim.grounded:
             break
     if steering:
-        assert victim.grounded and victim.y == SUMMIT["h"] and victim.x > start
+        assert victim.grounded and victim.y == deck["h"]
     else:
-        assert victim.grounded and victim.y < SUMMIT["h"] and victim.x < start
+        assert victim.grounded and victim.y < deck["h"] and victim.x < start
 
 
 def test_client_and_server_math_and_predicted_endpoint_agree():
@@ -129,15 +180,12 @@ console.log(JSON.stringify(samples.map(([x,z,yaw,pitch,power,y=heightAt(x,z),kin
             if arena.impacts:impact=arena.impacts[0];break
         assert impact is not None
         assert [impact[k] for k in ("x","y","z")]==pytest.approx([result["end"][k] for k in ("x","y","z")],abs=.004)
-        if y:
-            # The throw from the intermediate ledge must land on the upper deck.
-            assert impact["y"] == pytest.approx(CONFIG["obstacles"][0]["h"]+CONFIG["shotRadius"], abs=.002)
 
 
 def test_moving_platform_can_sweep_into_a_shot_and_preview_agrees():
     arena, p = lone_arena()
-    before = next(o for o, _, _ in boxes_at(0) if o.get("route") == "shuttle")
-    after = next(o for o, _, _ in boxes_at(1) if o.get("route") == "shuttle")
+    before = next(o for o, _, _ in boxes_at(0) if o.get("motion"))
+    after = next(o for o, _, _ in boxes_at(1) if o.get("motion"))
     radius = CONFIG["shotRadius"]
     x = (before["x"]+after["x"])/2 + before["w"]/2 + radius
     origin = (x, before["h"]-.2, before["z"])
@@ -160,12 +208,14 @@ def test_balloons_require_direct_contact_and_last_pop_disqualifies(kind):
     shooter.x, shooter.z = -12, -12
     victim.x, victim.z = 12, 12
     arena.players = {p.id: p for p in (shooter, victim)}
-    arena.time = 2
+    arena.time = 4.5
     arena.shots = [Shot(1, shooter.id, None, victim.x, 1.65, victim.z, 0, 0, 0, kind=kind)]
     arena.step(.05)
     assert victim.balloons.bit_count() == 3
+    assert victim.stunned_until > arena.time and not victim.grounded
     arena.shots.clear()
     for index, (dx, dy, dz) in enumerate(BALLOON_TARGETS):
+        victim.y, victim.vy, victim.grounded = 0, 0, True
         arena.time = max(arena.time, victim.protected_until)
         arena.shots = [Shot(index+2, shooter.id, None, victim.x+dx, victim.y+dy, victim.z+dz, 0, 0, 0, kind=kind)]
         arena.step(.05)

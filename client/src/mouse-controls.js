@@ -1,7 +1,7 @@
 const TURN_EDGE = 12;
 const EDGE_TURN_PIXELS_PER_SECOND = 520;
 
-export function bindMouseControls({canvas, doc, active, aim, charge, release, tap, cancel, now=()=>performance.now()}) {
+export function bindMouseControls({canvas, doc, active, aim, charge, release, tap, cancel, capture, now=()=>performance.now()}) {
   let cursor = null;
   let edgeTurn = 0;
   let leftDown = false;
@@ -18,6 +18,7 @@ export function bindMouseControls({canvas, doc, active, aim, charge, release, ta
     }
   });
   canvas.addEventListener('mouseleave', resetCursor);
+  doc.addEventListener('pointerlockchange', resetCursor);
   canvas.addEventListener('mousemove', event => {
     if (!active() || doc.pointerLockElement === canvas) return;
     const next = { x: event.clientX, y: event.clientY };
@@ -41,6 +42,7 @@ export function bindMouseControls({canvas, doc, active, aim, charge, release, ta
   canvas.addEventListener('mousedown', event => {
     if (!active() || event.button !== 0) return;
     leftDown = true;
+    if (doc.pointerLockElement !== canvas) capture?.();
     charge();
     event.preventDefault();
     canvas.focus({ preventScroll: true });

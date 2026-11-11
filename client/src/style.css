@@ -39,5 +39,13 @@
 #death strong{font-size:29px;letter-spacing:.06em}
 #death-cause{font-size:12px!important;color:#d7c6bc!important}
 #death #respawn{font:600 11px ui-monospace,Consolas,monospace;color:#f5c8b6}
+#match-notice{position:absolute;top:76px;right:29px;max-width:290px;padding:9px 12px;border:1px solid #dbac7970;border-radius:5px;background:#182832f5;color:#ffe1b8;font-size:12px}
+#stun-status{position:absolute;top:calc(50% - 56px);left:50%;transform:translateX(-50%);padding:6px 10px;border:1px solid #e8906d;border-radius:4px;background:#4b2929e8;color:#ffdfbc;font-size:10px;font-weight:800;letter-spacing:.16em}
+#spectator-controls{color:#b8f0dc}
+#hud.spectating :is(.player-info,.bottle-picker,#bottle-title,#bottle-description,#throw-status,.power-track){display:none}
+#result-notice{color:#ffe1b8}
+#restart-results{margin-left:8px;background:#efbd72}
+#hud .connection{top:72px}
+#match-notice{top:112px}
 @media(max-width:700px){#zone-hud{top:115px;min-width:215px}}
 @media(max-width:700px){.intro{width:90vw;top:125px}.overlay{background:linear-gradient(90deg,#242237ed,#24223788)}h1{font-size:76px}.arena-label{display:none}footer>span:first-child{display:none}.intro>p{font-size:16px}.controls{max-width:330px}#brand{top:22px}#brand small{font-size:8px}.bottom-controls{display:none}.connection{top:80px!important;right:15px!important}.scoreboard{top:15px!important;left:auto!important;right:15px;transform:none!important;min-width:220px!important}.team{padding:10px!important;gap:8px!important}.team span{font-size:8px!important}}

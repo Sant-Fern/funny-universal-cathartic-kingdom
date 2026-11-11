@@ -116,7 +116,12 @@ export function createAudience(scene,seats,material){
     }
   }
   update(0);
-  return{update,applaud(time){applauseUntil=time+2.35;writingCohort=(writingCohort+1)%3;},count:doctors.length};
+  let visible=true;
+  return{update,setVisible(value){
+    if(value===visible)return;
+    visible=value;
+    for(const b of [...staticBatches,...movingBatches])b.mesh.setEnabled(visible&&Boolean(b.offset));
+  },applaud(time){applauseUntil=time+2.35;writingCohort=(writingCohort+1)%3;},count:doctors.length};
 }
 
 export function createApplause(){

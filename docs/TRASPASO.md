@@ -7,13 +7,13 @@
 1. Clona el repositorio y acuerda con el equipo una revisión base. Conserva el archivo de dependencias, la carpeta `shared/` y los modelos finales que carga el navegador. Usa una rama para tus ajustes y otra para infraestructura.
 2. Arranca el juego como indica el [README](../README.md). Reproduce los errores antes de corregirlos: anota navegador, modo, pasos, resultado esperado y resultado observado. Trabaja en `client/src/`, `server/`, `shared/` y los recursos del juego. Si cambias `POST /api/join`, `/ws`, el contenido de los mensajes o los puertos, actualiza el [protocolo](PROTOCOLO.md), los proxies y la prueba externa que dependan de ese cambio.
 3. Verifica en Chrome con un ratón físico que la cámara responde mientras apuntas y cargas el lanzamiento. Comprueba los impactos sobre globos y la descalificación al perder los tres. En la torre revisa las dos rutas a la cima, el traslado en plataformas móviles, el empuje sin daño y la victoria al tocar la meta.
-4. Completa dos partidas desde el navegador, una con un humano y nueve bots y otra con dos humanos y ocho bots. Confirma que ambos navegadores ven la misma partida y el mismo resultado. **Eliminación de globos** dura como máximo 3:00 y **Carrera de torre** dura como máximo 3:45. Conserva una captura o video breve y apunta el commit.
+4. Completa dos partidas desde el navegador, una con un humano y nueve bots y otra con dos humanos y ocho bots. Confirma que ambos navegadores ven la misma partida y el mismo resultado. **Eliminación de globos** dura como máximo 3:00 y **Carrera de torre** dura como máximo 6:00. Conserva una captura o video breve y apunta el commit.
 
 Antes de integrar, ejecuta desde la raíz: `npm test`, `npm run build` y la [prueba Docker](../loadtest/README.md). Esta última valida conexiones y reemplazo de bots; la revisión manual sigue siendo necesaria para ratón, mapa y animación.
 
 Empieza por comparar el contador de FPS en **Calidad** y **Rendimiento**, en el mismo equipo y durante una partida de cada modo. Rendimiento usa un esqueleto más ligero y reduce resolución, efectos y público. La torre todavía mostró caídas de FPS en la prueba local.
 
-Queda pendiente rediseñar los mapas para que sus recorridos sean claros y medir un ascenso completo de al menos dos minutos en la torre. En globos, los bots deben repartir sus ataques entre humanos y bots, y fallar algunos tiros a propósito cuando a su rival le quede un globo.
+La torre tiene dos rutas de seis sectores y la suite completa ambas con los controles del jugador en más de dos minutos. La [vista de escenarios](http://127.0.0.1:5173/map-review.html) de desarrollo permite saltar entre sectores para revisar el arte. Repite un ascenso a mano para valorar el ritmo y la legibilidad. En globos, comprueba que los bots también se atacan entre ellos y suelen desviar el tiro contra un rival al que le queda un globo.
 
 ## 2. Llevar una versión jugable a la nube
 

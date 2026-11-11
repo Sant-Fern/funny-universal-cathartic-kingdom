@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="es">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Recorrido visual · Instituto del Último Rebote</title>
+<style>
+  *{box-sizing:border-box}body{margin:0;background:#172b34;color:#f3f1dc;font:14px system-ui}
+  canvas{width:100vw;height:100vh;display:block;touch-action:none}
+  header{position:absolute;top:20px;left:20px;max-width:calc(100vw - 40px);padding:18px 22px;border:1px solid #b3d5c848;border-radius:12px;background:#152b35e8}
+  h1{font-size:19px;margin:0 0 10px}p{margin:9px 0 0;color:#c0d7d4;font-size:12px}
+  select,button{padding:9px;margin:3px;border:1px solid #6d8b89;border-radius:6px;background:#243e49;color:#f1ead8}
+  #ready{color:#a9e9cf}a{color:#b5ebd6}
+</style>
+<canvas id="view" aria-label="Vista del escenario"></canvas>
+<header><h1>INSTITUTO DEL ÚLTIMO REBOTE</h1>
+<label for="section">Escenario</label> <select id="section"><option value="-1">Eliminación · sala de examen</option></select>
+<label for="quality">Gráficos</label> <select id="quality"><option value="high">Calidad</option><option value="low">Rendimiento</option></select>
+<button id="rotate">Girar la vista</button><a href="/">Volver al juego</a>
+<p>Vista de diseño · usa la geometría real del juego · sin partida en curso</p><p id="ready">Preparando escenario…</p></header>
+<script type="module">
+  import {createWorld} from './src/world.js';
+  import {config} from '../shared/physics.js';
+  import {towerTracks} from '../shared/tower.js';
+  const select=document.querySelector('#section'),quality=document.querySelector('#quality');
+  for(const [i,s] of config.race.sections.entries())select.add(new Option(`${i+1} · ${s.name}`,i));
+  const world=await createWorld(document.querySelector('canvas'),()=>{},quality.value);
+  function show(){
+    const section=Number(select.value),race=section>=0;
+    world.leave();world.setQuality(quality.value);world.setMode(race?'race':'eliminations');
+    const pad=race?towerTracks[1][section*config.race.stepsPerSection+5]:{x:0,z:-19,h:1.7};
+    const yaw=race?Math.atan2(-pad.x,-pad.z):0;
+    world.enter('slot-0',yaw);world.look(0,race?-130:-40);
+    world.setSnapshot({matchId:`review-${section}`,mode:race?'race':'eliminations',status:'waiting',time:0,score:[0,0],shots:[],impacts:[],events:[],
+      players:[{id:'slot-0',name:'Vista de diseño',team:race?1:null,bot:false,x:pad.x,y:pad.h,z:pad.z,
+        yaw,health:100,balloons:7,grounded:true,landedAt:-100,hitAt:-100,jumpedAt:-100,lastThrowAt:-100,raceStep:pad.step??-1}]
+    });
+  }
+  select.onchange=quality.onchange=show;document.querySelector('#rotate').onclick=()=>world.look(420,0);
+  show();setInterval(()=>document.querySelector('#ready').textContent=`${Math.round(world.getFPS())} FPS · ${select.selectedOptions[0].text}`,1000);
+</script>
+</html>

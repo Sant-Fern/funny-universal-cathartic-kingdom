@@ -85,22 +85,27 @@ export async function createCharacterFactory(scene,shadow,material,bone,box,bott
     foot.scaling.y=.45;foot.position.set(0,.04,.52);foot.material=material('#2d3933');foot.parent=pogo;
     const sash=MeshBuilder.CreateTorus('identificador-equipo',{diameter:.16,thickness:.026,tessellation:16},scene);
     sash.parent=elastic;sash.position.set(0,2.43,0);sash.material=material(playerColor(team));
-    function animate(p,time,throwCharge=0,jumpCharge=0){
+    let forwardLean=0,sideLean=0;
+    function animate(p,time,throwCharge=0,jumpCharge=0,dt=.05){
       const since=Math.max(0,time-(p.landedAt??-100)),sinceJump=Math.max(0,time-(p.jumpedAt??-100));
       const vy=p.vy||0,strength=Math.min(1,(p.impactSpeed||0)/config.jumpMaxSpeed);
       const landing=strength*Math.exp(-since*10),follow=strength*Math.sin(since*23)*Math.exp(-since*8);
       const kick=Math.max(0,vy)/config.jumpMaxSpeed*Math.exp(-sinceJump*5);
       const sinceHit=Math.max(0,time-(p.hitAt??-100));
-      const flinch=(p.hitForce??0)*(1-Math.exp(-sinceHit*38))*Math.exp(-sinceHit*7);
+      const flinch=(p.hitForce??0)*(1-Math.exp(-sinceHit*42))*Math.exp(-sinceHit*5);
       const fall=Math.min(1,sinceHit/.58);
       const collapse=p.health<=0 ? fall*fall*(3-2*fall) : 0;
       const incoming=(p.hitYaw??p.yaw)-p.yaw;
-      const tilt=.38*flinch+1.49*collapse;
+      const tilt=.86*flinch+1.49*collapse;
       const vertical=Math.max(.6,1-.31*landing+.075*follow+.24*kick-.23*jumpCharge);
       elastic.scaling.set(1/Math.sqrt(vertical),vertical,1/Math.sqrt(vertical));
       const lean=Math.max(-1,Math.min(1,vy/config.jumpMaxSpeed));
-      balance.rotation.x=(.16*lean+.19*jumpCharge-.14*landing)*(1-collapse)+Math.cos(incoming)*tilt;
-      balance.rotation.z=-Math.sin(incoming)*tilt;
+      const steer=p.grounded?.34:.14, response=1-Math.exp(-13*dt);
+      const moveX=p.moveX??0,moveZ=p.moveZ??0;
+      forwardLean+=(steer*(moveX*Math.sin(p.yaw)+moveZ*Math.cos(p.yaw))-forwardLean)*response;
+      sideLean+=(steer*(moveX*Math.cos(p.yaw)-moveZ*Math.sin(p.yaw))-sideLean)*response;
+      balance.rotation.x=(forwardLean+.16*lean+.11*jumpCharge-.14*landing)*(1-collapse)+Math.cos(incoming)*tilt;
+      balance.rotation.z=-sideLean*(1-collapse)-Math.sin(incoming)*tilt;
       elastic.rotation.x=.11*lean*(1-collapse)+.09*jumpCharge+.05*follow;
       elastic.rotation.z=(1-collapse)*Math.sin(time*3+Number(id.split('-').at(-1)||0))*.012;
       pogo.rotation.z=.52*collapse;
