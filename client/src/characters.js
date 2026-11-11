@@ -38,25 +38,36 @@ export function createBottleFactory(scene) {
   };
 }
 
-export async function createCharacterFactory(scene,shadow,material,bone,box,bottleFactory){
-  const [fullModel,lightModel]=await Promise.all([
-    LoadAssetContainerAsync('/models/anatomical-skeleton.glb',scene),
-    LoadAssetContainerAsync('/models/anatomical-skeleton-low.glb',scene),
-  ]);
+export async function createCharacterFactory(scene,shadow,material,bone,box,bottleFactory,{quality='high',signal}={}){
+  const modelFile=quality==='low'?'anatomical-skeleton-low.glb':'anatomical-skeleton.glb';
+  const response=await fetch('/models/'+modelFile,{signal});
+  if(!response.ok)throw new Error('No se pudo descargar el esqueleto. Vuelve a intentarlo.');
+  const bytes=new Uint8Array(await response.arrayBuffer());
+  signal?.throwIfAborted();
+  let model;
+  try{
+    model=await LoadAssetContainerAsync(bytes,scene,{pluginExtension:'.glb',name:modelFile});
+  }catch(error){
+    signal?.throwIfAborted();
+    throw new Error('No se pudo preparar el esqueleto. Vuelve a intentarlo o elige Rendimiento.',{cause:error});
+  }
+  if(signal?.aborted){model.dispose();signal.throwIfAborted();}
+  scene.onDisposeObservable.addOnce(()=>model.dispose());
   const lowBoneMaterial=new StandardMaterial('hueso-ligero',scene);
   lowBoneMaterial.diffuseColor=Color3.White();
   lowBoneMaterial.emissiveColor=new Color3(.24,.21,.16);
   lowBoneMaterial.specularColor=Color3.Black();
   lowBoneMaterial.maxSimultaneousLights=2;
-  for(const mesh of fullModel.meshes)if(mesh.getTotalVertices())mesh.receiveShadows=true;
-  for(const mesh of lightModel.meshes)if(mesh.getTotalVertices())mesh.material=lowBoneMaterial;
+  for(const mesh of model.meshes){
+    if(mesh.getTotalVertices())mesh.receiveShadows=true;
+    if(quality==='low')mesh.material=lowBoneMaterial;
+  }
   return function character(id,team,lowQuality){
     const root=new TransformNode(`personaje-${id}`,scene),balance=new TransformNode('balance-del-pogo',scene),elastic=new TransformNode('cuerpo-elastico',scene);
     balance.parent=root;balance.setPivotPoint(new Vector3(0,.03,.52));elastic.parent=balance;
     elastic.setPivotPoint(new Vector3(0,.63,.10));
     // The anatomical model has rigid joints and one shared material.
-    const template=lowQuality?lightModel:fullModel;
-    const entries=template.instantiateModelsToScene(name=>`${id}:${name}`,false,{doNotInstantiate:false});
+    const entries=model.instantiateModelsToScene(name=>`${id}:${name}`,false,{doNotInstantiate:false});
     for(const model of entries.rootNodes){model.parent=elastic;model.setEnabled(true);}
     const nodes=elastic.getDescendants(),joint=name=>nodes.find(n=>n.name.endsWith(`:${name}`));
     const casters=elastic.getChildMeshes();

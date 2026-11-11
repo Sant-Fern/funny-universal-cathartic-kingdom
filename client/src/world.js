@@ -19,8 +19,21 @@ import { arenaObstacles,heightAt,launchVelocity,throwOrigin,trajectory,segmentBo
 import { nextTowerPad,summit as finish,towerTracks } from '../../shared/tower.js';
 
 const color=hex=>Color3.FromHexString(hex),v=(x,y,z)=>new Vector3(x,y,z);
-export async function createWorld(canvas,updateMouse,initialQuality='high'){
+export async function createWorld(canvas,updateMouse,initialQuality='high',options={}){
+  const {signal,onProgress,mode:initialMode='eliminations',preview=false}=options;
+  signal?.throwIfAborted();
   const engine=new Engine(canvas,false,{stencil:true});
+  let removeResize;
+  let disposed=false;
+  function dispose(){
+    if(disposed)return;
+    disposed=true;
+    signal?.removeEventListener('abort',dispose);
+    removeResize?.();
+    engine.dispose();
+  }
+  signal?.addEventListener('abort',dispose,{once:true});
+  try{
   const scene=new Scene(engine);scene.clearColor=new Color4(.12,.19,.23,1);
   scene.fogMode=Scene.FOGMODE_EXP2;scene.fogColor=color('#223b48');scene.fogDensity=.0045;
   const camera=new UniversalCamera('camera',v(24,13,-30),scene);camera.minZ=.12;camera.maxZ=600;camera.fov=.89;
@@ -80,10 +93,18 @@ export async function createWorld(canvas,updateMouse,initialQuality='high'){
     mesh.position=a.add(b).scale(.5);mesh.rotationQuaternion=Quaternion.FromUnitVectorsToRef(Vector3.Up(),d.normalize(),new Quaternion());
     mesh.material=material(hex);mesh.parent=parent||null;return mesh;
   }
-  const auditorium=createAuditorium({scene,material,box,bone,shadow});
+  onProgress?.('Construyendo '+(initialMode==='race'?'la torre…':'la sala de examen…'));
+  await new Promise(resolve=>requestAnimationFrame(resolve));
+  signal?.throwIfAborted();
+  const auditorium=createAuditorium({scene,material,box,bone,shadow,initialMode});
+  scene.onDisposeObservable.addOnce(()=>auditorium.dispose());
   auditorium.setLowQuality(lowQuality);
   const bottleFactory=createBottleFactory(scene);
-  const makeCharacter=await createCharacterFactory(scene,shadow,material,bone,box,bottleFactory);
+  onProgress?.('Cargando el esqueleto y las animaciones…');
+  await new Promise(resolve=>requestAnimationFrame(resolve));
+  signal?.throwIfAborted();
+  const makeCharacter=await createCharacterFactory(scene,shadow,material,bone,box,bottleFactory,{quality:initialQuality,signal});
+  signal?.throwIfAborted();
   const players=new Map(),projectiles=new Map(),labels=new Map(),shards=[],seenImpacts=new Set();
   const assistedTrails=new Map();
   const trailMaterial=material('#b7fff0',true);
@@ -411,7 +432,8 @@ export async function createWorld(canvas,updateMouse,initialQuality='high'){
     auditorium.update(now/1000,platformTime,lowQuality,mode,active?camera.position.y:null);
     scene.render();
   }
-  engine.runRenderLoop(render);window.addEventListener('resize',resize);
+  window.addEventListener('resize',resize);
+  removeResize=()=>window.removeEventListener('resize',resize);
   function showLobby(){
     const positions=mode==='race'
       ? towerTracks.flatMap(track=>[track[0],track[5],track[12],track[36],track[71]].map(o=>[o.x,o.z,o.h]))
@@ -427,7 +449,7 @@ export async function createWorld(canvas,updateMouse,initialQuality='high'){
     for(const label of labels.values())disposeLabel(label);
     players.clear();labels.clear();
     latest=null;
-    showLobby();
+    if(preview)showLobby();
   }
   function setMode(value){
     if(value===mode)return;
@@ -444,8 +466,13 @@ export async function createWorld(canvas,updateMouse,initialQuality='high'){
     auditorium.setLowQuality(lowQuality);
     rebuildCharacters();
   }
-  setMode('eliminations');
-  return{setSnapshot,setMode,setQuality,getFPS:()=>engine.getFps(),renderer:engine.getGlInfo().renderer,
+  setMode(initialMode);
+  onProgress?.('Preparando iluminación y materiales…');
+  engine.runRenderLoop(render);
+  await scene.whenReadyAsync();
+  signal?.throwIfAborted();
+  signal?.removeEventListener('abort',dispose);
+  return{dispose,pause(){engine.stopRenderLoop(render);},resume(){resize();engine.runRenderLoop(render);},setSnapshot,setMode,setQuality,getFPS:()=>engine.getFps(),renderer:engine.getGlInfo().renderer,
     enableAudio:auditorium.enableAudio,muteAudience:auditorium.mute,
     enter(id,facing){localId=id;active=true;spectating=false;leanX=leanZ=0;yaw=facing;pitch=-.08;cameraReach=1;},
     spectate(){spectating=true;flightInput=[0,0,0,false];camera.position.y+=1.4;},
@@ -454,9 +481,13 @@ export async function createWorld(canvas,updateMouse,initialQuality='high'){
       localId=null;active=false;spectating=false;charging=false;jumpCharge=null;bottle='standard';
       for(const player of players.values())player.root.setEnabled(false);
       for(const label of labels.values())label.mesh.setEnabled(false);
-      showLobby();
+      if(preview)showLobby();
     },
     look(dx,dy){yaw=Math.atan2(Math.sin(yaw+dx*.0025),Math.cos(yaw+dx*.0025));pitch=Math.max(spectating?-1.46:-.65,Math.min(spectating?1.46:.64,pitch-dy*.002));},
     setLean(x,z){leanX=x;leanZ=z;},
     setCharge(value,held){power=value;charging=held;},setBottle(kind){bottle=kind;},setJumpCharge(value){jumpCharge=value;},get aim(){return{yaw,pitch};}};
+  }catch(error){
+    dispose();
+    throw error;
+  }
 }

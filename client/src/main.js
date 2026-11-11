@@ -1,5 +1,6 @@
 import './style.css';
-import { createWorld } from './world.js';
+import './menu.css';
+import { loadGameWorld } from './game-loader.js';
 import { bindMouseControls } from './mouse-controls.js';
 import { config } from '../../shared/physics.js';
 import { nextTowerPad, summit as finish } from '../../shared/tower.js';
@@ -15,14 +16,40 @@ try{
   if(localStorage.getItem('pogo-graphics')==='low')graphics.value='low';
 }catch{}
 let world;
+let worldMode;
 let mouse;
-try {
-  world=await createWorld(canvas, dt=>mouse?.advance(dt),graphics.value);
-  $('loading').hidden=true;
-} catch(error) {
-  $('loading').textContent='No se pudo preparar la escena 3D. Recarga el juego y revisa la consola.';
-  console.error(error);
-  throw error;
+let loadController;
+let loadTimeout;
+let sensitivity=1;
+let menuPage='home';
+const menuPages=['home','play','options','controls','credits'];
+function showMenu(page, focus=true){
+  menuPage=page;
+  for(const name of menuPages)$('menu-'+name).hidden=name!==page;
+  setError('');
+  if(focus)$('menu-'+page).querySelector('button, input, select')?.focus();
+}
+for(const button of document.querySelectorAll('[data-menu]')){
+  button.addEventListener('click',()=>showMenu(button.dataset.menu));
+}
+function discardWorld(){
+  world?.dispose();
+  world=null;
+  worldMode=null;
+}
+async function prepareWorld(mode,signal){
+  if(!world){
+    const loaded=await loadGameWorld(canvas,dt=>mouse?.advance(dt),{
+      mode,quality:graphics.value,signal,
+      onProgress:message=>{$('loading-status').textContent=message;},
+    });
+    if(signal.aborted){loaded.dispose();signal.throwIfAborted();}
+    world=loaded;
+    worldMode=mode;
+  }
+  world.resume();
+  world.muteAudience(muted);
+  $('match-fps').title=world.renderer;
 }
 function describeGraphics(){
   graphicsDescription.textContent=graphics.value==='low'
@@ -30,14 +57,13 @@ function describeGraphics(){
 }
 describeGraphics();
 graphics.addEventListener('change',()=>{
-  world.setQuality(graphics.value);
+  discardWorld();
   describeGraphics();
   try{localStorage.setItem('pogo-graphics',graphics.value);}catch{}
 });
 const fpsLabels=[$('lobby-fps'),$('match-fps')];
-for(const label of fpsLabels)label.title=world.renderer;
 setInterval(()=>{
-  if(document.hidden)return;
+  if(document.hidden||!world||!playerId)return;
   const fps=world.getFPS();
   if(!Number.isFinite(fps)||fps<=0)return;
   const value=`${Math.round(fps)} FPS`;
@@ -57,8 +83,8 @@ let jumpStarted=null,jumpPending=null,spectating=false,stunned=false,restarting=
 try{$('nickname').value=localStorage.getItem('pogo-name')||'Huesitos';}catch{}
 
 function controlsActive(){return Boolean(playerId)&&snapshot?.status!=='finished';}
-function clearJump(){jumpStarted=null;jumpPending=null;world.setJumpCharge(null);}
-function clearControls(){keys.clear();mouse.reset();charging=false;chargeSource=null;throwPending=null;clearJump();world.setCharge(throwPower,false);world.setLean(0,0);world.fly(0,0,0,false);}
+function clearJump(){jumpStarted=null;jumpPending=null;world?.setJumpCharge(null);}
+function clearControls(){keys.clear();mouse?.reset();charging=false;chargeSource=null;throwPending=null;clearJump();world?.setCharge(throwPower,false);world?.setLean(0,0);world?.fly(0,0,0,false);}
 function movementInput(yaw){
   const forward=Number(keys.has('KeyW'))-Number(keys.has('KeyS'));
   const right=Number(keys.has('KeyD'))-Number(keys.has('KeyA'));
@@ -80,7 +106,7 @@ function releaseCharge(source){
   throwPending={power:throwPower,bottle};
   charging=false;chargeSource=null;
 }
-mouse=bindMouseControls({canvas,doc:document,active:controlsActive,aim:(x,y)=>world.look(x,y),
+mouse=bindMouseControls({canvas,doc:document,active:controlsActive,aim:(x,y)=>world?.look(x*sensitivity,y*sensitivity),
   capture:requestMouseCapture,
   charge:()=>startCharge('mouse'),release:()=>releaseCharge('mouse'),
   tap:()=>{if(!charging){startCharge('mouse');releaseCharge('mouse');}},
@@ -93,7 +119,7 @@ function selectBottle(kind){
     throwPower=.6;
   }
   bottle=kind;
-  world.setBottle(kind);
+  world?.setBottle(kind);
   $('bottle-title').textContent=kind==='heavy'?'BOTELLA PESADA':'BOTELLA DE CRISTAL';
   const race=modeSelect.value==='race';
   $('bottle-description').textContent=kind==='heavy'
@@ -105,6 +131,9 @@ function selectBottle(kind){
 }
 function exit(message=''){
   requestId++;
+  loadController?.abort();loadController=null;clearTimeout(loadTimeout);
+  $('loading').hidden=true;
+  $('lobby').inert=false;
   const old=socket;socket=null;
   if(old)old.close(1000,'Volver al inicio');
   playerId=null;snapshot=null;connecting=false;restarting=false;restartMatch=null;
@@ -118,9 +147,10 @@ function exit(message=''){
   $('player-list').hidden=true;
   $('feed').replaceChildren();
   $('lobby').hidden=false;$('hud').hidden=true;$('results').hidden=true;
-  modeSelect.disabled=false;$('join').disabled=false;$('join').firstChild.textContent='A REBOTAR ';
+  modeSelect.disabled=false;$('join').disabled=false;$('join').firstChild.textContent='COMENZAR PARTIDA ';
   document.body.classList.remove('playing');
-  world.leave();setError(message);
+  world?.leave();world?.pause();canvas.hidden=true;$('brand').hidden=true;
+  $('lobby-fps').textContent='';showMenu('play',!message);setError(message);
 }
 
 function resetRoundHud(){
@@ -133,9 +163,11 @@ function resetRoundHud(){
 }
 
 function updateMode(){
-  world.setMode(modeSelect.value);
+  if(world&&worldMode!==modeSelect.value)discardWorld();
   $('mode-description').textContent=modeSelect.value==='race'
     ? '5 contra 5. El primer equipo en la cima gana.' : 'Todos contra todos. Conserva tus tres globos.';
+  $('mode-heading').textContent=modeSelect.value==='race'?'La cima no se alcanza sola.':'Cada globo cuenta.';
+  $('mode-rules').textContent=modeSelect.value==='race'?'5 contra 5 · 6 minutos · meta a 187,55 m':'10 jugadores · 3 minutos · 3 globos';
   selectBottle(bottle);
 }
 modeSelect.addEventListener('change',updateMode);
@@ -146,13 +178,25 @@ $('join-form').addEventListener('submit',async event=>{
   const name=$('nickname').value.trim();
   const mode=modeSelect.value;
   if(!name){setError('Escribe un apodo para entrar.');return;}
-  requestMouseCapture();
-  world.enableAudio();
   modeSelect.disabled=true;
   connecting=true;$('join').disabled=true;$('join').firstChild.textContent='ENTRANDO… ';
   setError('');const attempt=++requestId;
+  loadController=new AbortController();
+  const controller=loadController;
+  loadTimeout=setTimeout(()=>controller.abort(new DOMException('La carga tardó demasiado. Prueba con Gráficos en Rendimiento o vuelve a intentarlo.', 'TimeoutError')),45000);
+  $('loading').hidden=false;
+  $('lobby').inert=true;
+  $('cancel-loading').focus();
   try{
-    const response=await fetch('/api/join',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,mode}),signal:AbortSignal.timeout(8000)});
+    canvas.hidden=false;
+    await prepareWorld(mode,controller.signal);
+    clearTimeout(loadTimeout);
+    if(attempt!==requestId)return;
+    $('loading-status').textContent='Conectando con la partida…';
+    const response=await fetch('/api/join',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name,mode}),signal:AbortSignal.any([controller.signal,AbortSignal.timeout(8000)])});
+    if(!response.headers.get('content-type')?.includes('application/json')){
+      throw new Error('El servidor de partidas no está disponible. Comprueba que esté ejecutándose y vuelve a intentarlo.');
+    }
     const data=await response.json();
     if(!response.ok)throw new Error(typeof data.detail==='string'?data.detail:'Usa un apodo de hasta 16 letras, números, espacios o guiones.');
     if(attempt!==requestId)return;
@@ -169,6 +213,7 @@ $('join-form').addEventListener('submit',async event=>{
         clearTimeout(timeout);playerId=message.playerId;inputSeq=0;connecting=false;lastSnapshotAt=performance.now();
         world.setMode(message.mode);
         world.enter(playerId,message.yaw);
+        $('loading').hidden=true;$('lobby').inert=false;$('brand').hidden=false;loadController=null;
         $('lobby').hidden=true;$('hud').hidden=false;
         document.body.classList.add('playing');
         updateMouseMode();canvas.focus({preventScroll:true});
@@ -214,7 +259,11 @@ $('join-form').addEventListener('submit',async event=>{
     };
     ws.onerror=()=>{if(socket===ws)setError('No se pudo conectar. Comprueba que el servidor esté ejecutándose.');};
   }catch(error){
-    if(attempt===requestId)exit(error.name==='TimeoutError'?'El servidor no respondió. Comprueba que esté encendido.':error.message);
+    if(attempt===requestId){
+      console.error('No se pudo iniciar la partida',error);
+      discardWorld();
+      exit(error.message||'No se pudo cargar la partida. Vuelve a intentarlo.');
+    }
   }
 });
 
@@ -318,6 +367,8 @@ function updateHud(s){
   }
 }
 
+$('cancel-loading').addEventListener('click',()=>exit());
+canvas.addEventListener('pointerdown',()=>world?.enableAudio());
 $('leave').addEventListener('click',()=>exit());
 $('again').addEventListener('click',()=>exit());
 for(const id of ['restart','restart-results'])$(id).addEventListener('click',()=>{
@@ -326,9 +377,30 @@ for(const id of ['restart','restart-results'])$(id).addEventListener('click',()=
   restarting=true;
   socket.send(JSON.stringify({type:'restart'}));
 });
+function updateSound(){
+  muted=$('sound-enabled').value==='no';
+  world?.muteAudience(muted);
+  $('mute-audience').textContent=muted?'Sonido: no':'Sonido: sí';
+  $('mute-audience').setAttribute('aria-pressed',String(muted));
+  try{localStorage.setItem('pogo-muted',String(muted));}catch{}
+}
+try{
+  $('sound-enabled').value=localStorage.getItem('pogo-muted')==='true'?'no':'yes';
+  const saved=Number(localStorage.getItem('pogo-sensitivity'));
+  if(saved>=25&&saved<=200)$('mouse-sensitivity').value=saved;
+}catch{}
+function updateSensitivity(){
+  const value=Number($('mouse-sensitivity').value);
+  sensitivity=value/100;
+  $('sensitivity-value').textContent=value+' %';
+  try{localStorage.setItem('pogo-sensitivity',String(value));}catch{}
+}
+$('sound-enabled').addEventListener('change',updateSound);
+$('mouse-sensitivity').addEventListener('input',updateSensitivity);
 $('mute-audience').addEventListener('click',()=>{
-  muted=!muted;world.muteAudience(muted);$('mute-audience').textContent=muted?'Sonido: no':'Sonido: sí';$('mute-audience').setAttribute('aria-pressed',String(muted));
+  $('sound-enabled').value=muted?'yes':'no';updateSound();
 });
+updateSound();updateSensitivity();
 for(const kind of ['standard','heavy']){
   $('bottle-'+kind).addEventListener('click',()=>{
     selectBottle(kind);
@@ -363,10 +435,12 @@ document.addEventListener('pointerlockchange',()=>{
 });
 document.addEventListener('pointerlockerror',()=>{if(controlsActive())updateMouseMode(true);});
 document.addEventListener('keydown',event=>{
+  if(event.code==='Escape'&&connecting){exit();return;}
   if(event.code==='Escape'&&document.pointerLockElement===canvas){
     document.exitPointerLock?.();
     return;
   }
+  if(event.code==='Escape'&&!playerId&&!connecting&&menuPage!=='home'){showMenu('home');return;}
   if(!controlsActive()||event.target?.closest?.('input, textarea, select, button, [contenteditable]'))return;
   if(event.code==='Tab'){event.preventDefault();$('player-list').hidden=false;if(snapshot)roster(snapshot,$('player-list'));}
   if(movementKeys.has(event.code)){

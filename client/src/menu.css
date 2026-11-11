@@ -1,0 +1,102 @@
+.main-menu {
+  position: fixed;
+  inset: 0;
+  z-index: 10;
+  display: grid;
+  grid-template-columns: 1.08fr 1fr;
+  background: #122b30;
+  overflow: auto;
+  color: #f3efdb;
+}
+.menu-identity {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 5vh 5vw;
+  min-height: 100dvh;
+  overflow: hidden;
+  background: radial-gradient(ellipse at 15% 80%, #37685866, transparent 65%), #193c3e;
+  border-right: 1px solid #9cd3b72b;
+}
+.menu-identity::after {
+  content: '';
+  position: absolute;
+  width: 440px;
+  height: 440px;
+  right: -240px;
+  top: 20%;
+  border: 70px solid #a9d9bb09;
+  border-radius: 50%;
+  pointer-events: none;
+}
+.institute-wordmark { display: flex; align-items: center; gap: 12px; font-size: 11px; font-weight: 700; letter-spacing: .13em; color: #c7ddca; }
+.medical-cross { color: #b5ddbb; font-size: 29px; }
+.menu-title { position: relative; z-index: 1; margin: 40px 0 20px; }
+.menu-title > p:first-child { font-size: clamp(18px, 2.3vw, 34px); font-weight: 700; letter-spacing: -.035em; margin: 0 0 12px; }
+.menu-title h1 { font-size: clamp(55px, 6.5vw, 110px); line-height: .95; letter-spacing: -.065em; margin: 0; }
+.menu-title h1 em { color: #b9e5bc; font-style: normal; }
+.title-period { color: #e7a06b; }
+.menu-tagline { font-size: clamp(18px, 2vw, 28px); line-height: 1.4; margin: 30px 0 0; color: #c3d4c7; }
+.menu-ecg { display: flex; gap: 15px; align-items: center; color: #e7a06b; margin: 25px 0; opacity: .8; }
+.menu-ecg i { height: 1px; background: currentColor; flex: 1; }
+.menu-ecg b { font-size: 50px; font-weight: 400; }
+.identity-caption { color: #a6beb3; font-size: 12px; max-width: 310px; line-height: 1.6; margin: 0; }
+.menu-content { padding: 8vh 7vw 30px; display: flex; flex-direction: column; justify-content: center; min-width: 0; }
+.menu-panel { width: 100%; max-width: 470px; margin: auto 0; padding: 20px 0; }
+.menu-panel h2 { font-size: clamp(32px, 3.2vw, 52px); line-height: 1.08; letter-spacing: -.045em; margin: 10px 0 30px; }
+.menu-kicker { color: #9fb9ac; font-size: 10px; letter-spacing: .16em; margin: 0 0 20px; }
+.menu-nav { display: flex; flex-direction: column; gap: 8px; }
+.menu-nav button, .menu-primary { display: flex; justify-content: space-between; align-items: center; width: 100%; font-size: 19px; letter-spacing: -.02em; padding: 20px 22px; border-radius: 3px; background: #ffffff05; border: 1px solid #c3d6c527; color: #e1e5d6; text-align: left; }
+.menu-nav button span, .menu-primary span { font-size: 25px; font-weight: 400; }
+.main-menu .menu-primary { background: #b9e5bc; color: #15352e; border-color: #b9e5bc; }
+.menu-nav button:hover { background: #c4e9c61a; }
+.main-menu .menu-primary:hover { background: #d0f0c9; }
+.menu-back { padding: 0 0 12px; margin-bottom: 8px; background: none; color: #a7c5b2; font-size: 10px; border-radius: 0; }
+.main-menu label { font-size: 10px; color: #b9cbbd; letter-spacing: .1em; margin: 20px 0 10px; }
+.main-menu input:not([type=range]), .main-menu select { display: block; width: 100%; border: 1px solid #779c8e66; background: #1d383b; color: #f1efde; border-radius: 3px; padding: 15px; font: inherit; font-size: 16px; }
+.main-menu input[type=range] { width: 100%; padding: 12px 0; accent-color: #b9e5bc; background: none; }
+.main-menu select:focus-visible, .main-menu a:focus-visible { outline: 3px solid #b9e5bc; outline-offset: 4px; }
+.main-menu #join-form { max-width: none; }
+.mode-summary { border-left: 2px solid #e7a06b; margin: 23px 0; padding: 4px 0 4px 18px; }
+.mode-summary strong { font-size: 17px; }
+.mode-summary p { color: #b3c6bb; font-size: 14px; line-height: 1.5; margin: 10px 0; }
+.mode-summary > span { font-size: 11px; color: #e8b58f; }
+.setting { padding: 4px 0 16px; border-bottom: 1px solid #b8cfbb1c; }
+.setting p, .setting-note { color: #a9beb1; font-size: 12px; line-height: 1.6; }
+.setting output { float: right; color: #e1d9b9; letter-spacing: 0; }
+.main-menu #error { margin: 0; color: #ffba9d; min-height: 0; }
+.main-menu #error:not(:empty) { padding: 13px 16px; margin: 12px 0; border: 1px solid #e7a06b66; background: #57382c55; }
+.menu-footer { position: static; margin-top: 25px; padding-top: 20px; border-color: #b5d3b52b; font-size: 9px; line-height: 1.5; color: #8fae9b; }
+.control-list { margin: 0; }
+.control-list > div { display: grid; grid-template-columns: 95px 1fr; align-items: center; gap: 15px; padding: 14px 0; border-bottom: 1px solid #b5d3b521; }
+.control-list dd { margin: 0; color: #c0cfc3; font-size: 13px; line-height: 1.5; }
+.control-list kbd { font-size: 10px; }
+.credits-copy { color: #c0cfc3; font-size: 15px; line-height: 1.8; }
+.menu-link { color: #b9e5bc; font-size: 13px; }
+#loading { z-index: 30; background: #10272bf5; letter-spacing: 0; padding: 25px; }
+.loading-card { text-align: center; max-width: 440px; }
+.loading-card h2 { font-size: 32px; letter-spacing: -.04em; margin: 25px 0 14px; }
+.loading-card p { font-size: 15px; color: #bbd0c2; line-height: 1.6; min-height: 48px; }
+.loading-card button { margin-top: 15px; background: #b9e5bc; }
+.loading-orbit { display: block; width: 56px; height: 56px; margin: auto; border: 2px solid #b9e5bc30; border-top-color: #b9e5bc; border-radius: 50%; animation: loading-turn 1.2s linear infinite; }
+@keyframes loading-turn { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .loading-orbit { animation: none; } }
+@media (max-width: 760px) {
+  .main-menu { grid-template-columns: 1fr; }
+  .menu-identity { min-height: auto; padding: 28px 7vw; border-right: 0; border-bottom: 1px solid #9cd3b72b; }
+  .menu-title { margin: 30px 0 0; }
+  .menu-title h1 { font-size: clamp(44px, 11vw, 78px); }
+  .menu-title h1 br { display: none; }
+  .menu-tagline, .menu-ecg, .identity-caption { display: none; }
+  .menu-content { padding: 24px 7vw; }
+  .menu-panel { max-width: none; }
+  .menu-panel h2 { margin-top: 0; }
+}
+@media (min-width: 761px) and (max-height: 700px) {
+  .menu-content { padding-top: 20px; }
+  .menu-panel h2 { font-size: 32px; margin-bottom: 20px; }
+  .menu-nav button { padding: 14px 20px; }
+  .menu-title h1 { font-size: min(6vw, 85px); }
+  .menu-ecg { margin: 5px 0; }
+}

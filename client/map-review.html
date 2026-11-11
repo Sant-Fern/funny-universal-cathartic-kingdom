@@ -15,27 +15,49 @@
 <header><h1>INSTITUTO DEL ÚLTIMO REBOTE</h1>
 <label for="section">Escenario</label> <select id="section"><option value="-1">Eliminación · sala de examen</option></select>
 <label for="quality">Gráficos</label> <select id="quality"><option value="high">Calidad</option><option value="low">Rendimiento</option></select>
-<button id="rotate">Girar la vista</button><a href="/">Volver al juego</a>
-<p>Vista de diseño · usa la geometría real del juego · sin partida en curso</p><p id="ready">Preparando escenario…</p></header>
+<button id="retry" hidden>Reintentar carga</button><button id="rotate">Girar la vista</button><a href="/">Volver al juego</a>
+<p>Vista de diseño · usa la geometría real del juego · sin partida en curso</p><p id="ready" role="status">Preparando escenario…</p></header>
 <script type="module">
-  import {createWorld} from './src/world.js';
+  import {loadGameWorld} from './src/game-loader.js';
   import {config} from '../shared/physics.js';
   import {towerTracks} from '../shared/tower.js';
   const select=document.querySelector('#section'),quality=document.querySelector('#quality');
-  for(const [i,s] of config.race.sections.entries())select.add(new Option(`${i+1} · ${s.name}`,i));
-  const world=await createWorld(document.querySelector('canvas'),()=>{},quality.value);
-  function show(){
+  const status=document.querySelector('#ready'),retry=document.querySelector('#retry');
+  for(const [i,section] of config.race.sections.entries())select.add(new Option(`${i+1} · ${section.name}`,i));
+  let world,controller,attempt=0;
+  async function show(){
+    const current=++attempt;
+    controller?.abort();world?.dispose();world=null;
+    controller=new AbortController();
+    const signal=controller.signal;
+    const currentController=controller;
+    const timeout=setTimeout(()=>currentController.abort(new DOMException('La carga tardó demasiado. Elige Rendimiento o vuelve a intentarlo.','TimeoutError')),45000);
+    retry.hidden=true;
     const section=Number(select.value),race=section>=0;
-    world.leave();world.setQuality(quality.value);world.setMode(race?'race':'eliminations');
-    const pad=race?towerTracks[1][section*config.race.stepsPerSection+5]:{x:0,z:-19,h:1.7};
-    const yaw=race?Math.atan2(-pad.x,-pad.z):0;
-    world.enter('slot-0',yaw);world.look(0,race?-130:-40);
-    world.setSnapshot({matchId:`review-${section}`,mode:race?'race':'eliminations',status:'waiting',time:0,score:[0,0],shots:[],impacts:[],events:[],
-      players:[{id:'slot-0',name:'Vista de diseño',team:race?1:null,bot:false,x:pad.x,y:pad.h,z:pad.z,
-        yaw,health:100,balloons:7,grounded:true,landedAt:-100,hitAt:-100,jumpedAt:-100,lastThrowAt:-100,raceStep:pad.step??-1}]
-    });
+    try{
+      const loaded=await loadGameWorld(document.querySelector('canvas'),()=>{},{
+        quality:quality.value,mode:race?'race':'eliminations',preview:true,signal,
+        onProgress:message=>{status.textContent=message;},
+      });
+      if(current!==attempt){loaded.dispose();return;}
+      world=loaded;
+      const pad=race?towerTracks[1][section*config.race.stepsPerSection+5]:{x:0,z:-19,h:1.7};
+      const yaw=race?Math.atan2(-pad.x,-pad.z):0;
+      world.enter('slot-0',yaw);world.look(0,race?-130:-40);
+      world.setSnapshot({matchId:`review-${section}`,mode:race?'race':'eliminations',status:'waiting',time:0,score:[0,0],shots:[],impacts:[],events:[],
+        players:[{id:'slot-0',name:'Vista de diseño',team:race?1:null,bot:false,x:pad.x,y:pad.h,z:pad.z,
+          yaw,health:100,balloons:7,grounded:true,landedAt:-100,hitAt:-100,jumpedAt:-100,lastThrowAt:-100,raceStep:pad.step??-1}]
+      });
+      status.textContent=select.selectedOptions[0].text;
+    }catch(error){
+      if(current!==attempt)return;
+      status.textContent=error.message||'No se pudo cargar el escenario.';
+      retry.hidden=false;
+      console.error(error);
+    }finally{clearTimeout(timeout);}
   }
-  select.onchange=quality.onchange=show;document.querySelector('#rotate').onclick=()=>world.look(420,0);
-  show();setInterval(()=>document.querySelector('#ready').textContent=`${Math.round(world.getFPS())} FPS · ${select.selectedOptions[0].text}`,1000);
+  select.onchange=quality.onchange=retry.onclick=show;
+  document.querySelector('#rotate').onclick=()=>world?.look(420,0);
+  show();
 </script>
 </html>

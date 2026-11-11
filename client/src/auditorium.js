@@ -11,7 +11,7 @@ import { summit,towerEntries,towerObstacles,towerTracks } from '../../shared/tow
 import { createAudience,createApplause } from './audience.js';
 import { buildInstitute } from './institute.js';
 
-export function createAuditorium({scene,material,box,bone,shadow}){
+export function createAuditorium({scene,material,box,bone,shadow,initialMode='eliminations'}){
   const start=scene.meshes.length,casters=new Set(),seats=[];
   const {width,depth}=config, halfX=width/2,halfZ=depth/2;
   const layouts={
@@ -114,6 +114,8 @@ export function createAuditorium({scene,material,box,bone,shadow}){
     return root;
   });
   function attach(parent,build){
+    const unused=layouts[initialMode==='race'?'eliminations':'race'];
+    if(parent===unused||parent?.parent===unused)return;
     const first=scene.meshes.length;
     build();
     for(const mesh of scene.meshes.slice(first))mesh.parent=parent;
@@ -157,7 +159,7 @@ export function createAuditorium({scene,material,box,bone,shadow}){
       }
     }
   });
-  for(const track of towerTracks){
+  if(initialMode==='race')for(const track of towerTracks){
     for(const [index,pad] of track.entries()){
       const {x,z,w,d,h,thickness,lane,level,motion}=pad;
       const sector=config.race.sections[level-1];
@@ -308,6 +310,7 @@ export function createAuditorium({scene,material,box,bone,shadow}){
     glow('linea-superior',[.08,.07,roomZ*2-2],[side*(roomX-.4),17.4,0],'#6c9faa');
   }
   const ceilingStart=scene.meshes.length;
+  if(initialMode==='eliminations'){
   lab('techo-acustico',[roomX*2+.8,.5,roomZ*2+.1],[0,config.ceilingHeight,0],dark);
   for(let x=-40;x<=40;x+=10)lab('viga-de-techo',[.52,.48,roomZ*2],[x,14.14+ceilingLift,0],trim);
   for(const z of [-30,-15,0,15,30])for(const x of [-32,-16,0,16,32]){
@@ -316,6 +319,7 @@ export function createAuditorium({scene,material,box,bone,shadow}){
     for(const off of [-.76,0,.76])lab('rejilla',[7.52,.045,.037],[x,13.46+ceilingLift,z+off],light);
   }
   for(const mesh of scene.meshes.slice(ceilingStart))mesh.parent=layouts.eliminations;
+  }
   attach(layouts.race,()=>{
     const opening=52, y=config.ceilingHeight;
     const sideWidth=roomX-opening/2, endDepth=roomZ-opening/2;
@@ -366,10 +370,10 @@ export function createAuditorium({scene,material,box,bone,shadow}){
     accentEffects.push(spot,shaft);
     return mist;
   }
-  const hazeMaterials=new Set([
+  const hazeMaterials=new Set(initialMode==='eliminations'?[
     surgicalLamp('foco-de-examen-frío',-10,17.9,-6,'#b4e5ff',[.24,-1,.14],1.40),
     surgicalLamp('foco-de-examen-cálido',10,18.7,7,'#ffcd99',[-.22,-1,-.12],1.15),
-  ]);
+  ]:[]);
   for(const side of [-1,1])for(const end of [-1,1]){
     const x=side*(halfX+2),z=end*(halfZ+1);
     lab('columna-de-sensores',[.32,4.75,.32],[x,2.15,z],steel);
@@ -468,6 +472,7 @@ export function createAuditorium({scene,material,box,bone,shadow}){
       if(time-lastEvent>2.35)eventText=lastStatus==='playing'?'ENSAYO EN CURSO · REGISTRANDO DATOS':lastStatus==='finished'?'ENSAYO FINALIZADO':'ESPERANDO SUJETOS';
       if(time-lastPaint>.35)paint(time);
     },
+    dispose:applause.dispose,
     enableAudio:applause.enable,impact:applause.impact,monitor:applause.monitor,mute:applause.mute,count:audience.count,
   };
 }

@@ -186,5 +186,7 @@ export function createApplause(){
     signal.connect(level).connect(context.destination);
     signal.start(at);signal.stop(at+.41);
   }
-  return{enable,play,impact,monitor,mute(value){muted=value;if(!muted)enable();}};
+  return{enable,play,impact,monitor,
+    dispose(){context?.close().catch(()=>{});context=null;noise=null;},
+    mute(value){muted=value;if(!muted)enable();}};
 }

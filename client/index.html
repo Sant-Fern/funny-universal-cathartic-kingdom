@@ -9,41 +9,56 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
   </head>
   <body>
-    <canvas id="arena" aria-label="Arena 3D de Funny Universal Cathartic Kingdom" tabindex="0"></canvas>
-    <div id="loading" role="status">Preparando el auditorio y los esqueletos…</div>
-    <header id="brand"><span class="brand-icon">☠</span><span class="brand-name">Funny Universal<br /><b>Cathartic Kingdom</b></span><small>PROTOCOLO 07</small></header>
-    <main id="lobby" class="overlay">
-      <section class="intro">
-        <div class="eyebrow"><span class="dot"></span> 10 SUJETOS · DOS PRUEBAS</div>
-        <h1 class="game-title">Funny Universal<br /><em>Cathartic Kingdom</em></h1>
-        <p>Los médicos toman notas.<br />Los sujetos no toman precauciones.</p>
-        <form id="join-form">
-          <label for="nickname">¿CÓMO TE LLAMABAS EN VIDA?</label>
-          <div class="join-row"><input id="nickname" name="nickname" maxlength="16" placeholder="Tu apodo" value="Huesitos" autocomplete="off" required pattern="[\p{L}\p{N}_ .\-]+" /><button id="join" type="submit">A REBOTAR <span>↗</span></button></div>
-          <div class="mode-picker">
-            <label for="game-mode">MODO</label>
-            <select id="game-mode" name="mode" aria-describedby="mode-description">
-              <option value="eliminations">Eliminación de globos</option>
-              <option value="race">Carrera de torre</option>
-            </select>
-            <small id="mode-description">Todos contra todos. Conserva tus tres globos.</small>
-          </div>
-          <div class="mode-picker">
-            <label for="graphics-quality">GRÁFICOS</label>
-            <select id="graphics-quality" aria-describedby="graphics-description">
-              <option value="high">Calidad</option>
-              <option value="low">Rendimiento</option>
-            </select>
-            <small id="graphics-description">Sombras y efectos de luz.</small>
-            <span id="lobby-fps" class="fps-reading"></span>
-          </div>
-          <div id="error" role="alert" aria-live="polite"></div>
-        </form>
-        <div class="controls"><span><kbd>W A S D</kbd> Dirigir el salto</span><span><kbd>RATÓN</kbd> Apuntar</span><span><kbd>CLIC / F</kbd> Cargar y soltar botella</span><span><kbd>ESPACIO</kbd> Cargar y soltar salto</span></div>
-        <a class="credits-link" href="/models/ATTRIBUTION.md" target="_blank" rel="noopener">Modelo anatómico: Écorché · CC BY-SA 4.0 ↗</a>
+    <canvas id="arena" aria-label="Arena 3D de Funny Universal Cathartic Kingdom" tabindex="0" hidden></canvas>
+    <section id="loading" hidden role="dialog" aria-modal="true" aria-label="Cargando partida">
+      <div class="loading-card"><span class="loading-orbit" aria-hidden="true"></span><h2>Preparando tu ingreso</h2><p id="loading-status" role="status">Cargando escenario…</p><button id="cancel-loading" type="button">VOLVER AL MENÚ</button></div>
+    </section>
+    <header id="brand" hidden><span class="brand-icon">☠</span><span class="brand-name">Funny Universal<br /><b>Cathartic Kingdom</b></span></header>
+    <main id="lobby" class="main-menu">
+      <section class="menu-identity" aria-label="Funny Universal Cathartic Kingdom">
+        <div class="institute-wordmark"><span class="medical-cross" aria-hidden="true">✚</span> INSTITUTO DEL ÚLTIMO REBOTE</div>
+        <div class="menu-title"><p>Funny Universal</p><h1>Cathartic<br /><em>Kingdom</em><span class="title-period">.</span></h1><p class="menu-tagline">Mal pronóstico.<br />Excelente compañía.</p></div>
+        <div class="menu-ecg" aria-hidden="true"><i></i><b>♡</b><i></i></div>
+        <p class="identity-caption">Esqueletos, pogos y una cantidad poco razonable de botellas.</p>
       </section>
-      <aside class="arena-label"><span>ENSAYO CLÍNICO 07</span><strong>AUDITORIO DEL<br />ÚLTIMO REBOTE</strong><p>Cada eliminación se registra. Y se aplaude.</p></aside>
-      <footer><span>10 SUJETOS. OBSERVACIÓN INTENSIVA.</span><span>Los bots completan los equipos <span class="star">✳</span></span></footer>
+      <section class="menu-content">
+        <div id="menu-home" class="menu-panel">
+          <p class="menu-kicker">BIENVENIDO AL EXPERIMENTO</p><h2>¿Listo para<br />otro mal salto?</h2>
+          <nav aria-label="Menú principal" class="menu-nav">
+            <button type="button" data-menu="play" class="menu-primary">Jugar <span aria-hidden="true">↗</span></button>
+            <button type="button" data-menu="options">Opciones <span aria-hidden="true">↗</span></button>
+            <button type="button" data-menu="controls">Cómo jugar <span aria-hidden="true">↗</span></button>
+            <button type="button" data-menu="credits">Créditos <span aria-hidden="true">↗</span></button>
+          </nav>
+        </div>
+        <div id="menu-play" class="menu-panel" hidden>
+          <button class="menu-back" type="button" data-menu="home">← MENÚ PRINCIPAL</button><h2>Elige tu prueba</h2>
+          <form id="join-form">
+            <label for="nickname">TU APODO</label><input id="nickname" name="nickname" maxlength="16" placeholder="Tu apodo" value="Huesitos" autocomplete="off" required pattern="[\p{L}\p{N}_ .\-]+" />
+            <label for="game-mode">MODO DE JUEGO</label>
+            <select id="game-mode" name="mode" aria-describedby="mode-description"><option value="eliminations">Eliminación de globos</option><option value="race">Carrera de torre</option></select>
+            <div class="mode-summary"><strong id="mode-heading">Cada globo cuenta.</strong><p id="mode-description">Todos contra todos. Conserva tus tres globos.</p><span id="mode-rules">10 jugadores · 3 minutos</span></div>
+            <button id="join" class="menu-primary" type="submit">COMENZAR PARTIDA <span aria-hidden="true">↗</span></button>
+          </form>
+        </div>
+        <div id="menu-options" class="menu-panel" hidden>
+          <button class="menu-back" type="button" data-menu="home">← MENÚ PRINCIPAL</button><h2>A tu medida</h2>
+          <div class="setting"><label for="graphics-quality">GRÁFICOS</label><select id="graphics-quality" aria-describedby="graphics-description"><option value="high">Calidad</option><option value="low">Rendimiento</option></select><p id="graphics-description">Sombras y efectos de luz.</p></div>
+          <div class="setting"><label for="sound-enabled">SONIDO</label><select id="sound-enabled"><option value="yes">Activado</option><option value="no">Silenciado</option></select></div>
+          <div class="setting"><label for="mouse-sensitivity">SENSIBILIDAD DEL RATÓN <output id="sensitivity-value" for="mouse-sensitivity">100 %</output></label><input id="mouse-sensitivity" type="range" min="25" max="200" step="5" value="100" /></div>
+          <p class="setting-note" id="settings-status" role="status">Tus preferencias se guardan en este navegador.</p>
+        </div>
+        <div id="menu-controls" class="menu-panel" hidden>
+          <button class="menu-back" type="button" data-menu="home">← MENÚ PRINCIPAL</button><h2>Cuestión de<br />equilibrio</h2>
+          <dl class="control-list"><div><dt><kbd>ESPACIO</kbd></dt><dd>Mantén para cargar el salto. Suelta para despegar.</dd></div><div><dt><kbd>W A S D</kbd></dt><dd>Inclina el pogo y dirige el salto.</dd></div><div><dt><kbd>RATÓN</kbd></dt><dd>Gira la cámara y apunta. Haz clic en la arena para capturarlo.</dd></div><div><dt><kbd>CLIC / F</kbd></dt><dd>Carga y suelta para arrojar una botella.</dd></div><div><dt><kbd>1 / 2</kbd></dt><dd>Elige botella de cristal o pesada.</dd></div><div><dt><kbd>TAB / ESC</kbd></dt><dd>Ver marcador / liberar el ratón.</dd></div></dl>
+          <p class="setting-note">En cámara de espectador usa WASD para moverte, E/Q para subir o bajar y Shift para acelerar.</p>
+        </div>
+        <div id="menu-credits" class="menu-panel" hidden>
+          <button class="menu-back" type="button" data-menu="home">← MENÚ PRINCIPAL</button><h2>Detrás de<br />los huesos</h2><p class="credits-copy">Funny Universal Cathartic Kingdom<br />Un experimento de combate y equilibrio.</p><p class="credits-copy">Modelo anatómico adaptado de Écorché, basado en BodyParts3D y Z-Anatomy. Licencia CC BY-SA 4.0.</p><a class="menu-link" href="/models/ATTRIBUTION.md" target="_blank" rel="noopener">Ver atribución completa ↗</a>
+        </div>
+        <div id="error" role="alert" aria-live="polite"></div>
+        <footer class="menu-footer"><span>HASTA 10 JUGADORES · BOTS INCLUIDOS</span><span id="lobby-fps" class="fps-reading"></span></footer>
+      </section>
     </main>
     <section id="hud" hidden aria-label="Estado de la partida">
       <div class="scoreboard"><div id="mint-score" class="team mint"><span>MENTA</span><strong id="score-0">0</strong></div><div class="clock"><small id="score-mode">GLOBOS</small><strong id="timer">3:00</strong></div><div id="coral-score" class="team coral"><strong id="score-1">0</strong><span>CORAL</span></div></div>
