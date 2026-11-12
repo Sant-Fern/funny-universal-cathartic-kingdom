@@ -6,7 +6,7 @@ from pathlib import Path
 import pytest
 
 from server.app import Input
-from server.game import Arena,Shot,BALLOON_TARGETS,CONFIG,TOWER_TRACKS,boxes_at,height_at,launch_velocity,throw_origin
+from server.game import Arena,Shot,BALLOON_TARGETS,CONFIG,TOWER_TRACKS,boxes_at,height_at,launch_velocity,throw_origin,balloon_offsets
 
 
 def lone_arena():
@@ -20,7 +20,8 @@ def lone_arena():
 @pytest.mark.parametrize('mode', ['race', 'eliminations'])
 def test_near_miss_curves_into_rival_for_humans_but_bots_keep_their_misses(mode):
     for bot in (False, True):
-        arena = Arena(seed=1, mode=mode)
+        # Keep this aiming test's target at a fixed height.
+        arena = Arena(seed=1, mode=mode, auto_bounce=False)
         shooter, victim = arena.join('Uno'), arena.join('Dos')
         arena.players = {p.id:p for p in (shooter,victim)}
         shooter.bot, shooter.next_think = bot, 100
@@ -101,7 +102,7 @@ def test_bottle_breaks_on_ground_and_produces_one_impact():
 
 
 def test_heavy_bottle_can_hit_several_enemies_but_cover_blocks_splash():
-    arena = Arena(seed=7, mode="race")
+    arena = Arena(seed=7, mode="race", auto_bounce=False)
     shooter = arena.join("Lanzador")
     enemy = arena.join("Cerca")
     enemy_two = arena.players["slot-3"]
@@ -113,12 +114,11 @@ def test_heavy_bottle_can_hit_several_enemies_but_cover_blocks_splash():
         p.bot = False
         p.x, p.y, p.z = x, 0, z
     arena.time = 2
-    arena.shots = [Shot(1, shooter.id, shooter.team, 1.7, .7, -2.7, 0, 0, 10, kind="heavy")]
-    arena.step(.05)
-    assert arena.impacts[0]["kind"] == "heavy"
-    assert arena.impacts[0]["owner"] == shooter.id
-    assert arena.impacts[0]["hits"] == 2
-    assert arena.impacts[0]["downs"] == 0
+    shot = Shot(1, shooter.id, shooter.team, 1.7, .7, -2.7, 0, 0, 10, kind="heavy")
+    # Explicit cover isolates splash occlusion from the authored map layout.
+    cover = (({'x':0,'z':0,'w':4.2,'d':4.2},0,5),)
+    hits, downs = arena.burst(shot,(1.7,.7,-2.7),None,None,cover)
+    assert hits == 2 and downs == 0
     assert all(p.health == 100 for p in arena.players.values())
     assert enemy.push_until > 2 and enemy_two.push_until > 2
     assert shielded.push_until == ally.push_until == 0
@@ -214,8 +214,9 @@ def test_balloons_require_direct_contact_and_last_pop_disqualifies(kind):
     assert victim.balloons.bit_count() == 3
     assert victim.stunned_until > arena.time and not victim.grounded
     arena.shots.clear()
-    for index, (dx, dy, dz) in enumerate(BALLOON_TARGETS):
+    for index in range(len(BALLOON_TARGETS)):
         victim.y, victim.vy, victim.grounded = 0, 0, True
+        dx, dy, dz = balloon_offsets(victim)[index]
         arena.time = max(arena.time, victim.protected_until)
         arena.shots = [Shot(index+2, shooter.id, None, victim.x+dx, victim.y+dy, victim.z+dz, 0, 0, 0, kind=kind)]
         arena.step(.05)

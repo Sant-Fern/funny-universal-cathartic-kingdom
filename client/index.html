@@ -36,7 +36,7 @@
           <form id="join-form">
             <label for="nickname">TU APODO</label><input id="nickname" name="nickname" maxlength="16" placeholder="Tu apodo" value="Huesitos" autocomplete="off" required pattern="[\p{L}\p{N}_ .\-]+" />
             <label for="game-mode">MODO DE JUEGO</label>
-            <select id="game-mode" name="mode" aria-describedby="mode-description"><option value="eliminations">Eliminación de globos</option><option value="race">Carrera de torre</option></select>
+            <select id="game-mode" name="mode" aria-describedby="mode-description"><option value="eliminations">Eliminación de globos</option><option value="race">Carrera a la cima · El Sueño del Último Rebote</option></select>
             <div class="mode-summary"><strong id="mode-heading">Cada globo cuenta.</strong><p id="mode-description">Todos contra todos. Conserva tus tres globos.</p><span id="mode-rules">10 jugadores · 3 minutos</span></div>
             <button id="join" class="menu-primary" type="submit">COMENZAR PARTIDA <span aria-hidden="true">↗</span></button>
           </form>
@@ -50,7 +50,7 @@
         </div>
         <div id="menu-controls" class="menu-panel" hidden>
           <button class="menu-back" type="button" data-menu="home">← MENÚ PRINCIPAL</button><h2>Cuestión de<br />equilibrio</h2>
-          <dl class="control-list"><div><dt><kbd>ESPACIO</kbd></dt><dd>Mantén para cargar el salto. Suelta para despegar.</dd></div><div><dt><kbd>W A S D</kbd></dt><dd>Inclina el pogo y dirige el salto.</dd></div><div><dt><kbd>RATÓN</kbd></dt><dd>Gira la cámara y apunta. Haz clic en la arena para capturarlo.</dd></div><div><dt><kbd>CLIC / F</kbd></dt><dd>Carga y suelta para arrojar una botella.</dd></div><div><dt><kbd>1 / 2</kbd></dt><dd>Elige botella de cristal o pesada.</dd></div><div><dt><kbd>TAB / ESC</kbd></dt><dd>Ver marcador / liberar el ratón.</dd></div></dl>
+          <dl class="control-list"><div><dt><kbd>ESPACIO</kbd></dt><dd>Rebotas automáticamente. Mantén para quedar apoyado y cargar; suelta para saltar más fuerte. En el aire te apoyarás al aterrizar.</dd></div><div><dt><kbd>W A S D</kbd></dt><dd>Inclina el pogo y corrige el salto. La inclinación da más alcance y menos altura.</dd></div><div><dt><kbd>RATÓN</kbd></dt><dd>Gira la cámara y apunta. Haz clic en la arena para capturarlo.</dd></div><div><dt><kbd>CLIC / F</kbd></dt><dd>Carga y suelta una botella. Espera 2 segundos entre lanzamientos.</dd></div><div><dt><kbd>1 / 2</kbd></dt><dd>Elige botella de cristal o pesada.</dd></div><div><dt><kbd>TAB / ESC</kbd></dt><dd>Ver participantes / liberar el ratón.</dd></div></dl>
           <p class="setting-note">En cámara de espectador usa WASD para moverte, E/Q para subir o bajar y Shift para acelerar.</p>
         </div>
         <div id="menu-credits" class="menu-panel" hidden>
@@ -61,10 +61,12 @@
       </section>
     </main>
     <section id="hud" hidden aria-label="Estado de la partida">
+      <output id="current-height" aria-label="Altura actual" hidden>0,0 m</output>
+      <div id="bounce-charge" hidden aria-label="Carga del siguiente salto"><span id="bounce-label">APOYADO · CARGANDO</span><i><b id="bounce-fill"></b></i></div>
       <div class="scoreboard"><div id="mint-score" class="team mint"><span>MENTA</span><strong id="score-0">0</strong></div><div class="clock"><small id="score-mode">GLOBOS</small><strong id="timer">3:00</strong></div><div id="coral-score" class="team coral"><strong id="score-1">0</strong><span>CORAL</span></div></div>
       <div id="zone-hud" hidden>
         <span id="zone-direction" aria-hidden="true">↑</span>
-        <div><small>CARRERA DE TORRE</small><strong id="zone-label">Meta en la cima</strong><span id="zone-status">Aterriza dentro del anillo dorado.</span></div>
+        <div><small>EL SUEÑO DEL ÚLTIMO REBOTE</small><strong id="zone-label">Meta en la cima</strong><span id="zone-status">Aterriza dentro del anillo dorado.</span></div>
         <div class="zone-time"><strong id="zone-timer"></strong><small>META</small></div>
       </div>
       <div class="connection"><span class="dot"></span><span id="network">Conectando</span><span id="match-fps" class="fps-reading"></span><button id="mute-audience" type="button" aria-pressed="false">Sonido: sí</button><button id="restart" type="button">Reiniciar</button><button id="leave" type="button">Salir</button></div>
@@ -79,8 +81,8 @@
         <span id="death-cause"></span>
         <span id="respawn">Reapareciendo…</span>
       </div>
-      <div class="player-info"><span id="team-name">TODOS CONTRA TODOS</span><div><strong id="hp">3</strong><span id="hp-label">GLOBOS</span></div><div class="health-track"><i id="health-fill"></i></div><small id="stats">0 globos reventados</small><small id="jump-tip"><kbd>ESPACIO</kbd> <span id="jump-status">Mantén y suelta para saltar</span><span class="jump-track" aria-hidden="true"><i id="jump-fill"></i></span></small></div>
-      <div class="bottom-controls" id="player-controls"><span><kbd>WASD</kbd> Inclinar y dirigir</span><span><kbd>TAB</kbd> Marcador</span></div>
+      <div class="player-info" aria-label="Globos reventados"><span id="stats">0 globos reventados</span></div>
+      <div class="bottom-controls" id="player-controls"><span><kbd>WASD</kbd> Dirigir</span><span><kbd>ESPACIO</kbd> Potenciar rebote</span><span><kbd>TAB</kbd> Participantes</span></div>
       <div class="bottom-controls" id="spectator-controls" hidden><span>CÁMARA LIBRE</span><span><kbd>WASD</kbd> Moverse</span><span><kbd>E / Q</kbd> Subir / bajar</span><span><kbd>SHIFT</kbd> Acelerar</span></div>
       <div id="stun-status" hidden>ATURDIDO</div>
       <div class="throw-info">

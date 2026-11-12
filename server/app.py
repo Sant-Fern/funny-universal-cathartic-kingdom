@@ -35,6 +35,7 @@ class Input(BaseModel):
     pitch: float = Field(ge=-0.7, le=0.7)
     fire: bool
     jumpPower: float | None = Field(default=None, ge=0, le=1)
+    jumpHeld: bool = False
     power: float = Field(default=.6,ge=0,le=1)
     bottle: Literal["standard", "heavy"] = "standard"
 
