@@ -12,9 +12,12 @@ from dataclasses import dataclass, field
 from typing import Literal
 
 from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
+from fastapi.responses import Response
 from pydantic import BaseModel, ConfigDict, Field, ValidationError
 
 from server.game import Arena, CONFIG
+from server.cloud import lifecycle as agones_lifecycle, metrics
+from server.results import payload as result_payload, worker as results_worker
 
 log = logging.getLogger("pogo")
 
@@ -35,6 +38,7 @@ class Input(BaseModel):
     pitch: float = Field(ge=-0.7, le=0.7)
     fire: bool
     jumpPower: float | None = Field(default=None, ge=0, le=1)
+    jumpHeld: bool = False
     power: float = Field(default=.6,ge=0,le=1)
     bottle: Literal["standard", "heavy"] = "standard"
 
@@ -58,10 +62,23 @@ class Room:
 
 class Runtime:
     def __init__(self):
-        self.rooms = {mode: Room(Arena(mode=mode)) for mode in ("eliminations", "race")}
+        self.cloud_mode = os.environ.get("MATCH_MODE")
+        if self.cloud_mode and self.cloud_mode not in ("eliminations", "race"):
+            raise ValueError("MATCH_MODE must be eliminations or race")
+        self.rooms = {mode: Room(Arena(mode=mode)) for mode in
+                      ((self.cloud_mode,) if self.cloud_mode else ("eliminations", "race"))}
         self.tokens = {}
         self.ticks = 0
         self.tick_work = 0
+        self.tick_samples = 0
+        self.tick_total = 0
+        self.tick_bounds = (.001, .0025, .005, .01, .02, .05, .1, .25, .5, 1)
+        self.tick_buckets = [0] * len(self.tick_bounds)
+        self.dropped = 0
+        self.last_tick = time.monotonic()
+        self.results_queue = asyncio.Queue(maxsize=32)
+        self.results_pending = self.results_saved = self.results_failures = 0
+        self.results_enqueued = set()
 
     async def loop(self):
         interval = 1 / CONFIG["tickRate"]
@@ -70,16 +87,33 @@ class Runtime:
             started = time.perf_counter()
             now = time.monotonic()
             self.tokens = {t: v for t, v in self.tokens.items() if v[1] > now}
+            active_tick = any(room.connections for room in self.rooms.values())
             for room in self.rooms.values():
+                if not room.connections:
+                    continue
                 room.arena.step(interval)
+                if (os.environ.get("RESULTS_FUNCTION") and room.arena.finished
+                        and room.arena.id not in self.results_enqueued):
+                    result = result_payload(room.arena)
+                    if result["players"] and not self.results_queue.full():
+                        self.results_queue.put_nowait(result)
+                        self.results_pending += 1
+                        self.results_enqueued.add(room.arena.id)
                 if room.connections:
                     snapshot = room.arena.snapshot()
                     for conn in room.connections.values():
                         if conn.queue.full():
                             conn.queue.get_nowait()
+                            self.dropped += 1
                         conn.queue.put_nowait(snapshot)
             self.ticks += 1
             self.tick_work = time.perf_counter() - started
+            self.last_tick = time.monotonic()
+            if active_tick:
+                self.tick_samples += 1
+                self.tick_total += self.tick_work
+                for index, bound in enumerate(self.tick_bounds):
+                    self.tick_buckets[index] += self.tick_work <= bound
             next_tick += interval
             if next_tick < now - interval:
                 next_tick = now
@@ -92,10 +126,14 @@ def create_app():
     @asynccontextmanager
     async def lifespan(app):
         task = asyncio.create_task(runtime.loop())
-        yield
-        task.cancel()
-        with contextlib.suppress(asyncio.CancelledError):
-            await task
+        sdk_task = asyncio.create_task(agones_lifecycle(runtime))
+        results_task = asyncio.create_task(results_worker(runtime))
+        try:
+            yield
+        finally:
+            for pending in (task, sdk_task, results_task):
+                pending.cancel()
+            await asyncio.gather(task, sdk_task, results_task, return_exceptions=True)
 
     app = FastAPI(title="Funny Universal Cathartic Kingdom · servidor local", lifespan=lifespan)
     app.state.runtime = runtime
@@ -104,9 +142,15 @@ def create_app():
     async def health():
         humans = sum(room.arena.humans for room in runtime.rooms.values())
         active_rooms = sum(bool(room.connections) for room in runtime.rooms.values())
-        return {"status": "ok", "mode": "local", "humans": humans,
+        return {"status": "ok", "mode": runtime.cloud_mode or "local", "humans": humans,
+                "reserved": sum(v[1] > time.monotonic() for v in runtime.tokens.values()),
+                "finished": all(room.arena.finished for room in runtime.rooms.values()),
                 "bots": 2*CONFIG["teamSize"]*max(1, active_rooms)-humans,
                 "tickRateTarget": CONFIG["tickRate"]}
+
+    @app.get("/metrics")
+    async def prometheus():
+        return Response(metrics(runtime), media_type="text/plain; version=0.0.4")
 
     @app.get("/api/config")
     async def config():
@@ -117,6 +161,8 @@ def create_app():
         now = time.monotonic()
         runtime.tokens = {t: v for t, v in runtime.tokens.items() if v[1] > now}
         mode = "race" if body.mode == "observation" else body.mode
+        if mode not in runtime.rooms:
+            raise HTTPException(409, "Este servidor aloja otro modo de juego.")
         room = runtime.rooms[mode]
         if room.arena.finished and not room.connections:
             room.arena = Arena(mode=mode)

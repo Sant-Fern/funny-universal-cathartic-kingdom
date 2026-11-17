@@ -1,5 +1,7 @@
 # Infraestructura de referencia: Google Cloud
 
+**Despliegue vigente:** [`aws/`](aws/README.md), aplicado en AWS con estado remoto. [`docs/DESPLIEGUE_AWS.md`](../docs/DESPLIEGUE_AWS.md) registra las pruebas y pendientes académicos. La configuración GCP que sigue se conserva como referencia del plan inicial y no se aplicó en esta cuenta.
+
 [`gcp/`](gcp/) define una VPC, subred, salida NAT, Artifact Registry y un clúster GKE Standard zonal con nodos privados. El pool empieza con un nodo y tiene un máximo configurable de hasta tres. El plano de control limita la administración a la red indicada en `admin_cidr`. No se abre un puerto público para el juego. La configuración sigue el proveedor del plan original; no se ha comprobado una cuenta ni aplicado el plan.
 
 Si el equipo solo consigue Azure, confirmar primero que la rúbrica permita el cambio. Esta carpeta es específica de GCP; para Azure habría que definir AKS, ACR y estado remoto en Azure Storage. Los Dockerfiles, la prueba de integración y el manifiesto privado de Kubernetes son reutilizables.

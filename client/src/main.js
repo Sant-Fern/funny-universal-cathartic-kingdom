@@ -4,13 +4,13 @@ import { loadGameWorld } from './game-loader.js';
 import { bindMouseControls } from './mouse-controls.js';
 import { config } from '../../shared/physics.js';
 import { nextTowerPad, summit as finish } from '../../shared/tower.js';
+import { formatRaceTime,raceTeams } from './race-results.js';
 
 const $=id=>document.getElementById(id);
 const canvas=$('arena');
 const graphics=$('graphics-quality');
 const graphicsDescription=$('graphics-description');
 const modeSelect=$('game-mode');
-const balloonTotal=config.balloons.targets.length;
 const formatHeight=height=>`${height.toFixed(1).replace('.',',')} m`;
 try{
   if(localStorage.getItem('pogo-graphics')==='low')graphics.value='low';
@@ -22,13 +22,38 @@ let loadController;
 let loadTimeout;
 let sensitivity=1;
 let menuPage='home';
-const menuPages=['home','play','options','controls','credits'];
+const menuPages=['home','play','options','controls','credits','leaderboard'];
 function showMenu(page, focus=true){
   menuPage=page;
   for(const name of menuPages)$('menu-'+name).hidden=name!==page;
   setError('');
   if(focus)$('menu-'+page).querySelector('button, input, select')?.focus();
+  if(page==='leaderboard')loadLeaderboard();
 }
+let leaderboardRequest=0;
+async function loadLeaderboard(){
+  const request=++leaderboardRequest;
+  const container=$('leaderboard-rows');
+  container.textContent='Consultando resultados…';
+  try{
+    const response=await fetch('/api/leaderboard?mode='+encodeURIComponent($('leaderboard-mode').value),{signal:AbortSignal.timeout(7000)});
+    if(!response.ok)throw new Error('Sin conexión a la clasificación');
+    const data=await response.json();
+    if(request!==leaderboardRequest)return;
+    container.replaceChildren();
+    if(!data.items.length){container.textContent='Todavía no hay resultados. Termina una partida para aparecer aquí.';return;}
+    const list=document.createElement('ol');
+    for(const row of data.items){
+      const item=document.createElement('li');
+      item.textContent=`${row.name} · ${row.score} puntos`;
+      list.append(item);
+    }
+    container.append(list);
+  }catch{
+    if(request===leaderboardRequest)container.textContent='La clasificación no está disponible. Inténtalo más tarde.';
+  }
+}
+$('leaderboard-mode').addEventListener('change',loadLeaderboard);
 for(const button of document.querySelectorAll('[data-menu]')){
   button.addEventListener('click',()=>showMenu(button.dataset.menu));
 }
@@ -75,8 +100,8 @@ let connecting=false,requestId=0,muted=false;
 const keys=new Set();
 const movementKeys=new Set(['KeyW','KeyA','KeyS','KeyD','ArrowLeft','ArrowRight','ArrowUp','ArrowDown']);
 const arrowSteps={ArrowLeft:[-28,0],ArrowRight:[28,0],ArrowUp:[0,-22],ArrowDown:[0,22]};
-let charging=false,chargeStarted=0,chargeSource=null,throwPending=null,throwPower=.6;
-let bottle='standard',hitTimer;
+let charging=false,chargeStarted=0,chargeSource=null,throwPending=null,throwPower=0;
+let bottle='standard',hitTimer,bottleReadyAt=0;
 let lastDamage=-100;
 const reducedMotion=matchMedia('(prefers-reduced-motion: reduce)');
 let jumpStarted=null,jumpPending=null,spectating=false,stunned=false,restarting=false,restartMatch=null,deathNotice=0;
@@ -84,7 +109,10 @@ try{$('nickname').value=localStorage.getItem('pogo-name')||'Huesitos';}catch{}
 
 function controlsActive(){return Boolean(playerId)&&snapshot?.status!=='finished';}
 function clearJump(){jumpStarted=null;jumpPending=null;world?.setJumpCharge(null);}
-function clearControls(){keys.clear();mouse?.reset();charging=false;chargeSource=null;throwPending=null;clearJump();world?.setCharge(throwPower,false);world?.setLean(0,0);world?.fly(0,0,0,false);}
+function clearControls(){
+  keys.clear();mouse?.reset();charging=false;chargeSource=null;throwPending=null;throwPower=0;
+  $('power-fill').style.width='0%';clearJump();world?.setCharge(0,false);world?.setLean(0,0);world?.fly(0,0,0,false);
+}
 function movementInput(yaw){
   const forward=Number(keys.has('KeyW'))-Number(keys.has('KeyS'));
   const right=Number(keys.has('KeyD'))-Number(keys.has('KeyA'));
@@ -93,17 +121,23 @@ function movementInput(yaw){
     moveZ:(Math.cos(yaw)*forward-Math.sin(yaw)*right)/scale};
 }
 const jumpCharge=()=>{
-  const duration=snapshot?.mode==='race'?config.race.landingRecovery:config.jumpChargeSeconds;
-  return Math.min(1,(performance.now()-jumpStarted)/(duration*1000));
+  return Math.min(1,(performance.now()-jumpStarted)/(config.jumpChargeSeconds*1000));
 };
+function bottleCooldown(){
+  const me=snapshot?.players.find(p=>p.id===playerId);
+  const remote=Math.max(0,(me?.throwCooldown??0)-(performance.now()-lastSnapshotAt)/1000);
+  return Math.max(remote,(bottleReadyAt-performance.now())/1000,0);
+}
 function startCharge(source){
-  if(charging||!controlsActive()||spectating||stunned)return;
+  if(charging||!controlsActive()||spectating||stunned||bottleCooldown()>0)return;
   charging=true;chargeSource=source;chargeStarted=performance.now();
 }
 function releaseCharge(source){
   if(!charging||chargeSource!==source)return;
+  if(bottleCooldown()>0){charging=false;chargeSource=null;return;}
   throwPower=Math.min(1,.18+(performance.now()-chargeStarted)/1150);
   throwPending={power:throwPower,bottle};
+  bottleReadyAt=performance.now()+config.shotInterval*1000;
   charging=false;chargeSource=null;
 }
 mouse=bindMouseControls({canvas,doc:document,active:controlsActive,aim:(x,y)=>world?.look(x*sensitivity,y*sensitivity),
@@ -116,15 +150,15 @@ function selectBottle(kind){
   if(bottle!==kind){
     charging=false;
     chargeSource=null;
-    throwPower=.6;
+    throwPower=0;
   }
   bottle=kind;
   world?.setBottle(kind);
   $('bottle-title').textContent=kind==='heavy'?'BOTELLA PESADA':'BOTELLA DE CRISTAL';
   const race=modeSelect.value==='race';
   $('bottle-description').textContent=kind==='heavy'
-    ? (race?'Corto alcance · empuje en área':'Corto alcance · botella más grande')
-    : (race?'Empuje directo · corrección cercana':'Apunta cerca de los globos · corrección suave');
+    ? (race?'Empuje en área · recarga de 2 s':'Corto alcance · recarga de 2 s')
+    : (race?'Empuje directo · recarga de 2 s':'Corrección cercana · recarga de 2 s');
   for(const option of ['standard','heavy']){
     $('bottle-'+option).setAttribute('aria-pressed',String(option===kind));
   }
@@ -137,7 +171,7 @@ function exit(message=''){
   const old=socket;socket=null;
   if(old)old.close(1000,'Volver al inicio');
   playerId=null;snapshot=null;connecting=false;restarting=false;restartMatch=null;
-  throwPower=.6;clearControls();selectBottle('standard');document.exitPointerLock?.();updateMouseMode();
+  throwPower=0;clearControls();selectBottle('standard');document.exitPointerLock?.();updateMouseMode();
   clearTimeout(hitTimer);
   lastDamage=-100;
   resetRoundHud();
@@ -154,7 +188,7 @@ function exit(message=''){
 }
 
 function resetRoundHud(){
-  spectating=false;stunned=false;
+  spectating=false;stunned=false;bottleReadyAt=0;
   clearTimeout(deathNotice);
   $('spectator-controls').hidden=true;$('player-controls').hidden=false;
   $('stun-status').hidden=true;$('death').hidden=true;
@@ -165,9 +199,9 @@ function resetRoundHud(){
 function updateMode(){
   if(world&&worldMode!==modeSelect.value)discardWorld();
   $('mode-description').textContent=modeSelect.value==='race'
-    ? '5 contra 5. El primer equipo en la cima gana.' : 'Todos contra todos. Conserva tus tres globos.';
+    ? `${config.race.mapName}. Del 1.º al 10.º: de 10 a 1 puntos. Gana la suma de los cinco integrantes; sin llegar, 0 puntos.` : 'Todos contra todos. Conserva tus tres globos.';
   $('mode-heading').textContent=modeSelect.value==='race'?'La cima no se alcanza sola.':'Cada globo cuenta.';
-  $('mode-rules').textContent=modeSelect.value==='race'?'5 contra 5 · 6 minutos · meta a 187,55 m':'10 jugadores · 3 minutos · 3 globos';
+  $('mode-rules').textContent=modeSelect.value==='race'?`5 contra 5 · 6 minutos · cima a ${formatHeight(finish.h)}`:'10 jugadores · 3 minutos · 3 globos';
   selectBottle(bottle);
 }
 modeSelect.addEventListener('change',updateMode);
@@ -217,10 +251,6 @@ $('join-form').addEventListener('submit',async event=>{
         $('lobby').hidden=true;$('hud').hidden=false;
         document.body.classList.add('playing');
         updateMouseMode();canvas.focus({preventScroll:true});
-        const race=message.mode==='race', tint=race?(message.team?'#ff846e':'#9aead0'):'#f3d58e';
-        $('team-name').textContent=race?`EQUIPO ${message.team?'CORAL':'MENTA'}`:'TODOS CONTRA TODOS';
-        $('team-name').style.color=tint;
-        $('health-fill').style.background=tint;
         try{localStorage.setItem('pogo-name',name);}catch{}
       }else if(message.type==='snapshot'){
         if(restartMatch&&message.matchId!==restartMatch)return;
@@ -270,23 +300,61 @@ $('join-form').addEventListener('submit',async event=>{
 function roster(s,container){
   const race=s.mode==='race';
   container.replaceChildren();
+  container.classList.toggle('race-roster',race);
+  if(race){
+    if(s.status!=='finished'){
+      for(const team of [0,1]){
+        const title=document.createElement('div');title.className='race-team-title '+(team?'coral':'mint');
+        title.textContent=team?'CORAL':'MENTA';container.append(title);
+        for(const p of s.players.filter(p=>p.team===team)){
+          const row=document.createElement('div');row.className='race-live-player';
+          const name=document.createElement('span');name.textContent=p.name+(p.id===playerId?' (TÚ)':'');
+          const status=document.createElement('span');status.textContent=p.finishPosition!=null?'EN LA CIMA':'EN CARRERA';
+          row.append(name,status);container.append(row);
+        }
+      }
+      return;
+    }
+    for(const group of raceTeams(s)){
+      const title=document.createElement('div');
+      title.className='race-team-title '+(group.team?'coral':'mint');
+      title.textContent=`${group.team?'CORAL':'MENTA'} · ${group.points} PTS · ${group.arrived}/${group.players.length} EN LA CIMA`;
+      container.append(title);
+      const header=document.createElement('div');header.className='roster-row roster-heading';
+      for(const text of ['INTEGRANTE','PUESTO','TIEMPO / AVANCE','APORTE']){
+        const cell=document.createElement('span');cell.textContent=text;header.append(cell);
+      }
+      container.append(header);
+      for(const p of group.players){
+        const row=document.createElement('div');row.className='roster-row';
+        if(p.id===playerId)row.classList.add('local-player');
+        const arrived=p.finishPosition!=null;
+        const name=(p.finishName??p.name)+(p.id===playerId?' (TÚ)':'')+((arrived?p.finishBot:p.bot)?' · BOT':'');
+        const status=arrived?formatRaceTime(p.finishTime):s.status==='finished'?'SIN LLEGAR':formatHeight(p.bestHeight);
+        for(const value of [name,arrived?`${p.finishPosition}.º`:'—',status,`${p.racePoints??0} pts`]){
+          const cell=document.createElement('span');cell.textContent=value;row.append(cell);
+        }
+        container.append(row);
+      }
+    }
+    const note=document.createElement('p');note.className='race-scoring-note';
+    note.textContent='1.º → 10 pts · 2.º → 9 · 3.º → 8 · … · 10.º → 1. Sin llegar → 0. Llegadas simultáneas comparten puesto y puntos.';
+    container.append(note);
+    return;
+  }
   const header=document.createElement('div');
   header.className='roster-row';
-  const headings=race?['ESQUELETO','EQUIPO','ALTURA','']:['ESQUELETO','GLOBOS','ACIERTOS','ESTADO'];
+  const headings=['ESQUELETO','GLOBOS','ACIERTOS','ESTADO'];
   for(const text of headings){
     const span=document.createElement('span');span.textContent=text;header.append(span);
   }
   container.append(header);
-  const ordered=[...s.players].sort((a,b)=>race
-    ? a.team-b.team||b.bestHeight-a.bestHeight
-    : b.balloonCount-a.balloonCount||b.pops-a.pops);
+  const ordered=[...s.players].sort((a,b)=>b.balloonCount-a.balloonCount||b.pops-a.pops);
   for(const p of ordered){
     const row=document.createElement('div');
     row.className='roster-row';
-    if(race)row.classList.add(p.team?'coral':'mint');
     const name=p.name+(p.id===playerId?' (TÚ)':'')+(p.bot?' · BOT':'');
-    const values=race?[name,p.team?'Coral':'Menta',formatHeight(p.bestHeight),'']
-      :[name,p.balloonCount,p.pops,p.balloonCount?'EN PIE':'FUERA'];
+    const values=[name,p.balloonCount,p.pops,p.balloonCount?'EN PIE':'FUERA'];
     for(const text of values){
       const span=document.createElement('span');span.textContent=text;row.append(span);
     }
@@ -296,16 +364,16 @@ function roster(s,container){
 function updateHud(s){
   if(!playerId)return;
   const race=s.mode==='race';
-  $('mint-score').hidden=!race;$('coral-score').hidden=!race;
+  $('hud').dataset.mode=s.mode;
+  $('mint-score').hidden=true;$('coral-score').hidden=true;
+  $('current-height').hidden=!race;
   if(race){
-    $('score-0').textContent=formatHeight(s.score[0]);
-    $('score-1').textContent=formatHeight(s.score[1]);
-    $('score-mode').textContent='ALTURA DE EQUIPOS';
+    $('score-mode').textContent='CARRERA A LA CIMA';
   }else{
     const remaining=s.players.filter(p=>p.balloonCount>0).length;
     $('score-mode').textContent='GLOBOS · '+remaining+' EN JUEGO';
   }
-  $('zone-hud').hidden=!race||s.status!=='playing';
+  $('zone-hud').hidden=true;
   $('zone-timer').textContent=formatHeight(finish.h);
   const seconds=Math.ceil(s.remaining);
   $('timer').textContent=Math.floor(seconds/60)+':'+String(seconds%60).padStart(2,'0');
@@ -316,21 +384,25 @@ function updateHud(s){
     if(stunned){clearJump();charging=false;chargeSource=null;throwPending=null;}
     if(race){
       const next=nextTowerPad(me);
-      $('zone-label').textContent=next===finish?'Meta en la cima':`${next.level} / ${config.race.sections[next.level-1].name}`;
-      $('zone-status').textContent=next===finish?'Aterriza dentro del anillo dorado.':`Siguiente salto · ${formatHeight(next.h)}`;
+      $('zone-label').textContent=me.finishPosition!=null?`LLEGASTE ${me.finishPosition}.º · +${me.racePoints} PTS`:next===finish?'Meta en la cima':`${next.level} / ${config.race.sections[next.level-1].name}`;
+      $('zone-status').textContent=me.finishPosition!=null?'Tu aporte está asegurado. Sigue a tu equipo en cámara libre.':next===finish?'Aterriza dentro del anillo dorado.':`${next.label??'Entrada al jardín'} · ${formatHeight(next.h)}`;
+      $('zone-direction').hidden=me.finishPosition!=null;
+      if(me.finishPosition!=null&&!spectating&&s.status==='playing'){
+        spectating=true;clearControls();world.spectate();
+        $('hud').classList.add('spectating');
+        $('spectator-controls').hidden=false;$('player-controls').hidden=true;
+        updateMouseMode();
+      }
     }
-    if(me.health<=0||!me.grounded)clearJump();
+    if(me.health<=0)clearJump();
     if(me.hitAt>lastDamage&&s.status==='playing'&&s.time-me.hitAt<.25&&!reducedMotion.matches){
       const flash=$('damage-flash');
       for(const animation of flash.getAnimations())animation.cancel();
       flash.animate([{opacity:me.health<=0?.78:race?.24:.42},{opacity:0}],{duration:me.health<=0?650:260,easing:'ease-out'});
     }
     lastDamage=me.hitAt??-100;
-    $('hp').textContent=race?formatHeight(Math.max(0,me.y)):me.balloonCount;
-    $('hp-label').textContent=race?'ALTURA':'GLOBOS';
-    const fraction=race?me.bestHeight/finish.h:me.balloonCount/balloonTotal;
-    $('health-fill').style.width=(100*fraction)+'%';
-    $('stats').textContent=race?'Mejor altura '+formatHeight(me.bestHeight):me.pops+' globos reventados';
+    $('current-height').textContent=formatHeight(Math.max(0,me.y));
+    $('stats').textContent=me.pops+(me.pops===1?' globo reventado':' globos reventados');
     if(me.health<=0&&!spectating&&s.status==='playing'){
       spectating=true;clearControls();world.spectate();
       $('hud').classList.add('spectating');
@@ -341,7 +413,7 @@ function updateHud(s){
       $('death').hidden=false;deathNotice=setTimeout(()=>$('death').hidden=true,2300);
       updateMouseMode();
     }
-    $('crosshair').hidden=me.health<=0||s.status==='finished';
+    $('crosshair').hidden=me.health<=0||me.finishPosition!=null||s.status==='finished';
   }
   if(!$('player-list').hidden)roster(s,$('player-list'));
   for(const e of s.events){
@@ -356,7 +428,7 @@ function updateHud(s){
     $('results').hidden=false;
     if(race){
       $('result-title').textContent=s.winner===null?'CARRERA EMPATADA.':'GANA '+(s.winner?'CORAL':'MENTA')+'.';
-      $('result-score').textContent='Mejor altura · Menta '+formatHeight(s.score[0])+' · Coral '+formatHeight(s.score[1]);
+      $('result-score').textContent=`Menta ${s.score[0]} pts · Coral ${s.score[1]} pts`;
     }else{
       const winner=s.players.find(p=>p.id===s.winner);
       $('result-title').textContent=winner?'GANA '+winner.name.toLocaleUpperCase('es')+'.':'EMPATE DE GLOBOS.';
@@ -456,7 +528,7 @@ document.addEventListener('keydown',event=>{
   if(event.code==='Space'){
     event.preventDefault();
     const me=snapshot?.players.find(p=>p.id===playerId);
-    if(!event.repeat&&me?.grounded&&me.health>0&&!stunned)jumpStarted=performance.now();
+    if(!event.repeat&&me?.health>0&&!stunned)jumpStarted=performance.now();
   }
   if(event.code==='KeyF'||event.key?.toLowerCase()==='f'){event.preventDefault();if(!event.repeat)startCharge('keyboard');}
   if(!event.repeat&&event.code==='Digit1')selectBottle('standard');
@@ -468,7 +540,7 @@ document.addEventListener('keyup',event=>{
   if(event.code==='KeyF'||event.key?.toLowerCase()==='f')releaseCharge('keyboard');
   if(event.code==='Space'&&jumpStarted!==null){
     const {moveX,moveZ}=movementInput(world.aim.yaw);
-    jumpPending={power:jumpCharge(),moveX,moveZ};jumpStarted=null;
+    jumpPending={power:config.pogo.bouncePower+(1-config.pogo.bouncePower)*jumpCharge(),moveX,moveZ};jumpStarted=null;
   }
 });
 window.addEventListener('blur',clearControls);
@@ -488,25 +560,24 @@ setInterval(()=>{
   const power=charging?Math.min(1,.18+(performance.now()-chargeStarted)/1150):throwPower;
   world.setCharge(power,charging);
   $('power-fill').style.width=`${Math.round(power*100)}%`;
-  const me=snapshot?.players.find(p=>p.id===playerId),cooldown=me?.throwCooldown||0;
+  const me=snapshot?.players.find(p=>p.id===playerId),cooldown=bottleCooldown();
   if(me&&snapshot.mode==='race'){
     const next=nextTowerPad(me);
     const direction=Math.atan2(next.x-me.x,next.z-me.z)-yaw;
     $('zone-direction').style.transform=`rotate(${direction}rad)`;
   }
-  $('throw-status').textContent=stunned?'RECUPERANDO EL EQUILIBRIO':cooldown>.1?'PREPARANDO OTRA BOTELLA':charging?'SUELTA PARA LANZAR':'MANTÉN CLIC O F PARA CARGAR';
+  $('throw-status').textContent=stunned?'RECUPERANDO EL EQUILIBRIO':cooldown>0?`OTRA BOTELLA EN ${cooldown.toFixed(1)} s`:charging?'SUELTA PARA LANZAR':'MANTÉN CLIC O F PARA CARGAR';
   const jump=jumpStarted===null?null:jumpCharge();
   const jumpPercent=Math.round((jump??0)*100);
   world.setJumpCharge(jump);
-  $('jump-tip').classList.toggle('jump-held',jump!==null);
-  $('jump-fill').style.width=`${jumpPercent}%`;
-  const jumpLabel=jump!==null?(jumpPercent===100?'Suelta · carga máxima':`Suelta para saltar · ${jumpPercent}%`)
-    :me?.grounded===false?'En el aire':'Mantén y suelta para saltar';
-  if($('jump-status').textContent!==jumpLabel)$('jump-status').textContent=jumpLabel;
+  $('bounce-charge').hidden=jump===null||spectating;
+  $('bounce-fill').style.width=`${jumpPercent}%`;
+  $('bounce-label').textContent=me?.chargingJump?(jumpPercent===100?'SUELTA PARA DESPEGAR':'APOYADO · CARGANDO'):'AL ATERRIZAR TE APOYAS';
   world.setLean(stunned?0:moveX,stunned?0:moveZ);
   socket.send(JSON.stringify({type:'input',seq:inputSeq++,moveX:jumpPending?.moveX??moveX,moveZ:jumpPending?.moveZ??moveZ,
     yaw,pitch,fire:Boolean(throwPending),power:throwPending?.power??power,bottle:throwPending?.bottle??bottle,
-    jumpPower:jumpPending?.power??null}));
+    jumpPower:jumpPending?.power??null,jumpHeld:jumpStarted!==null}));
+  if(throwPending){throwPower=0;$('power-fill').style.width='0%';world.setCharge(0,false);}
   throwPending=null;jumpPending=null;
 },50);
 setInterval(()=>{

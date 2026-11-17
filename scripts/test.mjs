@@ -6,5 +6,5 @@ const python = resolve(root, process.platform === 'win32' ? '.venv/Scripts/pytho
 const result = spawnSync(python, ['-m', 'pytest', 'server/tests', '-q', '-p', 'no:cacheprovider'], { cwd: root, stdio: 'inherit' });
 if (result.error) console.error(result.error.message);
 if (result.status !== 0) process.exit(result.status ?? 1);
-const client = spawnSync(process.execPath, ['--test', 'client/tests/physics.test.mjs', 'client/tests/mouse-controls.test.mjs', 'client/tests/game-loader.test.mjs'], { cwd: root, stdio: 'inherit' });
+const client = spawnSync(process.execPath, ['--test', 'client/tests/physics.test.mjs', 'client/tests/mouse-controls.test.mjs', 'client/tests/game-loader.test.mjs', 'client/tests/race-results.test.mjs', 'client/tests/sky-course.test.mjs', 'client/tests/balloons.test.mjs'], { cwd: root, stdio: 'inherit' });
 process.exit(client.status ?? 1);

@@ -1,0 +1,18 @@
+cloudProvider: aws
+awsRegion: us-east-2
+autoDiscovery:
+  clusterName: pogo-demo
+image:
+  tag: v1.35.3
+rbac:
+  serviceAccount:
+    name: cluster-autoscaler
+resources:
+  requests: {cpu: 50m, memory: 128Mi}
+  limits: {cpu: 500m, memory: 384Mi}
+extraArgs:
+  expander: least-waste
+  balance-similar-node-groups: true
+  scale-down-delay-after-add: 3m
+  scale-down-unneeded-time: 3m
+  skip-nodes-with-local-storage: false

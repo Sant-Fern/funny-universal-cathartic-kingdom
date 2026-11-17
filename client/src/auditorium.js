@@ -10,8 +10,10 @@ import { config,heightAt,platformOffset } from '../../shared/physics.js';
 import { summit,towerEntries,towerObstacles,towerTracks } from '../../shared/tower.js';
 import { createAudience,createApplause } from './audience.js';
 import { buildInstitute } from './institute.js';
+import { createSkyCourse } from './sky-course.js';
 
 export function createAuditorium({scene,material,box,bone,shadow,initialMode='eliminations'}){
+  if(initialMode==='race')return createSkyCourse({scene,material,box,bone,shadow});
   const start=scene.meshes.length,casters=new Set(),seats=[];
   const {width,depth}=config, halfX=width/2,halfZ=depth/2;
   const layouts={

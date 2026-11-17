@@ -30,19 +30,24 @@ def build_tower():
     for lane, side in enumerate((-1, 1)):
         track = []
         for index, source in enumerate(RACE["path"]):
-            pad = {**source, "x": source["x"]*side, "z": source["z"]*side, "h": height(index+1)}
+            pad = {**source, "x": source["x"]*side, "z": source["z"]*side,
+                   "h": source.get('h',height(index+1)), 'step':index+1, 'lane':lane,
+                   'level':min(len(RACE['sections']),index//RACE['stepsPerSection']+1)}
             if source.get("motion"):
                 pad["motion"] = {**source["motion"], "phase": lane*math.pi}
             track.append(pad)
         tracks.append(track)
-    summit = {"x": 0, "z": 0, "h": height(count+1), "w": 6, "d": 6, "thickness": .9}
+    summit = {"x": 0, "z": 0, "h": RACE.get('summitHeight',height(count+1)), "w": 6, "d": 6, "thickness": .9, 'step':count+1}
     core = {**CONFIG["towerCore"], "h": height(count-3)}
     return tracks, summit, core
 
 
 TOWER_TRACKS, SUMMIT, TOWER_CORE = build_tower()
-TOWER_ENTRIES = tuple({**RACE["entry"], "x": side*RACE["entry"]["x"]} for side in (-1, 1))
-OBSTACLES = [(o, height_at(o["x"], o["z"])) for o in (*TOWER_ENTRIES, *TOWER_TRACKS[0], *TOWER_TRACKS[1], SUMMIT, TOWER_CORE)]
+TOWER_ENTRIES = tuple({**RACE["entry"], "x": side*RACE["entry"]["x"],
+                       'z':side*RACE['entry']['z'], 'step':0} for side in (-1, 1))
+TOWER_STRUCTURES = tuple({**o, 'x': o['x']*side, 'z': o['z']*side}
+                         for side in (-1, 1) for o in RACE.get('structures', []))
+OBSTACLES = [(o, height_at(o["x"], o["z"])) for o in (*TOWER_ENTRIES, *TOWER_TRACKS[0], *TOWER_TRACKS[1], *TOWER_STRUCTURES, SUMMIT)]
 FLAT_OBSTACLES = [(o, height_at(o["x"], o["z"])) for o in CONFIG["flatObstacles"]]
 HEAD_CLEARANCE = 2.05
 PLAYER_DIAMETER = 2*CONFIG["playerRadius"]
@@ -67,6 +72,8 @@ def boxes_at(tick, mode="race"):
 
 
 def overlaps(o, x, z, margin=0):
+    if o.get('shape')=='ellipse':
+        return ((x-o['x'])/(o['w']/2+margin))**2+((z-o['z'])/(o['d']/2+margin))**2 < 1
     return abs(x-o["x"]) < o["w"]/2+margin and abs(z-o["z"]) < o["d"]/2+margin
 
 
@@ -83,19 +90,43 @@ def jump_speed(power):
     return CONFIG["jumpMinSpeed"] + power*(CONFIG["jumpMaxSpeed"]-CONFIG["jumpMinSpeed"])
 
 
+def pogo_launch(power, lean_x=0, lean_z=0):
+    length = math.hypot(lean_x, lean_z)
+    angle = min(1, length)*CONFIG['pogo']['maxLeanAngle']
+    speed = jump_speed(max(0, min(1, power)))
+    lateral = speed*math.sin(angle)/(length or 1)
+    return lean_x*lateral, speed*math.cos(angle), lean_z*lateral
+
+
+def balloon_offsets(p):
+    steer = (CONFIG['pogo']['maxLeanAngle'] if p.grounded else .14)/max(1, math.hypot(p.lean_x, p.lean_z))
+    cy, sy = math.cos(p.yaw), math.sin(p.yaw)
+    pitch = steer*(p.lean_x*sy+p.lean_z*cy)
+    roll = -steer*(p.lean_x*cy-p.lean_z*sy)
+    cx, sx, cz, sz = math.cos(pitch), math.sin(pitch), math.cos(roll), math.sin(roll)
+    offsets = []
+    for x, y, z in BALLOON_TARGETS:
+        y, z = y-.03, z-.52
+        rx, ry = x*cz-y*sz, x*sz+y*cz
+        ty, tz = ry*cx-z*sx+.03, ry*sx+z*cx+.52
+        offsets.append((rx*cy+tz*sy, ty, -rx*sy+tz*cy))
+    return offsets
+
+
 def overlaps_body(y, bottom, top):
     return y < top-1e-8 and y+HEAD_CLEARANCE > bottom+1e-8
 
 
-def can_occupy(x, z, y, boxes=None):
+def can_occupy(x, z, y, boxes=None, mode='race'):
     r = CONFIG["playerRadius"]
-    if abs(x) > CONFIG["width"]/2-r or abs(z) > CONFIG["depth"]/2-r:
+    bounds=RACE.get('bounds',CONFIG) if mode=='race' else CONFIG
+    if abs(x) > bounds["width"]/2-r or abs(z) > bounds["depth"]/2-r:
         return False
     return not any(overlaps_body(y, bottom, top) and overlaps(o, x, z, r)
                    for o, bottom, top in (boxes if boxes is not None else boxes_at(0)))
 
 
-def slide_clear(x, z, y, boxes):
+def slide_clear(x, z, y, boxes, mode='race'):
     radius = CONFIG["playerRadius"]
     for o, bottom, top in boxes:
         if not overlaps_body(y, bottom, top) or not overlaps(o, x, z, radius):
@@ -103,19 +134,41 @@ def slide_clear(x, z, y, boxes):
         edges = [(o["x"]+s*(o["w"]/2+radius+.001), z) for s in (-1, 1)]
         edges += [(x, o["z"]+s*(o["d"]/2+radius+.001)) for s in (-1, 1)]
         for edge_x, edge_z in sorted(edges, key=lambda edge: abs(edge[0]-x)+abs(edge[1]-z)):
-            if can_occupy(edge_x, edge_z, y, boxes):
+            if can_occupy(edge_x, edge_z, y, boxes, mode):
                 return edge_x, edge_z
     return x, z
 
 
-def resolve_players(players, previous, boxes):
-    """Separate solid bodies and preserve sliding along the point of contact."""
+def body_impulse(p, x, z, time):
+    settings = CONFIG['playerCollision']
+    remaining = max(0, min(1, (p.collision_until-time)/settings['pushSeconds']))
+    x, z = p.collision_x*remaining+x, p.collision_z*remaining+z
+    speed = math.hypot(x, z)
+    scale = min(1, settings['maxPushSpeed']/max(speed, 1e-8))
+    p.collision_x, p.collision_z = x*scale, z*scale
+    p.collision_until = time+settings['pushSeconds']
+    if p.grounded:
+        p.grounded = False
+        p.vy = CONFIG['jumpMinSpeed']*min(1, speed/3)
+
+
+def resolve_players(players, previous, boxes, mode='race', *, dt=.05, time=0, contacts=()):
+    """Separate bodies, transferring momentum once per new contact."""
+    settings = CONFIG['playerCollision']
+    velocities = {p.id: tuple((value-old)/max(dt, 1e-8) for value, old in zip((p.x,p.y,p.z), previous[p.id]))
+                  for p in players}
+    masses = {p.id: (max(.6, p.launch_speed/jump_speed(CONFIG['pogo']['bouncePower']))**2
+                    if not p.grounded and p.launch_speed else 1) for p in players}
+    touching = set()
     for i, a in enumerate(players):
         ax, ay, az = previous[a.id]
         for b in players[i+1:]:
             bx, by, bz = previous[b.id]
             start = (ax-bx, ay-by, az-bz)
             end = (a.x-b.x, a.y-b.y, a.z-b.z)
+            pair = tuple(sorted((a.id,b.id)))
+            if pair in contacts and abs(end[1]) < HEAD_CLEARANCE and math.hypot(end[0],end[2]) <= PLAYER_DIAMETER+.08:
+                touching.add(pair)
             dx, _, dz = end
             if math.hypot(start[0], start[2]) >= PLAYER_DIAMETER:
                 t = segment_sphere((start[0], 0, start[2]), (dx, 0, dz), (0, 0, 0), PLAYER_DIAMETER)
@@ -129,18 +182,29 @@ def resolve_players(players, previous, boxes):
             distance = math.hypot(dx, dz)
             nx, nz = (dx/distance, dz/distance) if distance else (1, 0)
             depth = PLAYER_DIAMETER-(end[0]*nx+end[2]*nz)
-            if depth <= 1e-6:
+            if depth < -1e-6:
                 continue
+            touching.add(pair)
+            if pair not in contacts:
+                va, vb = velocities[a.id], velocities[b.id]
+                closing = max(0, (vb[0]-va[0])*nx+(vb[2]-va[2])*nz)
+                vertical = abs(va[1]-vb[1])*settings['verticalTransfer']
+                impact = math.hypot(closing, vertical)
+                if impact >= settings['minImpactSpeed']:
+                    impulse = (1+settings['restitution'])*impact/(1/masses[a.id]+1/masses[b.id])
+                    body_impulse(a,nx*impulse/masses[a.id],nz*impulse/masses[a.id],time)
+                    body_impulse(b,-nx*impulse/masses[b.id],-nz*impulse/masses[b.id],time)
             for p, sign in ((a, 1), (b, -1), (a, 1)):
                 share = min(depth, max(0, PLAYER_DIAMETER-((a.x-b.x)*nx+(a.z-b.z)*nz)))
                 if share <= 1e-6:
                     break
                 amount = min(share, depth/2)*sign
                 x, z = p.x+nx*amount, p.z+nz*amount
-                if can_occupy(x, z, p.y, boxes):
+                if can_occupy(x, z, p.y, boxes, mode):
                     p.x, p.z = x, z
                     if p.grounded and support_height(x, z, p.y, boxes) < p.y-1e-8:
                         p.grounded = False
+    return touching
 
 
 def steer_to(x, z, target, dt):
@@ -149,7 +213,7 @@ def steer_to(x, z, target, dt):
     return dx/scale, dz/scale
 
 
-def air_step(x, y, z, vy, move_x, move_z, dt, push_x=0, push_z=0, tick=0, boxes=None):
+def air_step(x, y, z, vy, move_x, move_z, dt, push_x=0, push_z=0, tick=0, boxes=None, mode='race'):
     """Advance one airborne tick. The bot planner uses the same physics as play."""
     vy -= CONFIG["gravity"]*dt
     next_y = y+vy*dt
@@ -166,17 +230,17 @@ def air_step(x, y, z, vy, move_x, move_z, dt, push_x=0, push_z=0, tick=0, boxes=
     dx, dz = move_x*travel+push_x*dt, move_z*travel+push_z*dt
     # Allow the pogo to reach a ledge on the tick where it descends past its top.
     clearance = max(y, next_y)
-    if can_occupy(x+dx, z, clearance, boxes):
+    if can_occupy(x+dx, z, clearance, boxes, mode):
         x += dx
-    if can_occupy(x, z+dz, clearance, boxes):
+    if can_occupy(x, z+dz, clearance, boxes, mode):
         z += dz
     floor = support_height(x, z, y, boxes)
     landed = vy <= 0 and next_y <= floor
     if landed:
         next_y = floor
     # Slide a pogo that misses the top away from the vertical face.
-    if not can_occupy(x, z, next_y, boxes):
-        x, z = slide_clear(x, z, next_y, boxes)
+    if not can_occupy(x, z, next_y, boxes, mode):
+        x, z = slide_clear(x, z, next_y, boxes, mode)
         if landed and support_height(x, z, y, boxes) < next_y:
             landed = False
     return x, next_y, z, vy, landed
@@ -187,7 +251,7 @@ def hop_endpoint(p, target, power, start_tick=0, mode="race"):
     dt = 1/CONFIG["tickRate"]
     for tick in range(start_tick+1, start_tick+41):
         dx, dz = steer_to(x, z, target, dt)
-        x, y, z, vy, landed = air_step(x, y, z, vy, dx, dz, dt, boxes=boxes_at(tick, mode))
+        x, y, z, vy, landed = air_step(x, y, z, vy, dx, dz, dt, boxes=boxes_at(tick, mode),mode=mode)
         if landed:
             return x, y, z
     return None
@@ -220,6 +284,7 @@ class Controls:
     fire: bool = False
     received_at: float = -100
     power: float = .6
+    jump_held: bool = False
 
 
 @dataclass
@@ -237,6 +302,11 @@ class Player:
     pops: int = 0
     best_height: float = 0
     race_step: int = -1
+    finish_position: int | None = None
+    finish_time: float | None = None
+    race_points: int = 0
+    finish_name: str | None = None
+    finish_bot: bool = False
     balloons: int = ALL_BALLOONS
     protected_until: float = 0
     next_shot: float = 0
@@ -249,9 +319,15 @@ class Player:
     bot_destination: tuple[float, float] | None = None
     bot_target: str | None = None
     bot_target_until: float = 0
-    jump_requested: tuple[float, float, float, float] | None = None
+    jump_requested: tuple[float, float, float | None, float | None] | None = None
     launch_x: float = 0
     launch_z: float = 0
+    launch_speed: float = 0
+    collision_x: float = 0
+    collision_z: float = 0
+    collision_until: float = 0
+    lean_x: float = 0
+    lean_z: float = 0
     last_throw_at: float = -100
     hit_at: float = -100
     hit_yaw: float = 0
@@ -319,8 +395,34 @@ def segment_sphere(start, end, center, radius):
     return t if 0 <= t <= 1 else None
 
 
+def segment_obstacle(start, end, obstacle, bottom, top, margin=0):
+    if obstacle.get('shape') != 'ellipse':
+        return segment_box(start,end,
+            (obstacle['x']-obstacle['w']/2-margin,bottom-margin,obstacle['z']-obstacle['d']/2-margin),
+            (obstacle['x']+obstacle['w']/2+margin,top+margin,obstacle['z']+obstacle['d']/2+margin))
+    rx,rz=obstacle['w']/2+margin,obstacle['d']/2+margin
+    x,z=(start[0]-obstacle['x'])/rx,(start[2]-obstacle['z'])/rz
+    dx,dz=(end[0]-start[0])/rx,(end[2]-start[2])/rz
+    a,b,c=dx*dx+dz*dz,2*(x*dx+z*dz),x*x+z*z-1
+    near,far=0.0,1.0
+    if a < 1e-12:
+        if c > 0:return None
+    else:
+        discriminant=b*b-4*a*c
+        if discriminant < 0:return None
+        root=math.sqrt(discriminant)
+        near,far=max(near,(-b-root)/(2*a)),min(far,(-b+root)/(2*a))
+    dy=end[1]-start[1]
+    if abs(dy)<1e-12:
+        if not bottom-margin <= start[1] <= top+margin:return None
+    else:
+        y1,y2=(bottom-margin-start[1])/dy,(top+margin-start[1])/dy
+        near,far=max(near,min(y1,y2)),min(far,max(y1,y2))
+    return near if near <= far else None
+
+
 class Arena:
-    def __init__(self, seed=None, duration=None, mode="eliminations"):
+    def __init__(self, seed=None, duration=None, mode="eliminations", *, auto_bounce=True):
         self.rng = random.Random(seed)
         self.id = str(uuid.uuid4())
         self.time = 0.0
@@ -330,6 +432,7 @@ class Arena:
         self.finished = False
         self.score = [0, 0]
         self.mode = mode
+        self.auto_bounce = auto_bounce
         self.winner = None
         self.players: dict[str, Player] = {}
         self.shots: list[Shot] = []
@@ -337,6 +440,7 @@ class Arena:
         self.events = []
         self.impacts = []
         self.recent_impacts = []
+        self.player_contacts = set()
         names = ["Tibia", "Fémur", "Costilla", "Cráneo", "Rótula", "Húmero", "Radio", "Cúbito", "Falange", "Sacro"]
         for i, name in enumerate(names):
             p = Player(f"slot-{i}", name, i % 2 if mode == "race" else None)
@@ -352,7 +456,7 @@ class Arena:
         index = slot//2 if self.mode == "race" else slot
         if self.mode == "race":
             p.x = (-1 if p.team == 0 else 1)*RACE["startX"] + self.rng.uniform(-0.15, 0.15)
-            p.z = (index - (CONFIG["teamSize"]-1)/2)*RACE["startSpacing"]
+            p.z = (-1 if p.team==0 else 1)*RACE.get('startZ',0)+(index - (CONFIG["teamSize"]-1)/2)*RACE["startSpacing"]
         else:
             angle = math.tau*slot/(2*CONFIG["teamSize"])
             p.x, p.z = math.cos(angle)*27, math.sin(angle)*24
@@ -365,7 +469,10 @@ class Arena:
         p.jumped_at, p.landed_at, p.last_throw_at, p.impact_speed = -100, -100, -100, 0
         p.hit_at, p.hit_yaw, p.hit_force, p.hit_by = -100, 0, 0, None
         p.push_x, p.push_z, p.push_until = 0, 0, 0
-        p.next_bot_jump = self.time + .25 + (index % 3)*.18
+        p.lean_x, p.lean_z, p.launch_x, p.launch_z = 0, 0, 0, 0
+        p.launch_speed, p.collision_x, p.collision_z, p.collision_until = 0, 0, 0, 0
+        self.player_contacts = {pair for pair in self.player_contacts if p.id not in pair}
+        p.next_bot_jump = self.time
         p.bot_destination = None
         p.bot_target, p.bot_target_until = None, 0
 
@@ -408,18 +515,26 @@ class Arena:
 
     def apply_input(self, player_id, message):
         p = self.players[player_id]
-        if p.health <= 0 or message.seq <= p.controls.seq:
+        if self.finished or p.health <= 0 or p.finish_position is not None or message.seq <= p.controls.seq:
             return
         p.controls = Controls(seq=message.seq, move_x=message.moveX, move_z=message.moveZ, yaw=message.yaw,
-                              pitch=message.pitch, fire=message.fire, received_at=self.time, power=message.power)
+                              pitch=message.pitch, fire=message.fire, received_at=self.time, power=message.power,
+                              jump_held=message.jumpHeld)
         p.bottle = message.bottle
-        if message.fire and self.time >= p.stunned_until:
+        if message.fire and self.time >= p.stunned_until and self.time+1e-8 >= p.next_shot:
             # Preserve the discrete release event even if a newer movement packet arrives before the next tick.
             p.throw_requested = True
             p.requested_aim = (message.yaw, message.pitch, message.power, message.bottle)
-        if message.jumpPower is not None and p.grounded and self.time >= p.stunned_until:
-            recovery = RACE["landingRecovery"] if self.mode == "race" else CONFIG["landingRecovery"]
-            p.jump_requested = (message.jumpPower, max(self.time+.2, p.landed_at+recovery+.1), message.moveX, message.moveZ)
+        if message.jumpPower is not None and self.time >= p.stunned_until:
+            if self.auto_bounce:
+                # A boost released in flight powers the next contact. In that
+                # case the launch angle comes from the next landing's lean.
+                lean = (p.lean_x, p.lean_z) if p.grounded else (None, None)
+                p.jump_requested = (max(CONFIG['pogo']['bouncePower'], message.jumpPower),
+                                    self.time+CONFIG['pogo']['boostBufferSeconds'], *lean)
+            elif p.grounded:
+                recovery = RACE["landingRecovery"] if self.mode == "race" else CONFIG["landingRecovery"]
+                p.jump_requested = (message.jumpPower, max(self.time+.2, p.landed_at+recovery+.1), p.lean_x, p.lean_z)
 
     def hop_toward(self, p, goal):
         dx, dz = goal[0]-p.x, goal[1]-p.z
@@ -456,7 +571,7 @@ class Arena:
             slot = int(p.id.split('-')[-1])
             x += ((slot % 3)-1)*min(.38, deck["w"]*.14)
             z += ((slot//3 % 3)-1)*min(.32, deck["d"]*.12)
-        if math.hypot(x-p.x, z-p.z) > 6.5:
+        if math.hypot(x-p.x, z-p.z) > 14:
             return None
         target = (x, z)
         motion = deck.get("motion")
@@ -473,27 +588,19 @@ class Arena:
         if p.y >= SUMMIT["h"]-.01:
             return self.hop_toward(p, (SUMMIT["x"], SUMMIT["z"]))
         if p.y <= .01:
-            slot = int(p.id.split('-')[-1])
-            lane = p.team if slot//2 % 3 == 0 else 1-p.team
-            entry = TOWER_ENTRIES[lane]
-            # Travel around the central structure before approaching the other entrance.
-            if p.x*entry["x"] < 0:
-                side = -1 if slot % 2 else 1
-                waypoint = (p.x, side*15) if abs(p.z) < 13 else (entry["x"], side*15)
-                return self.hop_toward(p, waypoint)
+            # Each team starts its equally long mirrored route in the large map.
+            entry = TOWER_ENTRIES[p.team]
             return self.deck_hop(p, entry) or self.hop_toward(p, (entry["x"], entry["z"]))
         if p.y < RACE["rise"]-.01:
             lane = 0 if p.x < 0 else 1
             entry = TOWER_ENTRIES[lane]
             return self.deck_hop(p, TOWER_TRACKS[lane][0]) or self.hop_toward(p, (entry["x"], entry["z"]))
-        step = min(len(TOWER_TRACKS[0]), round(p.y/RACE["rise"]))
+        step = max(0,min(len(TOWER_TRACKS[0]),p.race_step))
         if step <= 0:
             return None
         track = min(TOWER_TRACKS, key=lambda route: math.hypot(
             route[step-1]["x"]-p.x, route[step-1]["z"]-p.z))
         current = track[step-1]
-        if overlaps(TOWER_CORE, p.x, p.z) and abs(p.y-TOWER_CORE["h"]) < .01:
-            return self.deck_hop(p, track[step]) or self.hop_toward(p, (track[step]["x"], track[step]["z"]))
         next_deck = track[step] if step < len(track) else SUMMIT
         return self.deck_hop(p, next_deck) or self.hop_toward(p, (current["x"], current["z"]))
 
@@ -534,7 +641,7 @@ class Arena:
                 continue
             targets = [(None, (0, CONFIG["hitHeight"], 0))]
             if self.mode == "eliminations":
-                targets = [(i, offset) for i, offset in enumerate(BALLOON_TARGETS) if p.balloons & (1 << i)]
+                targets = [(i, offset) for i, offset in enumerate(balloon_offsets(p)) if p.balloons & (1 << i)]
             for index, (x, y, z) in targets:
                 if shot.assist_target is not None and index != shot.assist_balloon:
                     continue
@@ -547,9 +654,7 @@ class Arena:
                 if alignment < .45:
                     continue
                 radius = bottle_config(shot.kind)["shotRadius"]
-                if any(segment_box(origin, point,
-                       (o["x"]-o["w"]/2-radius, bottom-radius, o["z"]-o["d"]/2-radius),
-                       (o["x"]+o["w"]/2+radius, top+radius, o["z"]+o["d"]/2+radius)) is not None
+                if any(segment_obstacle(origin,point,o,bottom,top,radius) is not None
                        for o, bottom, top in boxes if bottom-radius <= max(shot.y,point[1]) and top+radius >= min(shot.y,point[1])):
                     continue
                 candidates.append((distance, p.id, index, delta))
@@ -570,7 +675,7 @@ class Arena:
         shot.vx, shot.vy, shot.vz = (value/norm*speed for value in velocity)
 
     def is_opponent(self, player, owner_id, owner_team):
-        if player.health <= 0 or player.id == owner_id:
+        if player.health <= 0 or player.finish_position is not None or player.id == owner_id:
             return False
         return self.mode == "eliminations" or player.team != owner_team
 
@@ -614,7 +719,7 @@ class Arena:
         if self.mode == "eliminations":
             may_fire = target.protected_until <= self.time
             balloon = max(i for i in range(len(BALLOON_TARGETS)) if target.balloons & (1 << i))
-            offset_x, hit_height, offset_z = BALLOON_TARGETS[balloon]
+            offset_x, hit_height, offset_z = balloon_offsets(target)[balloon]
         else:
             may_fire = abs(target.y-p.y) < 2.5 and p.y < SUMMIT["h"]-7*RACE["rise"]
             offset_x, hit_height, offset_z = 0, CONFIG["hitHeight"], 0
@@ -658,7 +763,7 @@ class Arena:
                               received_at=self.time, power=power)
 
     def can_move(self, x, z, y):
-        return can_occupy(x, z, y, boxes_at(round(self.time*CONFIG["tickRate"]), self.mode))
+        return can_occupy(x, z, y, boxes_at(round(self.time*CONFIG["tickRate"]), self.mode),self.mode)
 
     def pop_balloon(self, victim, attacker, index, direction):
         victim.balloons &= ~(1 << index)
@@ -674,7 +779,7 @@ class Arena:
         return 1, int(not victim.balloons)
 
     def shove(self, victim, attacker, direction, force):
-        if victim.protected_until > self.time or self.time < victim.push_until+.24:
+        if victim.finish_position is not None or victim.protected_until > self.time or self.time < victim.push_until+.24:
             return False
         speed = CONFIG["heavyBottle"]["pushSpeed"]*force
         victim.push_x, victim.push_z = math.sin(direction)*speed, math.cos(direction)*speed
@@ -712,8 +817,7 @@ class Arena:
                 continue
             chest = (p.x, p.y+CONFIG["hitHeight"], p.z)
             if p is not victim and any(
-                segment_box(point, chest, (o["x"]-o["w"]/2, bottom, o["z"]-o["d"]/2),
-                            (o["x"]+o["w"]/2, top, o["z"]+o["d"]/2)) is not None
+                segment_obstacle(point,chest,o,bottom,top) is not None
                 for o, bottom, top in boxes
             ):
                 continue
@@ -728,21 +832,34 @@ class Arena:
         self.shots.clear()
 
     def check_finish(self):
+        if self.finished:
+            return
         if self.mode == "race":
-            arrived = set()
+            arrived = []
             for p in self.players.values():
-                if not p.grounded:
+                if p.finish_position is not None or not p.grounded:
                     continue
-                p.race_step = round(p.y/RACE["rise"]) if p.y > .01 else -1
+                support=[o for o,_,top in boxes_at(round(self.time*CONFIG['tickRate']),'race')
+                         if abs(p.y-top)<.025 and overlaps(o,p.x,p.z,.12)]
+                p.race_step = max((o.get('step',-1) for o in support),default=-1)
                 p.best_height = max(p.best_height, round(p.y, 2))
-                self.score[p.team] = max(self.score[p.team], p.best_height)
                 if (abs(p.y-SUMMIT["h"]) < .02
                         and math.hypot(p.x-SUMMIT["x"], p.z-SUMMIT["z"]) <= CONFIG["race"]["finishRadius"]):
-                    arrived.add(p.team)
+                    arrived.append(p)
             if arrived:
-                self.finish_round(next(iter(arrived)) if len(arrived) == 1 else None)
-            elif self.time >= self.duration:
-                self.finish_round()
+                # Landings in the same 50 ms tick share a place and its points.
+                position = 1+sum(p.finish_position is not None for p in self.players.values())
+                for p in arrived:
+                    p.finish_position, p.finish_time = position, round(self.time, 3)
+                    p.race_points = RACE["placementPoints"][position-1]
+                    p.finish_name, p.finish_bot = p.name, p.bot
+                    p.controls = Controls(yaw=p.yaw)
+                    p.jump_requested, p.throw_requested = None, False
+                    p.bot_destination, p.vy = None, 0
+                self.shots = [s for s in self.shots if self.players[s.owner].finish_position is None]
+            self.score = [sum(p.race_points for p in self.players.values() if p.team == team) for team in (0, 1)]
+            if all(p.finish_position is not None for p in self.players.values()) or self.time >= self.duration:
+                self.finish_round(None if self.score[0] == self.score[1] else int(self.score[1] > self.score[0]))
         else:
             survivors = [p for p in self.players.values() if p.balloons]
             if len(survivors) <= 1 or self.time >= self.duration:
@@ -765,9 +882,12 @@ class Arena:
                   if new.get("motion")]
         self.events = []
         self.impacts = []
-        recovery = RACE["landingRecovery"] if self.mode == "race" else CONFIG["landingRecovery"]
-        players = [p for p in self.players.values() if p.health > 0]
+        recovery = CONFIG['pogo']['bounceRecovery'] if self.auto_bounce else (
+            RACE["landingRecovery"] if self.mode == "race" else CONFIG["landingRecovery"])
+        players = [p for p in self.players.values() if p.health > 0 and p.finish_position is None]
         previous = {p.id: (p.x, p.y, p.z) for p in players}
+        previous_balloons = {p.id: [(p.x+x, p.y+y, p.z+z) for x, y, z in balloon_offsets(p)]
+                             for p in players} if self.mode == 'eliminations' else {}
         for p in players:
             if p.grounded:
                 for old, new, top in moving:
@@ -775,8 +895,8 @@ class Arena:
                         p.x += new["x"]-old["x"]
                         p.z += new["z"]-old["z"]
                         break
-                if not can_occupy(p.x, p.z, p.y, boxes):
-                    p.x, p.z = slide_clear(p.x, p.z, p.y, boxes)
+                if not can_occupy(p.x, p.z, p.y, boxes,self.mode):
+                    p.x, p.z = slide_clear(p.x, p.z, p.y, boxes,self.mode)
                 if support_height(p.x, p.z, p.y, boxes) < p.y-1e-8:
                     p.grounded = False
             stunned = self.time < p.stunned_until
@@ -786,48 +906,62 @@ class Arena:
             if self.time - c.received_at > 0.5:
                 c.move_x = c.move_z = 0
                 c.fire = False
+                c.jump_held = False
             p.yaw = c.yaw
-            if p.jump_requested is not None:
-                jump_power, expires_at, launch_x, launch_z = p.jump_requested
-                if stunned or not p.grounded or self.time > expires_at:
-                    p.jump_requested = None
-                elif self.time-p.landed_at >= recovery-1e-8:
-                    p.vy = jump_speed(jump_power)
+            if p.grounded or self.auto_bounce:
+                magnitude = max(1, math.hypot(c.move_x, c.move_z))
+                response = 1-math.exp(-CONFIG['pogo']['leanResponse']*dt)
+                target_x, target_z = (0, 0) if stunned else (c.move_x/magnitude, c.move_z/magnitude)
+                p.lean_x += (target_x-p.lean_x)*response
+                p.lean_z += (target_z-p.lean_z)*response
+            if p.jump_requested is not None and (stunned or self.time > p.jump_requested[1]
+                    or (not self.auto_bounce and not p.grounded)):
+                p.jump_requested = None
+            if p.grounded and not stunned and not c.jump_held and self.time-p.landed_at >= recovery-1e-8:
+                request = p.jump_requested
+                if request is not None or self.auto_bounce:
+                    jump_power = request[0] if request else CONFIG['pogo']['bouncePower']
+                    launch_x = request[2] if request and request[2] is not None else p.lean_x
+                    launch_z = request[3] if request and request[3] is not None else p.lean_z
+                    p.launch_x, p.vy, p.launch_z = pogo_launch(jump_power, launch_x, launch_z)
+                    p.launch_speed = jump_speed(jump_power)
                     p.grounded, p.jump_requested = False, None
                     p.jumped_at = self.time
-                    p.launch_x, p.launch_z = launch_x, launch_z
             if not p.grounded:
                 dx, dz = c.move_x, c.move_z
                 if p.bot and p.bot_destination is not None:
                     dx, dz = steer_to(p.x, p.z, p.bot_destination, dt)
-                elif not p.bot and math.hypot(p.launch_x, p.launch_z) > .01:
-                    bias = .72*max(0, 1-(self.time-p.jumped_at)/.18)
-                    dx, dz = dx*(1-bias)+p.launch_x*bias, dz*(1-bias)+p.launch_z*bias
                 if stunned:
                     dx = dz = 0
                 push = max(0, min(1, (p.push_until-previous_time)/CONFIG["heavyBottle"]["pushSeconds"]))
+                collision = max(0, min(1, (p.collision_until-previous_time)/CONFIG['playerCollision']['pushSeconds']))
+                momentum = math.exp(-CONFIG['pogo']['airDrag']*max(0, self.time-p.jumped_at))
                 p.x, p.y, p.z, p.vy, p.grounded = air_step(
-                    p.x, p.y, p.z, p.vy, dx, dz, dt, p.push_x*push, p.push_z*push, boxes=boxes)
+                    p.x, p.y, p.z, p.vy, dx, dz, dt,
+                    p.push_x*push+p.launch_x*momentum+p.collision_x*collision,
+                    p.push_z*push+p.launch_z*momentum+p.collision_z*collision, boxes=boxes,mode=self.mode)
                 if p.grounded:
                     p.landed_at, p.impact_speed = self.time, -p.vy
                     p.vy = 0
+                    p.launch_x, p.launch_z = 0, 0
+                    p.launch_speed = 0
                     if p.bot:
                         p.bot_destination = None
-                        rest = self.rng.uniform(1.12, 1.44) if self.mode == "race" else self.rng.uniform(.23, .53)
+                        rest = 0 if self.auto_bounce else self.rng.uniform(.23, .53)
                         p.next_bot_jump = self.time+rest
+                        p.next_think = self.time
             should_throw = c.fire if p.bot else p.throw_requested
             p.throw_requested = False
-            if should_throw and not stunned and self.time >= p.next_shot:
+            if should_throw and not stunned and self.time+1e-8 >= p.next_shot:
                 yaw,pitch,power,kind = p.requested_aim if not p.bot and p.requested_aim else (c.yaw,c.pitch,c.power,"standard")
                 stats = bottle_config(kind)
-                cooldown = 1.9 if p.bot and self.mode == "eliminations" else 1
-                p.next_shot = self.time + stats["shotInterval"]*cooldown
+                p.next_shot = self.time + stats["shotInterval"]
                 p.last_throw_at = self.time
                 p.yaw = yaw
                 self.shot_id += 1
                 self.shots.append(Shot(self.shot_id,p.id,p.team,*throw_origin(p),*launch_velocity(yaw,pitch,power,kind),
                                        stats["shotLifetime"],kind=kind))
-        resolve_players(players, previous, boxes)
+        self.player_contacts = resolve_players(players, previous, boxes,self.mode,dt=dt,time=self.time,contacts=self.player_contacts)
         if self.mode == "race":
             self.check_finish()
             if self.finished:
@@ -847,8 +981,7 @@ class Arena:
                 if top < low_y or bottom > high_y:
                     continue
                 relative_start = (start[0]+o["x"]-old["x"], start[1], start[2]+o["z"]-old["z"])
-                t = segment_box(relative_start,end,(o["x"]-o["w"]/2-radius,bottom-radius,o["z"]-o["d"]/2-radius),
-                                (o["x"]+o["w"]/2+radius,top+radius,o["z"]+o["d"]/2+radius))
+                t = segment_obstacle(relative_start,end,o,bottom,top,radius)
                 if t is not None and t < hit_t:
                     hit_t, victim = t, None
             for p in self.players.values():
@@ -860,10 +993,12 @@ class Arena:
                         hit_t, victim, balloon = body_hit, p, None
                     if p.protected_until > self.time:
                         continue
-                    for index, (dx, dy, dz) in enumerate(BALLOON_TARGETS):
+                    for index, (dx, dy, dz) in enumerate(balloon_offsets(p)):
                         if not p.balloons & (1 << index):
                             continue
-                        t = segment_sphere(start, end, (p.x+dx, p.y+dy, p.z+dz), CONFIG["balloons"]["radius"]+radius)
+                        center = (p.x+dx, p.y+dy, p.z+dz)
+                        moving_start = tuple(a+new-old for a, new, old in zip(start, center, previous_balloons[p.id][index]))
+                        t = segment_sphere(moving_start, end, center, CONFIG["balloons"]["radius"]+radius)
                         if t is not None and t < hit_t:
                             hit_t, victim, balloon = t, p, index
                 else:
@@ -877,7 +1012,8 @@ class Arena:
                     if y-radius<=height_at(x,z): high=m
                     else: low=m
                 if high<hit_t: hit_t,victim=high,None
-            for axis,limit in ((0,CONFIG["width"]/2),(2,CONFIG["depth"]/2)):
+            bounds=RACE.get('bounds',CONFIG) if self.mode=='race' else CONFIG
+            for axis,limit in ((0,bounds["width"]/2),(2,bounds["depth"]/2)):
                 if abs(end[axis])>limit:
                     t=((limit if end[axis]>0 else -limit)-start[axis])/(end[axis]-start[axis])
                     if t<hit_t: hit_t,victim=max(0,t),None
@@ -912,9 +1048,15 @@ class Arena:
                              "balloons": p.balloons if self.mode == "eliminations" else None,
                              "balloonCount": p.balloons.bit_count() if self.mode == "eliminations" else None,
                              "pops": p.pops, "bestHeight": p.best_height, "raceStep": p.race_step,
+                             "finishPosition": p.finish_position, "finishTime": p.finish_time,
+                             "racePoints": p.race_points, "finishName": p.finish_name, "finishBot": p.finish_bot,
                              "vy":round(p.vy,3),"grounded":p.grounded,"landedAt":round(p.landed_at,3),
                              "jumpedAt":round(p.jumped_at,3),"impactSpeed":round(p.impact_speed,3),
                              "moveX":round(p.controls.move_x,3),"moveZ":round(p.controls.move_z,3),
+                             "leanX":round(p.lean_x,3),"leanZ":round(p.lean_z,3),
+                             "chargingJump":p.controls.jump_held and p.grounded,
+                             "launchX":round(p.launch_x,3),"launchZ":round(p.launch_z,3),
+                             "jumpSpeed":round(p.launch_speed,3),
                              "lastThrowAt":round(p.last_throw_at,3),"bottle":p.bottle,
                              "stunnedUntil":round(p.stunned_until,3),
                              "hitAt":round(p.hit_at,3),"hitYaw":round(p.hit_yaw,3),"hitForce":round(p.hit_force,3),"hitBy":p.hit_by,

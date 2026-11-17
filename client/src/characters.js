@@ -6,10 +6,15 @@ import { Vector3 } from '@babylonjs/core/Maths/math.vector.js';
 import { Color3 } from '@babylonjs/core/Maths/math.color.js';
 import { StandardMaterial } from '@babylonjs/core/Materials/standardMaterial.js';
 import { PBRMaterial } from '@babylonjs/core/Materials/PBR/pbrMaterial.js';
-import { config } from '../../shared/physics.js';
+import { config,pogoStanceAngles } from '../../shared/physics.js';
 
 export const TEAM_COLORS = ['#79d6b5','#eb9278'];
 export const playerColor = team => TEAM_COLORS[team] ?? '#f3d58e';
+export function createPogoStance(root){
+  const stance=new TransformNode('inclinacion-del-pogo',root.getScene());
+  stance.parent=root;stance.setPivotPoint(new Vector3(0,.03,.52));
+  return stance;
+}
 export function createBottleFactory(scene) {
   const materials=[...TEAM_COLORS,playerColor(null)].map((hex,i)=>{
     const glass=new PBRMaterial(`vidrio-${i}`,scene);
@@ -63,8 +68,8 @@ export async function createCharacterFactory(scene,shadow,material,bone,box,bott
     if(quality==='low')mesh.material=lowBoneMaterial;
   }
   return function character(id,team,lowQuality){
-    const root=new TransformNode(`personaje-${id}`,scene),balance=new TransformNode('balance-del-pogo',scene),elastic=new TransformNode('cuerpo-elastico',scene);
-    balance.parent=root;balance.setPivotPoint(new Vector3(0,.03,.52));elastic.parent=balance;
+    const root=new TransformNode(`personaje-${id}`,scene),stance=createPogoStance(root),balance=new TransformNode('balance-del-pogo',scene),elastic=new TransformNode('cuerpo-elastico',scene);
+    balance.parent=stance;balance.setPivotPoint(new Vector3(0,.03,.52));elastic.parent=balance;
     elastic.setPivotPoint(new Vector3(0,.63,.10));
     // The anatomical model has rigid joints and one shared material.
     const entries=model.instantiateModelsToScene(name=>`${id}:${name}`,false,{doNotInstantiate:false});
@@ -111,15 +116,15 @@ export async function createCharacterFactory(scene,shadow,material,bone,box,bott
       const vertical=Math.max(.6,1-.31*landing+.075*follow+.24*kick-.23*jumpCharge);
       elastic.scaling.set(1/Math.sqrt(vertical),vertical,1/Math.sqrt(vertical));
       const lean=Math.max(-1,Math.min(1,vy/config.jumpMaxSpeed));
-      const steer=p.grounded?.34:.14, response=1-Math.exp(-13*dt);
-      const moveX=p.moveX??0,moveZ=p.moveZ??0;
-      forwardLean+=(steer*(moveX*Math.sin(p.yaw)+moveZ*Math.cos(p.yaw))-forwardLean)*response;
-      sideLean+=(steer*(moveX*Math.cos(p.yaw)-moveZ*Math.sin(p.yaw))-sideLean)*response;
-      balance.rotation.x=(forwardLean+.16*lean+.11*jumpCharge-.14*landing)*(1-collapse)+Math.cos(incoming)*tilt;
-      balance.rotation.z=-sideLean*(1-collapse)-Math.sin(incoming)*tilt;
+      const stanceAngles=pogoStanceAngles(p);
+      forwardLean=stanceAngles.pitch;sideLean=-stanceAngles.roll;
+      stance.rotation.set(forwardLean*(1-collapse),0,-sideLean*(1-collapse));
+      balance.rotation.x=(.16*lean+.11*jumpCharge-.14*landing)*(1-collapse)+Math.cos(incoming)*tilt;
+      balance.rotation.z=-Math.sin(incoming)*tilt;
       elastic.rotation.x=.11*lean*(1-collapse)+.09*jumpCharge+.05*follow;
       elastic.rotation.z=(1-collapse)*Math.sin(time*3+Number(id.split('-').at(-1)||0))*.012;
-      pogo.rotation.z=.52*collapse;
+      pogo.rotation.x=forwardLean*(1-collapse);
+      pogo.rotation.z=-sideLean*(1-collapse)+.52*collapse;
       pogo.position.x=.27*collapse;
       spring.scaling.y=Math.max(.32,1-.54*landing+.10*follow-.51*jumpCharge+.16*kick);
       shaft.scaling.y=1-.10*landing-.07*jumpCharge;
@@ -135,7 +140,7 @@ export async function createCharacterFactory(scene,shadow,material,bone,box,bott
       held.standard.setEnabled(p.health>0&&!throwing&&kind==='standard');
       held.heavy.setEnabled(p.health>0&&!throwing&&kind==='heavy');
     }
-    return{root,animate,dispose(){
+    return{root,stance,animate,dispose(){
       for(const mesh of casters)shadow.removeShadowCaster(mesh);
       root.dispose();
     }};

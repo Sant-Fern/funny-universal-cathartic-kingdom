@@ -19,12 +19,15 @@ jobs:
           cache: pip
           cache-dependency-path: server/requirements.txt
       - run: python -m venv .venv
-      - run: .venv/bin/python -m pip install -r server/requirements.txt
+      - run: .venv/bin/python -m pip install -r server/requirements.txt -r serverless/requirements-test.txt
       - run: npm ci
       - run: npm test
+      - run: .venv/bin/python -m pytest serverless/test_handler.py -q
       - run: npm run build
       - run: docker compose config --quiet
       - run: docker compose build
+      - name: Build AWS matchmaking gateway
+        run: docker build -f gateway/Dockerfile -t pogo-gateway:check .
       - run: docker compose up --wait --wait-timeout 60
       - name: Check HTTP and WebSocket through Nginx
         run: |
@@ -41,9 +44,12 @@ jobs:
         run: docker compose down
   terraform:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        directory: [infra/gcp, infra/aws, infra/aws/bootstrap]
     defaults:
       run:
-        working-directory: infra/gcp
+        working-directory: ${{ matrix.directory }}
     steps:
       - uses: actions/checkout@v4
       - uses: hashicorp/setup-terraform@v3

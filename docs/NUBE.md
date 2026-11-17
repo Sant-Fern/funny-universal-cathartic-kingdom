@@ -1,4 +1,8 @@
-# Acceso a nube — restricción de fase 0
+# Acceso a nube
+
+**Actualización del 16 de noviembre de 2026:** el juego ya está desplegado en AWS: https://d1oif12lvr7c7k.cloudfront.net. Se comprobó una cuenta Free activa, se crearon EKS/Agones y se validaron conexiones públicas. El estado vigente, costo, evidencia y pendientes académicos están en [DESPLIEGUE_AWS.md](DESPLIEGUE_AWS.md).
+
+Lo siguiente se conserva como historial de las restricciones iniciales; no describe el despliegue vigente.
 
 Actualizado el 8 de noviembre de 2026.
 
