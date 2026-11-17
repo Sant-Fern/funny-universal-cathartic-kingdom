@@ -1,0 +1,7 @@
+NAME                       READY   STATUS    RESTARTS   AGE   IP              NODE                                          NOMINATED NODE   READINESS GATES
+gateway-6df4ccb6b7-8ps5d   1/1     Running   0          22s   10.176.26.162   ip-10-176-27-21.us-east-2.compute.internal    <none>           <none>
+gateway-6df4ccb6b7-j8gnt   1/1     Running   0          22s   10.176.25.184   ip-10-176-23-222.us-east-2.compute.internal   <none>           <none>
+gateway-6df4ccb6b7-lh6tk   1/1     Running   0          18s   10.176.17.57    ip-10-176-26-6.us-east-2.compute.internal     <none>           <none>
+gateway-6df4ccb6b7-ngcrb   1/1     Running   0          14s   10.176.26.49    ip-10-176-31-81.us-east-2.compute.internal    <none>           <none>
+gateway-6df4ccb6b7-rfp5w   1/1     Running   0          18s   10.176.3.36     ip-10-176-15-28.us-east-2.compute.internal    <none>           <none>
+gateway-6df4ccb6b7-src68   1/1     Running   0          22s   10.176.0.134    ip-10-176-15-149.us-east-2.compute.internal   <none>           <none>

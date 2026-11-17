@@ -1,0 +1,8 @@
+aws_eks_node_group.game: Modifying... [id=pogo-demo:pogo-games]
+
+Error: updating EKS Node Group (pogo-demo:pogo-games) config: operation error EKS: UpdateNodegroupConfig, https response error StatusCode: 400, RequestID: a499cab3-bbdc-4147-a8e5-d4eb663af5af, InvalidParameterException: Minimum capacity 10 can't be greater than desired size 4
+
+  with aws_eks_node_group.game,
+  on main.tf line 169, in resource "aws_eks_node_group" "game":
+ 169: resource "aws_eks_node_group" "game" {
+

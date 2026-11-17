@@ -1,0 +1,75 @@
+{
+  "label": "ramp-1000",
+  "class": "PogoUser",
+  "tag": "loadtest-20261116-01",
+  "desired_users": 1000,
+  "rate": 2.0,
+  "requested_duration_seconds": 1200,
+  "runner_elapsed_seconds": 566.7,
+  "completed_requested_duration": false,
+  "peak_locust_users": 1000.0,
+  "peak_connected_receivers": 56.0,
+  "peak_hls_viewers": 0.0,
+  "max_worker_cpu_percent": 82.9,
+  "peak_prometheus_ccu": null,
+  "max_rolling_tick_p99_ms": null,
+  "scaling_observations": {
+    "nodes": {
+      "initial": null,
+      "max": null,
+      "first_increase_seconds": null
+    },
+    "gateway_replicas": {
+      "initial": null,
+      "max": null,
+      "first_increase_seconds": null
+    },
+    "pending_pods": {
+      "initial": null,
+      "max": null,
+      "first_increase_seconds": null
+    }
+  },
+  "received_payload_bytes": 1225723956.0,
+  "connected_player_seconds": 9238.7,
+  "input_events": 108849.0,
+  "observed_inputs_per_player_second": 11.78,
+  "payload_bytes_per_player_second": 132673.03,
+  "requests": [
+    {
+      "type": "POST",
+      "name": "join",
+      "count": 22030,
+      "failures": 21974,
+      "p50_ms": 12000.0,
+      "p95_ms": 12000.0,
+      "p99_ms": 12000.0,
+      "average_content_bytes": 1.3660009078529278
+    },
+    {
+      "type": "WS",
+      "name": "join_to_welcome",
+      "count": 56,
+      "failures": 0,
+      "p50_ms": 4100.0,
+      "p95_ms": 12000.0,
+      "p99_ms": 12000.0,
+      "average_content_bytes": 0.0
+    },
+    {
+      "type": "WS",
+      "name": "ping_rtt",
+      "count": 5467,
+      "failures": 0,
+      "p50_ms": 7.0,
+      "p95_ms": 82.0,
+      "p99_ms": 430.0,
+      "average_content_bytes": 40.890799341503566
+    }
+  ],
+  "measurement_notes": [
+    "Prometheus samples every 15 seconds. Tick is active work, not end-to-end latency.",
+    "Locust user count includes retries. Connected receivers and server CCU are separate observations.",
+    "Exit code 0 does not imply no request failures. Inspect CSV counts."
+  ]
+}

@@ -50,7 +50,7 @@ export async function populate(p,data,root,applyChartFont){
   text(slide,'pruebas aprobadas',64,278,400,48,28);
   table(slide,[['Evidencia','Resultado'],['GitHub Actions','Pruebas, imágenes por commit y actualización de Fleet'],['Terraform','55 recursos temporales eliminados, estado final vacío'],['Reversión','La partida ocupada conservó su conexión durante 100 s']],514,164,702,370,[190,512]);
   text(slide,'El PR conserva el plan para revisión humana. El ejecutor de despliegue fue efímero.',64,594,1152,64,25,false,muted);
-  slide.speakerNotes.text='60 s. Dividir las 119 pruebas: 96 servidor, 20 cliente, 3 clasificación. Abrir si hace falta la ejecución 43995456257. El ciclo Terraform se hizo en otro estado y otra VPC, sin retirar el juego. Se recuperó un estado tras vencer la credencial y se corrigió la renovación. Fuentes: evidence/aws-ci/run.json, evidence/aws-terraform-cycle y PR https://github.com/Sant-Fern/funny-universal-cathartic-kingdom/pull/1. Despliegue https://github.com/Sant-Fern/funny-universal-cathartic-kingdom/actions/runs/43995456257.';
+  slide.speakerNotes.text=`60 s. Dividir las 119 pruebas: 96 servidor, 20 cliente, 3 clasificación. Abrir ${data.ci.url}. El ciclo Terraform se hizo en otro estado y otra VPC, sin retirar el juego. Se recuperó un estado tras vencer la credencial y se corrigió la renovación. Fuentes: evidence/aws-ci/run.json, evidence/aws-terraform-cycle y PR https://github.com/Sant-Fern/funny-universal-cathartic-kingdom/pull/1. Las imágenes probadas de 8ee5d87 y publicadas de 3e741d5 comparten árboles de aplicación, documentado en application-source-comparison.json.`;
 
   slide=page(p,'Clientes solicitados y conexiones reales',4);
   const cc=data.chart;
@@ -61,7 +61,7 @@ export async function populate(p,data,root,applyChartFont){
   applyChartFont(ch,{fontFamily:family});
   text(slide,`${fmt(data.chosen.peak_connected_receivers)} conexiones pico · ${fmt(fail(data.chosen))} errores de peticiones`,64,590,1152,42,28,true,teal);
   text(slide,`${data.chosen.label}. Ohio, clientes de protocolo. La prueba no mide FPS ni garantiza un SLO.`,64,638,1090,44,20,false,muted);
-  slide.speakerNotes.text=`75 s. Distinguir clientes Locust de CCU. La rampa inicial alcanzó 843 y el pico posterior ${fmt(data.spike?.peak_connected_receivers)}. Esta gráfica corresponde a ${data.chosen.label}. La rampa con capacidad preparada mantiene diez nodos y seis gateways. Los reintentos y errores siguen en los CSV. Fuente: evidence/aws-load/${data.chosen.label}/summary.json, pogo-timeseries.csv y prometheus.json. No presentar el pico como capacidad estable.`;
+  slide.speakerNotes.text=`75 s. Distinguir clientes Locust de CCU. La rampa inicial alcanzó 843 y el pico posterior ${fmt(data.spike?.peak_connected_receivers)}. Esta gráfica corresponde a ${data.chosen.label}. La rampa con capacidad preparada mantiene diez nodos y seis gateways. Los reintentos y errores siguen en los CSV. El objetivo de controles es 20 Hz y la frecuencia observada fue ${fmt(data.chosen.observed_inputs_per_player_second,1)} Hz. El gauge de servidor puede exceder temporalmente los clientes únicos al sumar scrapes desfasados de salas durante reconexiones. Fuente: evidence/aws-load/${data.chosen.label}/summary.json, pogo-timeseries.csv y prometheus.json. No presentar el pico como capacidad estable.`;
 
   slide=page(p,'Respuesta del autoescalado desde reposo',5);
   const baseline=JSON.parse(await fs.readFile(path.join(root,'evidence/aws-load/ramp-1000-fixed/prometheus.json'),'utf8'));

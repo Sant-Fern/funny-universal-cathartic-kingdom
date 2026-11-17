@@ -1,0 +1,10 @@
+{
+  "started_utc": "2026-11-17T01:45:15.825780+00:00",
+  "gameServer": "pogo-race-r44gk-d64dv",
+  "player": "slot-0",
+  "seconds_requested": 100,
+  "status": "passed",
+  "snapshots": 2002,
+  "pongs": 97,
+  "ended_utc": "2026-11-17T01:46:55.841914+00:00"
+}

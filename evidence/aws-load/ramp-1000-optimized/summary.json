@@ -1,0 +1,85 @@
+{
+  "label": "ramp-1000-optimized",
+  "class": "PogoUser",
+  "tag": "loadtest-20261116-05",
+  "desired_users": 1000,
+  "rate": 2.0,
+  "requested_duration_seconds": 1200,
+  "runner_elapsed_seconds": 1204.8,
+  "completed_requested_duration": true,
+  "peak_locust_users": 1000.0,
+  "peak_connected_receivers": 1000.0,
+  "peak_hls_viewers": 0.0,
+  "max_worker_cpu_percent": 89.1,
+  "peak_prometheus_ccu": 1020.0,
+  "max_rolling_tick_p99_ms": 14.161450026721148,
+  "scaling_observations": {
+    "nodes": {
+      "initial": 10.0,
+      "max": 10.0,
+      "first_increase_seconds": null
+    },
+    "gateway_replicas": {
+      "initial": 6.0,
+      "max": 6.0,
+      "first_increase_seconds": null
+    },
+    "pending_pods": {
+      "initial": 0.0,
+      "max": 7.0,
+      "first_increase_seconds": 435.0
+    }
+  },
+  "received_payload_bytes": 125910408016.0,
+  "connected_player_seconds": 944567.9,
+  "input_events": 16837410.0,
+  "observed_inputs_per_player_second": 17.83,
+  "payload_bytes_per_player_second": 133299.48,
+  "requests": [
+    {
+      "type": "POST",
+      "name": "join",
+      "count": 7310,
+      "failures": 998,
+      "p50_ms": 93.0,
+      "p95_ms": 240.0,
+      "p99_ms": 510.0,
+      "average_content_bytes": 163.99890560875514
+    },
+    {
+      "type": "WS",
+      "name": "join_to_welcome",
+      "count": 6312,
+      "failures": 0,
+      "p50_ms": 180.0,
+      "p95_ms": 370.0,
+      "p99_ms": 710.0,
+      "average_content_bytes": 0.0
+    },
+    {
+      "type": "WS",
+      "name": "ping_rtt",
+      "count": 845068,
+      "failures": 0,
+      "p50_ms": 8.0,
+      "p95_ms": 49.0,
+      "p99_ms": 120.0,
+      "average_content_bytes": 42.889090582059666
+    },
+    {
+      "type": "WS",
+      "name": "receive",
+      "count": 59,
+      "failures": 59,
+      "p50_ms": 0.0,
+      "p95_ms": 0.0,
+      "p99_ms": 0.0,
+      "average_content_bytes": 0.0
+    }
+  ],
+  "measurement_notes": [
+    "Prometheus samples every 15 seconds. Tick is active work, not end-to-end latency.",
+    "Locust user count includes retries. Connected receivers and server CCU are separate observations.",
+    "Exit code 0 does not imply no request failures. Inspect CSV counts."
+  ]
+}

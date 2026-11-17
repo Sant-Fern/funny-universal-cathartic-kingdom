@@ -1,0 +1,75 @@
+{
+  "label": "distributed-preflight",
+  "class": "PogoUser",
+  "tag": "loadtest-20261116-01",
+  "desired_users": 20,
+  "rate": 4.0,
+  "requested_duration_seconds": 40,
+  "runner_elapsed_seconds": 44.8,
+  "completed_requested_duration": true,
+  "peak_locust_users": 20.0,
+  "peak_connected_receivers": 20.0,
+  "peak_hls_viewers": 0.0,
+  "max_worker_cpu_percent": 17.8,
+  "peak_prometheus_ccu": null,
+  "max_rolling_tick_p99_ms": null,
+  "scaling_observations": {
+    "nodes": {
+      "initial": null,
+      "max": null,
+      "first_increase_seconds": null
+    },
+    "gateway_replicas": {
+      "initial": null,
+      "max": null,
+      "first_increase_seconds": null
+    },
+    "pending_pods": {
+      "initial": null,
+      "max": null,
+      "first_increase_seconds": null
+    }
+  },
+  "received_payload_bytes": 94909663.0,
+  "connected_player_seconds": 692.4,
+  "input_events": 13642.0,
+  "observed_inputs_per_player_second": 19.7,
+  "payload_bytes_per_player_second": 137071.91,
+  "requests": [
+    {
+      "type": "POST",
+      "name": "join",
+      "count": 20,
+      "failures": 0,
+      "p50_ms": 96.0,
+      "p95_ms": 510.0,
+      "p99_ms": 510.0,
+      "average_content_bytes": 183.0
+    },
+    {
+      "type": "WS",
+      "name": "join_to_welcome",
+      "count": 20,
+      "failures": 0,
+      "p50_ms": 150.0,
+      "p95_ms": 550.0,
+      "p99_ms": 550.0,
+      "average_content_bytes": 0.0
+    },
+    {
+      "type": "WS",
+      "name": "ping_rtt",
+      "count": 735,
+      "failures": 0,
+      "p50_ms": 5.0,
+      "p95_ms": 10.0,
+      "p99_ms": 18.0,
+      "average_content_bytes": 40.882993197278914
+    }
+  ],
+  "measurement_notes": [
+    "Prometheus samples every 15 seconds. Tick is active work, not end-to-end latency.",
+    "Locust user count includes retries. Connected receivers and server CCU are separate observations.",
+    "Exit code 0 does not imply no request failures. Inspect CSV counts."
+  ]
+}

@@ -1,0 +1,4 @@
+[2026-11-17 01:37:29,930] ip-10-176-4-251/INFO/locust.main: Starting Locust 2.47.0
+[2026-11-17 01:42:41,951] ip-10-176-4-251/INFO/locust.runners: Got quit message from master, shutting down...
+[2026-11-17 01:42:43,666] ip-10-176-4-251/INFO/locust.main: Got SIGTERM signal
+[2026-11-17 01:42:43,667] ip-10-176-4-251/INFO/locust.main: Shutting down (exit code 0)

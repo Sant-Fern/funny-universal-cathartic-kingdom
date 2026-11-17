@@ -1,0 +1,3 @@
+Method,Name,Error,Occurrences,First Seen,Last Seen
+POST,join,CatchResponseError('join HTTP 503'),245,2026-11-17T00:28:02Z,2026-11-17T00:30:13Z
+POST,join,CatchResponseError('join HTTP 0'),21729,2026-11-17T00:28:50Z,2026-11-17T00:37:02Z

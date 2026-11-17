@@ -1,0 +1,26 @@
+{
+  "label": "spike-1000",
+  "commands": [
+    {
+      "instance": "i-0a9b7f44870455186",
+      "command": "b4ed36f5-41ce-44ee-b8f8-a0c975ac2e29",
+      "master": true
+    },
+    {
+      "instance": "i-0780341ea3c7eb04e",
+      "command": "80cc38fc-b53e-4ef5-a880-5687604894fd",
+      "master": false
+    }
+  ],
+  "host": "https://d1oif12lvr7c7k.cloudfront.net",
+  "started_utc": "2026-11-17T03:30:53.8590361Z",
+  "credit_before": {
+    "amount": 162.39,
+    "unit": "USD"
+  },
+  "tag": "loadtest-20261116-04",
+  "users": 1000,
+  "rate": 50.0,
+  "duration": 620,
+  "class": "PogoUser"
+}

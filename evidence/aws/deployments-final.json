@@ -1,0 +1,255 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+                "annotations": {
+                    "deployment.kubernetes.io/revision": "5",
+                    "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"apps/v1\",\"kind\":\"Deployment\",\"metadata\":{\"annotations\":{},\"name\":\"client\",\"namespace\":\"pogo\"},\"spec\":{\"replicas\":2,\"selector\":{\"matchLabels\":{\"app\":\"client\"}},\"template\":{\"metadata\":{\"labels\":{\"app\":\"client\"}},\"spec\":{\"containers\":[{\"image\":\"933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/client:integrator-20261116-01\",\"name\":\"client\",\"ports\":[{\"containerPort\":80,\"name\":\"http\"}],\"readinessProbe\":{\"httpGet\":{\"path\":\"/\",\"port\":80},\"initialDelaySeconds\":3},\"resources\":{\"limits\":{\"cpu\":\"1\",\"memory\":\"512Mi\"},\"requests\":{\"cpu\":\"50m\",\"memory\":\"32Mi\"}}}]}}}}\n"
+                },
+                "creationTimestamp": "2026-11-16T22:57:17Z",
+                "generation": 5,
+                "name": "client",
+                "namespace": "pogo",
+                "resourceVersion": "151795",
+                "uid": "fba0e1b9-f7e5-4631-8db0-59228d8b384f"
+            },
+            "spec": {
+                "progressDeadlineSeconds": 600,
+                "replicas": 2,
+                "revisionHistoryLimit": 10,
+                "selector": {
+                    "matchLabels": {
+                        "app": "client"
+                    }
+                },
+                "strategy": {
+                    "rollingUpdate": {
+                        "maxSurge": "25%",
+                        "maxUnavailable": "25%"
+                    },
+                    "type": "RollingUpdate"
+                },
+                "template": {
+                    "metadata": {
+                        "labels": {
+                            "app": "client"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "image": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/client:3e741d55fe6de797065f51a435c87e74a3e10542",
+                                "imagePullPolicy": "IfNotPresent",
+                                "name": "client",
+                                "ports": [
+                                    {
+                                        "containerPort": 80,
+                                        "name": "http",
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "readinessProbe": {
+                                    "failureThreshold": 3,
+                                    "httpGet": {
+                                        "path": "/",
+                                        "port": 80,
+                                        "scheme": "HTTP"
+                                    },
+                                    "initialDelaySeconds": 3,
+                                    "periodSeconds": 10,
+                                    "successThreshold": 1,
+                                    "timeoutSeconds": 1
+                                },
+                                "resources": {
+                                    "limits": {
+                                        "cpu": "1",
+                                        "memory": "512Mi"
+                                    },
+                                    "requests": {
+                                        "cpu": "50m",
+                                        "memory": "32Mi"
+                                    }
+                                },
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File"
+                            }
+                        ],
+                        "dnsPolicy": "ClusterFirst",
+                        "restartPolicy": "Always",
+                        "schedulerName": "default-scheduler",
+                        "securityContext": {},
+                        "terminationGracePeriodSeconds": 30
+                    }
+                }
+            },
+            "status": {
+                "availableReplicas": 2,
+                "conditions": [
+                    {
+                        "lastTransitionTime": "2026-11-16T22:57:17Z",
+                        "lastUpdateTime": "2026-11-17T04:15:01Z",
+                        "message": "ReplicaSet \"client-6dc5566b47\" has successfully progressed.",
+                        "reason": "NewReplicaSetAvailable",
+                        "status": "True",
+                        "type": "Progressing"
+                    },
+                    {
+                        "lastTransitionTime": "2026-11-17T04:20:10Z",
+                        "lastUpdateTime": "2026-11-17T04:20:10Z",
+                        "message": "Deployment has minimum availability.",
+                        "reason": "MinimumReplicasAvailable",
+                        "status": "True",
+                        "type": "Available"
+                    }
+                ],
+                "observedGeneration": 5,
+                "readyReplicas": 2,
+                "replicas": 2,
+                "terminatingReplicas": 0,
+                "updatedReplicas": 2
+            }
+        },
+        {
+            "apiVersion": "apps/v1",
+            "kind": "Deployment",
+            "metadata": {
+                "annotations": {
+                    "deployment.kubernetes.io/revision": "7",
+                    "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"apps/v1\",\"kind\":\"Deployment\",\"metadata\":{\"annotations\":{},\"name\":\"gateway\",\"namespace\":\"pogo\"},\"spec\":{\"replicas\":2,\"selector\":{\"matchLabels\":{\"app\":\"gateway\"}},\"template\":{\"metadata\":{\"labels\":{\"app\":\"gateway\"}},\"spec\":{\"containers\":[{\"env\":[{\"name\":\"POD_NAMESPACE\",\"value\":\"pogo\"},{\"name\":\"LEADERBOARD_URL\",\"value\":\"https://6jc2etk9n4.execute-api.us-east-2.amazonaws.com/leaderboard\"}],\"image\":\"933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/gateway:integrator-20261116-01\",\"name\":\"gateway\",\"ports\":[{\"containerPort\":8000,\"name\":\"http\"}],\"readinessProbe\":{\"httpGet\":{\"path\":\"/health\",\"port\":8000},\"initialDelaySeconds\":3},\"resources\":{\"limits\":{\"cpu\":\"1\",\"memory\":\"512Mi\"},\"requests\":{\"cpu\":\"200m\",\"memory\":\"128Mi\"}}}],\"serviceAccountName\":\"gateway\"}}}}\n"
+                },
+                "creationTimestamp": "2026-11-16T22:57:16Z",
+                "generation": 17,
+                "name": "gateway",
+                "namespace": "pogo",
+                "resourceVersion": "151431",
+                "uid": "6490b236-40db-4644-b8e6-fa4634e38b35"
+            },
+            "spec": {
+                "progressDeadlineSeconds": 600,
+                "replicas": 2,
+                "revisionHistoryLimit": 10,
+                "selector": {
+                    "matchLabels": {
+                        "app": "gateway"
+                    }
+                },
+                "strategy": {
+                    "rollingUpdate": {
+                        "maxSurge": "25%",
+                        "maxUnavailable": "25%"
+                    },
+                    "type": "RollingUpdate"
+                },
+                "template": {
+                    "metadata": {
+                        "labels": {
+                            "app": "gateway"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "env": [
+                                    {
+                                        "name": "POD_NAMESPACE",
+                                        "value": "pogo"
+                                    },
+                                    {
+                                        "name": "LEADERBOARD_URL",
+                                        "value": "https://6jc2etk9n4.execute-api.us-east-2.amazonaws.com/leaderboard"
+                                    }
+                                ],
+                                "image": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/gateway:3e741d55fe6de797065f51a435c87e74a3e10542",
+                                "imagePullPolicy": "IfNotPresent",
+                                "name": "gateway",
+                                "ports": [
+                                    {
+                                        "containerPort": 8000,
+                                        "name": "http",
+                                        "protocol": "TCP"
+                                    }
+                                ],
+                                "readinessProbe": {
+                                    "failureThreshold": 3,
+                                    "httpGet": {
+                                        "path": "/health",
+                                        "port": 8000,
+                                        "scheme": "HTTP"
+                                    },
+                                    "initialDelaySeconds": 3,
+                                    "periodSeconds": 10,
+                                    "successThreshold": 1,
+                                    "timeoutSeconds": 1
+                                },
+                                "resources": {
+                                    "limits": {
+                                        "cpu": "1",
+                                        "memory": "512Mi"
+                                    },
+                                    "requests": {
+                                        "cpu": "400m",
+                                        "memory": "128Mi"
+                                    }
+                                },
+                                "terminationMessagePath": "/dev/termination-log",
+                                "terminationMessagePolicy": "File"
+                            }
+                        ],
+                        "dnsPolicy": "ClusterFirst",
+                        "restartPolicy": "Always",
+                        "schedulerName": "default-scheduler",
+                        "securityContext": {},
+                        "serviceAccount": "gateway",
+                        "serviceAccountName": "gateway",
+                        "terminationGracePeriodSeconds": 30,
+                        "topologySpreadConstraints": [
+                            {
+                                "labelSelector": {
+                                    "matchLabels": {
+                                        "app": "gateway"
+                                    }
+                                },
+                                "maxSkew": 1,
+                                "topologyKey": "kubernetes.io/hostname",
+                                "whenUnsatisfiable": "ScheduleAnyway"
+                            }
+                        ]
+                    }
+                }
+            },
+            "status": {
+                "availableReplicas": 2,
+                "conditions": [
+                    {
+                        "lastTransitionTime": "2026-11-16T22:57:16Z",
+                        "lastUpdateTime": "2026-11-17T04:15:06Z",
+                        "message": "ReplicaSet \"gateway-db7fdb947\" has successfully progressed.",
+                        "reason": "NewReplicaSetAvailable",
+                        "status": "True",
+                        "type": "Progressing"
+                    },
+                    {
+                        "lastTransitionTime": "2026-11-17T04:19:41Z",
+                        "lastUpdateTime": "2026-11-17T04:19:41Z",
+                        "message": "Deployment has minimum availability.",
+                        "reason": "MinimumReplicasAvailable",
+                        "status": "True",
+                        "type": "Available"
+                    }
+                ],
+                "observedGeneration": 17,
+                "readyReplicas": 2,
+                "replicas": 2,
+                "terminatingReplicas": 0,
+                "updatedReplicas": 2
+            }
+        }
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": ""
+    }
+}

@@ -1,0 +1,38 @@
+{
+  "nodes": 2,
+  "maximum_nodes": 8,
+  "gateway_replicas": 2,
+  "hpa_minimum": 2,
+  "account_plan": "FREE",
+  "utc": "2026-11-17T04:24:52.4868049Z",
+  "account_plan_status": "ACTIVE",
+  "fleets": [
+    {
+      "allocated": 0,
+      "name": "pogo-eliminations",
+      "ready": 2
+    },
+    {
+      "allocated": 0,
+      "name": "pogo-race",
+      "ready": 2
+    }
+  ],
+  "load_generators": [
+    {
+      "id": "i-0780341ea3c7eb04e",
+      "state": "terminated"
+    },
+    {
+      "id": "i-0a9b7f44870455186",
+      "state": "terminated"
+    }
+  ],
+  "credit_reported": {
+    "amount": 161.58,
+    "unit": "USD"
+  },
+  "temporary_volumes_remaining": 0,
+  "validation_resources_destroyed": 55,
+  "narrative": "Se eliminaron los dos generadores y sus discos, además de los 55 recursos del entorno aislado de validación. El juego principal quedó publicado con 2 nodos, 2 gateways listos, buffer normal de dos salas por modo y límites de nodos de 2-8. La cuenta conserva FREE / ACTIVE. El resto de los proyectos no se modificó."
+}

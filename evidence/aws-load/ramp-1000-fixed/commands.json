@@ -1,0 +1,26 @@
+{
+  "host": "https://d1oif12lvr7c7k.cloudfront.net",
+  "commands": [
+    {
+      "instance": "i-0a9b7f44870455186",
+      "command": "ea6f583d-e0f6-4097-af87-82d2f2e19da5",
+      "master": true
+    },
+    {
+      "instance": "i-0780341ea3c7eb04e",
+      "command": "1a12cd99-fc31-432f-b6f6-597aa1382d10",
+      "master": false
+    }
+  ],
+  "rate": 2.0,
+  "started_utc": "2026-11-17T01:10:22.6378967Z",
+  "users": 1000,
+  "tag": "integrator-20261116-02",
+  "credit_before": {
+    "amount": 162.39,
+    "unit": "USD"
+  },
+  "class": "PogoUser",
+  "duration": 1200,
+  "label": "ramp-1000-fixed"
+}

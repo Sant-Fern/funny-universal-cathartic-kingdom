@@ -1,6 +1,6 @@
 # Funny Universal Cathartic Kingdom
 
-Prototipo local de una arena 3D de esqueletos anatómicos sobre pogos con rebote continuo. En el **Auditorio del Último Rebote**, médicos observan desde gradas y reaccionan a las eliminaciones. Carrera recorre un mundo surrealista de objetos cotidianos gigantes, **El Sueño del Último Rebote**. Las botellas vuelan sin guías de trayectoria.
+Videojuego web de una arena 3D de esqueletos anatómicos sobre pogos con rebote continuo. En el **Auditorio del Último Rebote**, médicos observan desde gradas y reaccionan a las eliminaciones. Carrera recorre un mundo surrealista de objetos cotidianos gigantes, **El Sueño del Último Rebote**. Las botellas vuelan sin guías de trayectoria.
 
 **Disponible en AWS:** [abrir el juego](https://d1oif12lvr7c7k.cloudfront.net). La versión del ZIP incluye EKS/Agones, clasificación persistente, CI/CD y métricas. Consulta el [integrador y sus evidencias](docs/INTEGRADOR.md), la [guía para entregar y operar](docs/OPERACION_INTEGRADOR.md) y el [guion de diez minutos](docs/GUION_INTEGRADOR.md). Las seis prácticas individuales son entregas separadas.
 

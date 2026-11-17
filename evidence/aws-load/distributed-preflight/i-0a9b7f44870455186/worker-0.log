@@ -1,0 +1,3 @@
+[2026-11-17 00:24:54,657] ip-10-176-4-251/INFO/locust.main: Starting Locust 2.47.0
+[2026-11-17 00:25:36,715] ip-10-176-4-251/INFO/locust.runners: Got quit message from master, shutting down...
+[2026-11-17 00:25:36,764] ip-10-176-4-251/INFO/locust.main: Shutting down (exit code 0)

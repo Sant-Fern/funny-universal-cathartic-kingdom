@@ -1,0 +1,26 @@
+{
+  "host": "https://d1oif12lvr7c7k.cloudfront.net",
+  "class": "SpectatorUser",
+  "rate": 100.0,
+  "started_utc": "2026-11-17T01:37:29.5157585Z",
+  "users": 500,
+  "duration": 310,
+  "credit_before": {
+    "amount": 162.39,
+    "unit": "USD"
+  },
+  "label": "hls-500",
+  "commands": [
+    {
+      "instance": "i-0a9b7f44870455186",
+      "command": "97ed5ee2-9576-4ccf-9488-a39851dc4d28",
+      "master": true
+    },
+    {
+      "instance": "i-0780341ea3c7eb04e",
+      "command": "41c66f57-191d-4b54-8a49-2b820def7eaf",
+      "master": false
+    }
+  ],
+  "tag": "loadtest-20261116-04"
+}

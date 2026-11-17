@@ -138,7 +138,7 @@
                 "containers": [
                   {
                     "name": "game",
-                    "image": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/server:integrator-20261116-01",
+                    "image": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/server:3e741d55fe6de797065f51a435c87e74a3e10542",
                     "env": [
                       {
                         "name": "MATCH_MODE",
@@ -268,7 +268,7 @@
                 "containers": [
                   {
                     "name": "game",
-                    "image": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/server:integrator-20261116-01",
+                    "image": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/server:3e741d55fe6de797065f51a435c87e74a3e10542",
                     "env": [
                       {
                         "name": "MATCH_MODE",
@@ -365,7 +365,7 @@
             "containers": [
               {
                 "name": "gateway",
-                "image": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/gateway:integrator-20261116-01",
+                "image": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/gateway:3e741d55fe6de797065f51a435c87e74a3e10542",
                 "ports": [
                   {
                     "name": "http",
@@ -374,7 +374,7 @@
                 ],
                 "resources": {
                   "requests": {
-                    "cpu": "200m",
+                    "cpu": "400m",
                     "memory": "128Mi"
                   },
                   "limits": {
@@ -399,6 +399,18 @@
                     "value": "https://6jc2etk9n4.execute-api.us-east-2.amazonaws.com/leaderboard"
                   }
                 ]
+              }
+            ],
+            "topologySpreadConstraints": [
+              {
+                "maxSkew": 1,
+                "topologyKey": "kubernetes.io/hostname",
+                "whenUnsatisfiable": "ScheduleAnyway",
+                "labelSelector": {
+                  "matchLabels": {
+                    "app": "gateway"
+                  }
+                }
               }
             ],
             "serviceAccountName": "gateway"
@@ -450,7 +462,7 @@
             "containers": [
               {
                 "name": "client",
-                "image": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/client:integrator-20261116-01",
+                "image": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/client:3e741d55fe6de797065f51a435c87e74a3e10542",
                 "ports": [
                   {
                     "name": "http",

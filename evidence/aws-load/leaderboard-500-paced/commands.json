@@ -1,0 +1,26 @@
+{
+  "commands": [
+    {
+      "instance": "i-0a9b7f44870455186",
+      "command": "36b01abd-8ee8-4211-b524-8561d1047fdd",
+      "master": true
+    },
+    {
+      "instance": "i-0780341ea3c7eb04e",
+      "command": "d44a8b27-7332-4cea-a800-08ae20a1401c",
+      "master": false
+    }
+  ],
+  "duration": 310,
+  "rate": 50.0,
+  "started_utc": "2026-11-17T03:42:10.9820402Z",
+  "host": "https://6jc2etk9n4.execute-api.us-east-2.amazonaws.com",
+  "class": "LeaderboardUser",
+  "credit_before": {
+    "amount": 162.39,
+    "unit": "USD"
+  },
+  "users": 500,
+  "tag": "loadtest-20261116-05",
+  "label": "leaderboard-500-paced"
+}

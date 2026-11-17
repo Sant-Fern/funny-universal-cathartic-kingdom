@@ -1,0 +1,11 @@
+# Keep exported documents and encoded media byte-for-byte intact on Windows.
+*.pdf binary
+*.pptx binary
+*.png binary
+*.jpg binary
+*.jpeg binary
+assets/hls-demo/*.ts binary
+assets/hls-demo/*.m3u8 text eol=lf
+
+# Raw measurements and command logs retain their original line endings/spacing.
+evidence/** -text -whitespace

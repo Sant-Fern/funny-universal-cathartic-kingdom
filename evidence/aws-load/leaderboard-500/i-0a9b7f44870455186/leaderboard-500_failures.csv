@@ -1,0 +1,3 @@
+Method,Name,Error,Occurrences,First Seen,Last Seen
+GET,leaderboard_read,HTTPError('503 Server Error: Service Unavailable for url: leaderboard_read'),2429,2026-11-17T01:43:58Z,2026-11-17T01:49:07Z
+Lambda,leaderboard_write,TooManyRequestsException('An error occurred (TooManyRequestsException) when calling the Invoke operation (reached max retries: 1): Rate Exceeded.'),71,2026-11-17T01:43:59Z,2026-11-17T01:48:55Z

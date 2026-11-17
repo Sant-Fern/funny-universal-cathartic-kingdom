@@ -1,0 +1,5 @@
+Method,Name,Error,Occurrences,First Seen,Last Seen
+WS,connect,WebSocketTimeoutException('Connection timed out'),12,2026-11-17T03:36:38Z,2026-11-17T03:36:43Z
+POST,join,CatchResponseError('join HTTP 503'),13983,2026-11-17T03:30:57Z,2026-11-17T03:41:15Z
+POST,join,CatchResponseError('join HTTP 0'),42,2026-11-17T03:36:19Z,2026-11-17T03:41:02Z
+WS,receive,RuntimeError('WebSocket closed'),32,2026-11-17T03:36:06Z,2026-11-17T03:41:07Z

@@ -1,0 +1,54 @@
+{
+  "utc": "2026-11-16T23:17:51.272505+00:00",
+  "origin": "https://d1oif12lvr7c7k.cloudfront.net",
+  "scope": "single_room_smoke",
+  "mode": "race",
+  "matchId": "88fb6671-0ae8-4c64-a337-414eada5db1d",
+  "secondsRequested": 6,
+  "joins": [
+    {
+      "humans": 1,
+      "bots": 9,
+      "joinToWelcomeMs": 619.477
+    },
+    {
+      "humans": 2,
+      "bots": 8,
+      "joinToWelcomeMs": 547.921
+    }
+  ],
+  "afterDisconnect": {
+    "humans": 1,
+    "bots": 9
+  },
+  "rtt": {
+    "count": 12,
+    "p95Ms": 114.081
+  },
+  "clients": [
+    {
+      "inputs": 107,
+      "snapshots": 132,
+      "rttMs": [
+        81.659,
+        104.143,
+        104.48,
+        103.47,
+        114.081,
+        79.316
+      ]
+    },
+    {
+      "inputs": 107,
+      "snapshots": 121,
+      "rttMs": [
+        82.9,
+        103.987,
+        104.246,
+        103.342,
+        113.88,
+        79.201
+      ]
+    }
+  ]
+}

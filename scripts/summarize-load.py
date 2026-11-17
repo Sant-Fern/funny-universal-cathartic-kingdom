@@ -58,6 +58,8 @@ def main():
             'max_rolling_tick_p99_ms':max(finite_values(prom,'active_tick_p99_ms',start,end),default=None),
             'scaling_observations':changes,
             'received_payload_bytes':peak('bytes'), 'connected_player_seconds':round(player_seconds,1),
+            'input_events':peak('inputs'),
+            'observed_inputs_per_player_second':round(peak('inputs')/player_seconds,2) if player_seconds else None,
             'payload_bytes_per_player_second':round(peak('bytes')/player_seconds,2) if player_seconds else None,
             'requests':[{ 'type':r['Type'], 'name':r['Name'], 'count':int(r['Request Count']),
                          'failures':int(r['Failure Count']), 'p50_ms':float(r['50%']),

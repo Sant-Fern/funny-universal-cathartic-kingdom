@@ -26,7 +26,7 @@ Las páginas internas 44-45 (hojas físicas 45-46) piden repositorio organizado,
 - `evidence/aws-load/`: generadores EC2 separados del clúster, metadatos, CSV, HTML, logs y Prometheus. Se preservan también los ensayos fallidos. `summary.json` distingue usuarios solicitados, conexiones activas, errores y latencias.
 - `evidence/aws/integrator-costs.json`: cálculo reproducible de precios de lista, costo por hora/jugador y extrapolación de video. No es una factura.
 
-La primera rampa completa alcanzó 843 conexiones activas; el pico posterior alcanzó 987 y mostró la espera de crear capacidad. La rampa final preparada y la repetición de clasificación se incorporan al informe con sus cifras finales. Un pico de CCU no demuestra estabilidad ni un SLO. Los generadores no miden FPS ni mil navegadores gráficos.
+La primera rampa completa alcanzó 843 conexiones activas; el pico posterior alcanzó 987 y mostró la espera de crear capacidad. La rampa final preparada alcanzó 1,000 conexiones, RTT p95 de 49 ms y 1,057 errores de peticiones (998 de admisión y 59 cierres de recepción). La última clasificación registró siete rechazos de lectura entre 16,199 operaciones y ninguna escritura fallida. Un pico de CCU no demuestra estabilidad ni un SLO. Los generadores no miden FPS ni mil navegadores gráficos.
 
 ## Cuenta y condición de costo
 

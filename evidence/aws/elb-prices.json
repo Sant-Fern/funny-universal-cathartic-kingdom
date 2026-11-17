@@ -1,0 +1,86 @@
+[
+  {
+    "usage": "USE2-LoadBalancerUsage",
+    "unit": "Hrs",
+    "usd": "0.0225000000",
+    "effective": "2026-11-01T00:00:00Z"
+  },
+  {
+    "usage": "USE2-LCUUsage",
+    "unit": "LCU-Hrs",
+    "usd": "0.0040000000",
+    "effective": "2026-11-01T00:00:00Z"
+  },
+  {
+    "usage": "USE2-ReservedLCUUsage",
+    "unit": "ReservedLCU-Hr",
+    "usd": "0.0080000000",
+    "effective": "2026-11-01T00:00:00Z"
+  },
+  {
+    "usage": "USE2-ReservedLCUUsage",
+    "unit": "ReservedLCU-Hr",
+    "usd": "0.0040000000",
+    "effective": "2026-11-01T00:00:00Z"
+  },
+  {
+    "usage": "USE2-LoadBalancerUsage",
+    "unit": "Hrs",
+    "usd": "0.0250000000",
+    "effective": "2026-11-01T00:00:00Z"
+  },
+  {
+    "usage": "USE2-ReservedLCUUsage",
+    "unit": "ReservedLCU-Hr",
+    "usd": "0.0060000000",
+    "effective": "2026-11-01T00:00:00Z"
+  },
+  {
+    "usage": "USE2-LoadBalancerUsage",
+    "unit": "Hrs",
+    "usd": "0.0225000000",
+    "effective": "2026-11-01T00:00:00Z"
+  },
+  {
+    "usage": "USE2-LoadBalancerUsage",
+    "unit": "Hrs",
+    "usd": "0.0125000000",
+    "effective": "2026-11-01T00:00:00Z"
+  },
+  {
+    "usage": "USE2-DataProcessing-Bytes",
+    "unit": "GB",
+    "usd": "0.0080000000",
+    "effective": "2026-11-01T00:00:00Z"
+  },
+  {
+    "usage": "USE2-Outposts-LCUUsage",
+    "unit": "LCU-Hrs",
+    "usd": "0.0000000000",
+    "effective": "2026-11-01T00:00:00Z"
+  },
+  {
+    "usage": "USE2-LCUUsage",
+    "unit": "LCU-Hrs",
+    "usd": "0.0080000000",
+    "effective": "2026-11-01T00:00:00Z"
+  },
+  {
+    "usage": "USE2-TS-LoadBalancerUsage",
+    "unit": "Hrs",
+    "usd": "0.0050000000",
+    "effective": "2026-11-01T00:00:00Z"
+  },
+  {
+    "usage": "USE2-Outposts-LoadBalancerUsage",
+    "unit": "Hrs",
+    "usd": "0.0225000000",
+    "effective": "2026-11-01T00:00:00Z"
+  },
+  {
+    "usage": "USE2-LCUUsage",
+    "unit": "LCU-Hrs",
+    "usd": "0.0060000000",
+    "effective": "2026-11-01T00:00:00Z"
+  }
+]

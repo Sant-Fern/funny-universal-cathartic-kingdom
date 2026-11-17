@@ -1,0 +1,106 @@
+[
+  {
+    "name": "client-549d8d76f-79p69",
+    "phase": "Running",
+    "images": [
+      {
+        "name": "client",
+        "requestedImage": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/client:zip-aws-20261116-02",
+        "reportedImage": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/client:zip-aws-20261116-01",
+        "imageID": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/client@sha256:93e3221025cca84ae6c59d8d472ef3f4b41d877ffcd7cebe7993de068cc87c59",
+        "ready": true
+      }
+    ]
+  },
+  {
+    "name": "client-549d8d76f-txdfk",
+    "phase": "Running",
+    "images": [
+      {
+        "name": "client",
+        "requestedImage": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/client:zip-aws-20261116-02",
+        "reportedImage": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/client:zip-aws-20261116-01",
+        "imageID": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/client@sha256:93e3221025cca84ae6c59d8d472ef3f4b41d877ffcd7cebe7993de068cc87c59",
+        "ready": true
+      }
+    ]
+  },
+  {
+    "name": "gateway-6f8b756d5b-6bzz2",
+    "phase": "Running",
+    "images": [
+      {
+        "name": "gateway",
+        "requestedImage": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/gateway:zip-aws-20261116-02",
+        "reportedImage": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/gateway:zip-aws-20261116-02",
+        "imageID": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/gateway@sha256:beffef928edf1065d096a3d8ab7b56eb08ebb2dd42f7738727748aa2ad136338",
+        "ready": true
+      }
+    ]
+  },
+  {
+    "name": "gateway-6f8b756d5b-ktmrc",
+    "phase": "Running",
+    "images": [
+      {
+        "name": "gateway",
+        "requestedImage": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/gateway:zip-aws-20261116-02",
+        "reportedImage": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/gateway:zip-aws-20261116-02",
+        "imageID": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/gateway@sha256:beffef928edf1065d096a3d8ab7b56eb08ebb2dd42f7738727748aa2ad136338",
+        "ready": true
+      }
+    ]
+  },
+  {
+    "name": "pogo-eliminations-fdsjx-7w62v",
+    "phase": "Running",
+    "images": [
+      {
+        "name": "game",
+        "requestedImage": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/server:zip-aws-20261116-02",
+        "reportedImage": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/server:zip-aws-20261116-02",
+        "imageID": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/server@sha256:5dc01daecdac06b15ed5e75af42318891ac1225de1c169c3ae4528a6766b0549",
+        "ready": true
+      }
+    ]
+  },
+  {
+    "name": "pogo-eliminations-fdsjx-855sc",
+    "phase": "Running",
+    "images": [
+      {
+        "name": "game",
+        "requestedImage": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/server:zip-aws-20261116-02",
+        "reportedImage": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/server:zip-aws-20261116-02",
+        "imageID": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/server@sha256:5dc01daecdac06b15ed5e75af42318891ac1225de1c169c3ae4528a6766b0549",
+        "ready": true
+      }
+    ]
+  },
+  {
+    "name": "pogo-race-rsvsk-g728q",
+    "phase": "Running",
+    "images": [
+      {
+        "name": "game",
+        "requestedImage": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/server:zip-aws-20261116-02",
+        "reportedImage": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/server:zip-aws-20261116-02",
+        "imageID": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/server@sha256:5dc01daecdac06b15ed5e75af42318891ac1225de1c169c3ae4528a6766b0549",
+        "ready": true
+      }
+    ]
+  },
+  {
+    "name": "pogo-race-rsvsk-nq658",
+    "phase": "Running",
+    "images": [
+      {
+        "name": "game",
+        "requestedImage": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/server:zip-aws-20261116-02",
+        "reportedImage": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/server:zip-aws-20261116-02",
+        "imageID": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/server@sha256:5dc01daecdac06b15ed5e75af42318891ac1225de1c169c3ae4528a6766b0549",
+        "ready": true
+      }
+    ]
+  }
+]

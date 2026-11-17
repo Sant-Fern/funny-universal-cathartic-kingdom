@@ -136,7 +136,7 @@ def build(args):
     add(table([
         ['Comprobación','Evidencia obtenida'],
         ['Pruebas','96 del servidor, 20 del cliente y 3 de clasificación aprobadas. Compose también comprueba HTTP y WebSocket detrás de Nginx.'],
-        ['CI/CD','Ejecución 43995456257 exitosa. Prueba, compila, publica server/client/gateway en ECR y actualiza las flotas. Verifica conexión y clasificación desde HTTPS.'],
+        ['CI/CD',f"Ejecución {ci['url'].rsplit('/',1)[-1]} exitosa. Prueba, compila, publica server/client/gateway en ECR y actualiza las flotas. Verifica conexión y clasificación desde HTTPS."],
         ['Versión publicada',ci['headSha']],
         ['Ciclo IaC aislado','55 recursos creados en pogo-validation. Dos nodos y un contenedor emitieron INTEGRADOR_TERRAFORM_OK. El destroy eliminó 55 recursos. Estado final vacío, clúster y VPC ausentes.'],
         ['Recuperación de estado','Una credencial temporal venció al guardar el apply. Se recuperó errored.tfstate tras confirmar la ejecución terminada. El puente credential_process permite renovación durante operaciones largas.'],
@@ -144,11 +144,11 @@ def build(args):
     add(Spacer(1,10))
     add(paragraph('Revisión humana',H2))
     add(paragraph('El PR 1 conserva el código y el plan para revisión antes de integrar a main. El ejecutor de despliegue fue local, efímero y del repositorio privado. Usó la sesión temporal de AWS, sin claves permanentes en GitHub. La exposición oral y la aprobación humana del PR corresponden al equipo.'))
-    add(paragraph('Evidencias: evidence/aws-ci/, evidence/aws-terraform-cycle/ y docs/INTEGRADOR.md. <link href="https://github.com/Sant-Fern/funny-universal-cathartic-kingdom/pull/1" color="#087c80">Solicitud de revisión</link>. <link href="https://github.com/Sant-Fern/funny-universal-cathartic-kingdom/actions/runs/43995456257" color="#087c80">Despliegue exitoso</link>.',SMALL))
+    add(paragraph(f'Evidencias: evidence/aws-ci/, evidence/aws-terraform-cycle/ y docs/INTEGRADOR.md. Las cargas usan imágenes de 8ee5d87; sus árboles de aplicación coinciden con el despliegue final, como verifica application-source-comparison.json. <link href="https://github.com/Sant-Fern/funny-universal-cathartic-kingdom/pull/1" color="#087c80">Solicitud de revisión</link>. <link href="{ci["url"]}" color="#087c80">Despliegue exitoso</link>.',SMALL))
     add(PageBreak())
 
     add(paragraph('Pruebas de jugadores y capacidad',H1))
-    add(paragraph('Dos generadores EC2 separados del clúster ejecutaron cuatro procesos Locust. Cada humano simulado intercambia controles a 20 Hz, recibe snapshots y mide ping. Los bots internos no cuentan como CCU. Las pruebas se realizan desde Ohio y no miden FPS ni latencia doméstica.'))
+    add(paragraph('Dos generadores EC2 separados del clúster ejecutaron cuatro procesos Locust. Cada humano simulado intenta enviar controles a 20 Hz, recibe snapshots y mide ping. Las cargas masivas usan Eliminación; Carrera tiene comprobaciones de integración. Los bots no cuentan como CCU. Se prueba desde Ohio, sin medir FPS ni latencia doméstica.'))
     rows=[['Ejecución','Clientes / CCU pico','RTT p95','Duración solicitada']]
     for label,title in [('ramp-1000-fixed','Rampa inicial'),('spike-1000','Pico optimizado'),('ramp-1000-optimized','Rampa optimizada')]:
         r=summary(label)
@@ -156,6 +156,7 @@ def build(args):
     add(table(rows,[133,140,100,134]))
     add(Spacer(1,10));add(Image(str(BUILD/'final-ccu.png'),width=507,height=185))
     add(paragraph(f"Serie: {chosen['label']}. Clientes solicitados y conexiones confirmadas por los receptores. Prometheus observó un pico de {fmt(chosen['peak_prometheus_ccu'])} CCU con muestreo de 15 s.",SMALL))
+    add(paragraph(f"Los scrapes desfasados entre salas pueden sumar brevemente conexiones antiguas y nuevas durante reconexiones; ese gauge no representa clientes únicos adicionales. El generador alcanzó {fmt(chosen['max_worker_cpu_percent'],1)} % de CPU por trabajador y aproximadamente {fmt(chosen.get('observed_inputs_per_player_second'),1)} controles por segundo conectado.",SMALL))
     add(paragraph('Resultados que limitan la conclusión',H2))
     add(paragraph(f"La rampa inicial de veinte minutos alcanzó 843 conexiones y acumuló {fmt(failure_count(baseline))} errores de peticiones. La primera tentativa anterior se interrumpió y se conserva por separado. Se corrigió la serialización de ingreso, se codifica un snapshot por sala y se desactiva la compresión del enlace interno. El máximo temporal de nodos pasó de ocho a diez."))
     add(paragraph(f"En {chosen['label']} se registraron {fmt(failure_count(chosen))} errores. Llegar a un pico de CCU no demuestra estabilidad ni un SLO de latencia. Las reconexiones al terminar partidas y los reintentos de admisión figuran en los CSV; el código de salida del generador no equivale a cero errores.",SMALL))
@@ -186,7 +187,7 @@ def build(args):
     add(table([
         ['Carga','Resultado medido'],
         ['Clasificación',f"500 usuarios virtuales, 80/20 lecturas/escrituras. {board['label']}: {fmt(failure_count(board))} errores. Lectura p95 {fmt(metric(board,'leaderboard_read'))} ms; escritura p95 {fmt(metric(board,'leaderboard_write'))} ms."],
-        ['Cuota de Lambda','La cuenta admite diez ejecuciones concurrentes. La primera prueba con pausas fijas de 6 s produjo throttling; se conserva. La repetición usa pausas aleatorias de 8-12 s. 500 usuarios virtuales no equivalen a 500 funciones ejecutándose a la vez.'],
+        ['Cuota de Lambda','La cuenta admite diez ejecuciones concurrentes. La primera prueba con pausas fijas de 6 s produjo throttling; se conserva. La repetición distribuye el primer acceso entre 0-12 s y usa pausas de 8-12 s. 500 usuarios virtuales no equivalen a 500 funciones simultáneas.'],
         ['HLS 360p',f"{fmt(hls['peak_hls_viewers'])} receptores durante 310 s. {fmt(failure_count(hls))} errores. Segmento p95 {fmt(metric(hls,'hls_segment'))} ms. {fmt(hls['received_payload_bytes']/1e9,2)} GB de segmentos recibidos."],
         ['Modelo de video','Clip propio sintético 640x360, 800 kbps de video, segmentos TS de 4 s en S3 privado y CloudFront OAC. Buffer inicial 4 s y consumo simulado en tiempo real. Sin decodificador, ABR ni transmisión en vivo.']], [110,397]))
     add(Spacer(1,10))
@@ -205,6 +206,8 @@ def build(args):
     measured=next((x for x in costs['measured_runs'] if x['label']==chosen['label']),None)
     if measured:
         add(paragraph(f"El cliente de protocolo recibió aproximadamente {fmt(float(measured['payload_gb_per_player_hour']),3)} GB por jugador-hora. A tarifa uniforme, el payload supondría USD {fmt(float(measured['uniform_cf_payload_per_player_hour']),4)} por jugador-hora antes de franquicias, compresión y descuentos. Es una estimación de payload, no una factura; el costo de red puede dominar al de cómputo."))
+        if 'reference_compute_network_hour_at_peak' in measured:
+            add(paragraph(f"El subtotal de cómputo y red a la concurrencia pico sería USD {fmt(float(measured['reference_compute_network_hour_at_peak']),2)}/h, o USD {fmt(float(measured['reference_compute_network_per_player_hour']),5)} por jugador-hora. Incluye el fijo y LCU promedio observado; mantiene excluidos los otros servicios variables y el tráfico entre zonas.",SMALL))
     add(paragraph('Conservación de recursos',H2))
     add(paragraph(cleanup.get('narrative','El entorno de validación fue eliminado. La limpieza de generadores y la restauración del buffer se documentan en evidence/aws/final-status.json al terminar las mediciones. El juego principal permanece publicado para la exposición.')))
     add(paragraph('Fuentes y revisión',H2))

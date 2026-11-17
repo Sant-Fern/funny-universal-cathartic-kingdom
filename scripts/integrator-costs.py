@@ -16,7 +16,7 @@ result={'currency':'USD','basis':'list prices before credits, Free Tier and taxe
     'node_hour':str(node),'generator_hour':str(generator),'eks_cluster_hour':'0.10',
     'alb_hour':str(lb),'lcu_hour':str(lcu),'gp3_gb_month':str(ebs),'public_ipv4_hour':'0.005',
     'cloudfront_reference_gb':'0.085'},'scenarios':[]}
-for count in (2,3,8,10):
+for count in (2,3,4,8,10):
     # 730-hour month convention. ALB assumes two public IPs; actual count can vary.
     fixed=node*count+D('.10')+lb+ebs*20*count/730+D('.005')*(count+2)
     result['scenarios'].append({'nodes':count,'fixed_hour':str(fixed.quantize(D('.00001'))),
@@ -46,6 +46,14 @@ for summary_file in load.glob('*/summary.json'):
             values=[D(str(x['Average'])) for x in m['ConsumedLCUs']['datapoints']]
             entry['mean_lcus']=str(sum(values)/len(values)) if values else None
             entry['alb_variable_hour']=str(sum(values)/len(values)*lcu) if values else None
+        if nodes and ccu:
+            n=D(str(nodes))
+            fixed=node*n+D('.10')+lb+ebs*20*n/730+D('.005')*(n+2)
+            cf_hour=per_player*3600/10**9*D('.085')*ccu
+            subtotal=fixed+cf_hour+D(entry.get('alb_variable_hour') or '0')
+            entry['reference_compute_network_hour_at_peak']=str(subtotal)
+            entry['reference_compute_network_per_player_hour']=str(subtotal/ccu)
+            entry['subtotal_excludes']='API/Lambda/DynamoDB, ECR/S3, inter-AZ traffic, free allowances, credits and taxes'
         result['measured_runs'].append(entry)
 result['excluded_from_fixed']=['LCU and CDN variable traffic','inter-AZ traffic','ECR/S3/DynamoDB storage and requests','Lambda/API requests and duration','monitoring and other account projects']
 result['out_of_pocket']='0 while account remains FREE ACTIVE. Credits are consumed; availability ends at balance/plan expiry. Not permanent free hosting.'

@@ -1,0 +1,86 @@
+data.archive_file.leaderboard: Reading...
+data.external.cost_guard: Reading...
+data.archive_file.leaderboard: Read complete after 0s [id=5b235a2eb52aee6bb1e7563183cade5b5ec34832]
+data.aws_ssm_parameter.loadgen_ami: Reading...
+data.aws_availability_zones.available: Reading...
+data.aws_cloudfront_cache_policy.disabled[0]: Reading...
+data.aws_caller_identity.current: Reading...
+aws_cloudfront_origin_access_control.media: Refreshing state... [id=E17VBLYAXOTGX2]
+aws_cloudwatch_log_group.leaderboard: Refreshing state... [id=/aws/lambda/pogo-leaderboard]
+aws_apigatewayv2_api.leaderboard: Refreshing state... [id=6jc2etk9n4]
+aws_iam_role.leaderboard: Refreshing state... [id=pogo-leaderboard]
+aws_iam_role.loadgen: Refreshing state... [id=pogo-loadgen]
+data.aws_caller_identity.current: Read complete after 0s [id=933605931561]
+data.aws_cloudfront_response_headers_policy.security[0]: Reading...
+data.aws_cloudfront_origin_request_policy.viewer[0]: Reading...
+data.aws_ssm_parameter.loadgen_ami: Read complete after 0s [id=/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64]
+data.aws_cloudfront_cache_policy.media[0]: Reading...
+aws_s3_bucket.artifacts: Refreshing state... [id=pogo-artifacts-933605931561-us-east-2]
+aws_apigatewayv2_stage.leaderboard: Refreshing state... [id=$default]
+data.aws_availability_zones.available: Read complete after 1s [id=us-east-2]
+data.aws_cloudfront_cache_policy.disabled[0]: Read complete after 1s [id=4135ea2d-6df8-44a3-9df3-4b5a84be39ad]
+data.aws_cloudfront_response_headers_policy.security[0]: Read complete after 1s [id=67f7725c-6f97-4210-82d7-5512b31e9d03]
+data.aws_cloudfront_origin_request_policy.viewer[0]: Read complete after 1s [id=216adef6-5c7f-47e4-b989-5492eafa07d3]
+data.aws_cloudfront_cache_policy.media[0]: Read complete after 1s [id=658327ea-f89d-4fab-a63d-7e88639e58f6]
+aws_iam_role_policy_attachment.leaderboard_logs: Refreshing state... [id=pogo-leaderboard/arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole]
+aws_iam_role_policy_attachment.loadgen["AmazonEC2ContainerRegistryReadOnly"]: Refreshing state... [id=pogo-loadgen/arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly]
+aws_iam_role_policy_attachment.loadgen["AmazonSSMManagedInstanceCore"]: Refreshing state... [id=pogo-loadgen/arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore]
+aws_iam_role_policy.loadgen_upload: Refreshing state... [id=pogo-loadgen:terraform-ea3f9fb813a3ed97618945410d]
+aws_iam_instance_profile.loadgen: Refreshing state... [id=pogo-loadgen]
+data.external.cost_guard: Read complete after 2s [id=-]
+terraform_data.free_plan_required: Refreshing state... [id=f7fbbec8-47b8-36d9-0c46-923a324f0a01]
+aws_iam_role.nodes: Refreshing state... [id=pogo-eks-nodes]
+aws_ecr_repository.image["loadtest"]: Refreshing state... [id=pogo/loadtest]
+aws_iam_role.cluster: Refreshing state... [id=pogo-eks-control-plane]
+aws_dynamodb_table.results: Refreshing state... [id=pogo-results]
+aws_vpc.demo: Refreshing state... [id=vpc-0a6eb9bafaaecba84]
+aws_ecr_repository.image["gateway"]: Refreshing state... [id=pogo/gateway]
+aws_ecr_repository.image["client"]: Refreshing state... [id=pogo/client]
+aws_ecr_repository.image["server"]: Refreshing state... [id=pogo/server]
+aws_iam_role_policy_attachment.cluster: Refreshing state... [id=pogo-eks-control-plane/arn:aws:iam::aws:policy/AmazonEKSClusterPolicy]
+aws_iam_role_policy_attachment.nodes["AmazonEKSWorkerNodePolicy"]: Refreshing state... [id=pogo-eks-nodes/arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy]
+aws_iam_role_policy_attachment.nodes["AmazonEC2ContainerRegistryReadOnly"]: Refreshing state... [id=pogo-eks-nodes/arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly]
+aws_iam_role_policy_attachment.nodes["AmazonEKS_CNI_Policy"]: Refreshing state... [id=pogo-eks-nodes/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy]
+aws_iam_role_policy.leaderboard: Refreshing state... [id=pogo-leaderboard:terraform-2986c04ef9631a759781bdfe29]
+aws_lambda_function.leaderboard: Refreshing state... [id=pogo-leaderboard]
+aws_s3_bucket_public_access_block.artifacts: Refreshing state... [id=pogo-artifacts-933605931561-us-east-2]
+aws_s3_bucket_server_side_encryption_configuration.artifacts: Refreshing state... [id=pogo-artifacts-933605931561-us-east-2]
+aws_cloudfront_distribution.game[0]: Refreshing state... [id=E13Q90QLROUVG2]
+aws_s3_bucket_policy.media[0]: Refreshing state... [id=pogo-artifacts-933605931561-us-east-2]
+aws_internet_gateway.demo: Refreshing state... [id=igw-0f389e84aae462f0f]
+aws_subnet.public[1]: Refreshing state... [id=subnet-02abac07aba0a6d5a]
+aws_subnet.public[0]: Refreshing state... [id=subnet-05df6e991be2412c2]
+aws_security_group.loadgen: Refreshing state... [id=sg-0c52436dfc0d37cd9]
+aws_route_table.public: Refreshing state... [id=rtb-0f9ff997a9690c823]
+aws_iam_role_policy.loadgen_results: Refreshing state... [id=pogo-loadgen:terraform-2fb00921f0e31e5a77cf89a3d0]
+aws_lambda_permission.leaderboard_api: Refreshing state... [id=PublicLeaderboardReadOnly]
+aws_apigatewayv2_integration.leaderboard: Refreshing state... [id=e6da9rq]
+aws_apigatewayv2_route.leaderboard: Refreshing state... [id=xm63cyf]
+aws_route_table_association.public[0]: Refreshing state... [id=rtbassoc-06938b2615f4495d9]
+aws_route_table_association.public[1]: Refreshing state... [id=rtbassoc-03e6b23205234266c]
+aws_eks_cluster.demo: Refreshing state... [id=pogo-demo]
+aws_instance.loadgen[0]: Refreshing state... [id=i-0a9b7f44870455186]
+aws_instance.loadgen[1]: Refreshing state... [id=i-0780341ea3c7eb04e]
+data.aws_eks_addon_version.pod_identity: Reading...
+data.aws_eks_addon_version.metrics: Reading...
+aws_eks_access_entry.operator: Refreshing state... [id=pogo-demo:arn:aws:iam::933605931561:role/managed/AccountFullAccessRole]
+aws_iam_role.results_writer: Refreshing state... [id=pogo-result-writer]
+aws_iam_role.controller["autoscaler"]: Refreshing state... [id=pogo-autoscaler]
+aws_eks_node_group.game: Refreshing state... [id=pogo-demo:pogo-games]
+aws_iam_role.controller["load_balancer"]: Refreshing state... [id=pogo-load_balancer]
+data.aws_eks_addon_version.pod_identity: Read complete after 0s [id=eks-pod-identity-agent]
+aws_eks_addon.pod_identity: Refreshing state... [id=pogo-demo:eks-pod-identity-agent]
+data.aws_eks_addon_version.metrics: Read complete after 1s [id=metrics-server]
+aws_eks_addon.metrics: Refreshing state... [id=pogo-demo:metrics-server]
+aws_eks_access_policy_association.operator: Refreshing state... [id=pogo-demo#arn:aws:iam::933605931561:role/managed/AccountFullAccessRole#arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy]
+aws_iam_role_policy.autoscaler: Refreshing state... [id=pogo-autoscaler:terraform-c816a9280689433f8a16058f4a]
+aws_iam_role_policy.load_balancer: Refreshing state... [id=pogo-load_balancer:terraform-8de5a1652c5a4eea3b7696874b]
+aws_eks_pod_identity_association.controller["load_balancer"]: Refreshing state... [id=a-a6d42hmzbnmfxxg00]
+aws_eks_pod_identity_association.controller["autoscaler"]: Refreshing state... [id=a-oc49yptx48wr7slnq]
+aws_iam_role_policy.results_writer: Refreshing state... [id=pogo-result-writer:terraform-2b1a0ae747a706ba255dc4f9b0]
+aws_eks_pod_identity_association.results: Refreshing state... [id=a-ncj6optyoyad30ywq]
+
+No changes. Your infrastructure matches the configuration.
+
+Terraform has compared your real infrastructure against your configuration
+and found no differences, so no changes are needed.

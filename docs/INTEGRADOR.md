@@ -22,7 +22,7 @@ Las seis prácticas individuales son entregas separadas. Este documento reúne �
 | Autoescalado | FleetAutoscaler por modo, HPA del gateway 2-6, Cluster Autoscaler 2-8 nodos. Buffer temporal de prueba separado del valor normal de dos salas |
 | Clasificación persistente | API Gateway, Lambda y DynamoDB. Escritura IAM desde GameServers, transacciones e idempotencia por partida. `serverless/README.md` |
 | Carga de jugadores y espectadores | Generadores EC2 separados del clúster. CSV, HTML, logs, metadatos y Prometheus en `evidence/aws-load/`. El informe distingue clientes solicitados de conexiones activas |
-| Informe y presentación | Entregables finales y guion enlazados en este documento al cerrar las mediciones |
+| Informe y presentación | [Informe de seis páginas](../output/pdf/Informe_integrador_AWS.pdf), [PowerPoint](../output/presentations/Presentacion_integrador_AWS.pptx) y [guion de diez minutos](GUION_INTEGRADOR.md) |
 
 ## Revisión y despliegue automático
 
@@ -40,4 +40,4 @@ Los precios de lista del informe sirven para analizar la arquitectura antes de c
 
 ## Límites que deben explicarse
 
-La carga usa clientes de protocolo en Ohio y no mide FPS, experiencia gráfica ni latencia desde las casas de jugadores. Las conexiones cuentan humanos simulados, nunca los bots internos. HLS usa un clip sintético propio a 360p/800 kbps y un modelo de buffer, sin decodificador ni transmisión en vivo. La prueba de clasificación utiliza 500 usuarios con pausas de seis segundos por la cuota de diez ejecuciones concurrentes de Lambda de esta cuenta. El resultado publicado clasifica mejores partidas por apodo, sin cuentas verificadas.
+La carga usa clientes de protocolo en Ohio y no mide FPS, experiencia gráfica ni latencia desde las casas de jugadores. Las conexiones cuentan humanos simulados, nunca los bots internos. HLS usa un clip sintético propio a 360p/800 kbps y un modelo de buffer, sin decodificador ni transmisión en vivo. La clasificación utiliza 500 usuarios con pausas de 8-12 s y primer acceso distribuido por la cuota de diez ejecuciones concurrentes de Lambda; conserva también las pruebas previas que encontraron throttling. El resultado publicado clasifica mejores partidas por apodo, sin cuentas verificadas.

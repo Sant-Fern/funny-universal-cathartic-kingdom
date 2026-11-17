@@ -1,0 +1,2 @@
+Method,Name,Error,Occurrences,First Seen,Last Seen
+GET,leaderboard_read,HTTPError('503 Server Error: Service Unavailable for url: leaderboard_read'),7,2026-11-17T04:09:50Z,2026-11-17T04:09:51Z

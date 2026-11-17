@@ -1,0 +1,261 @@
+{
+  "utc": "2026-11-17T03:33:50.886162+00:00",
+  "label": "leaderboard-500",
+  "metrics": {
+    "ProcessedBytes": {
+      "statistic": "Sum",
+      "datapoints": [
+        {
+          "Timestamp": "2026-11-16 19:44:00-06:00",
+          "Sum": 15295.0,
+          "Unit": "Bytes"
+        },
+        {
+          "Timestamp": "2026-11-16 19:45:00-06:00",
+          "Sum": 560457.0,
+          "Unit": "Bytes"
+        },
+        {
+          "Timestamp": "2026-11-16 19:46:00-06:00",
+          "Sum": 761322.0,
+          "Unit": "Bytes"
+        }
+      ]
+    },
+    "ConsumedLCUs": {
+      "statistic": "Average",
+      "datapoints": [
+        {
+          "Timestamp": "2026-11-16 19:43:00-06:00",
+          "Average": 0.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 19:44:00-06:00",
+          "Average": 4.444444444444444e-05,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 19:45:00-06:00",
+          "Average": 0.0005604569999988791,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 19:46:00-06:00",
+          "Average": 0.0007613219999984774,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 19:47:00-06:00",
+          "Average": 5.555555555555555e-06,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 19:48:00-06:00",
+          "Average": 0.0,
+          "Unit": "Count"
+        }
+      ]
+    },
+    "ActiveConnectionCount": {
+      "statistic": "Sum",
+      "datapoints": [
+        {
+          "Timestamp": "2026-11-16 19:44:00-06:00",
+          "Sum": 4.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 19:45:00-06:00",
+          "Sum": 5.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 19:46:00-06:00",
+          "Sum": 6.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 19:47:00-06:00",
+          "Sum": 1.0,
+          "Unit": "Count"
+        }
+      ]
+    },
+    "lambda_ConcurrentExecutions": {
+      "statistic": "Maximum",
+      "datapoints": [
+        {
+          "Timestamp": "2026-11-16 19:43:00-06:00",
+          "Maximum": 10.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 19:44:00-06:00",
+          "Maximum": 10.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 19:45:00-06:00",
+          "Maximum": 10.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 19:46:00-06:00",
+          "Maximum": 10.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 19:47:00-06:00",
+          "Maximum": 10.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 19:48:00-06:00",
+          "Maximum": 10.0,
+          "Unit": "Count"
+        }
+      ]
+    },
+    "lambda_Throttles": {
+      "statistic": "Sum",
+      "datapoints": [
+        {
+          "Timestamp": "2026-11-16 19:43:00-06:00",
+          "Sum": 78.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 19:44:00-06:00",
+          "Sum": 1824.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 19:45:00-06:00",
+          "Sum": 520.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 19:46:00-06:00",
+          "Sum": 331.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 19:47:00-06:00",
+          "Sum": 180.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 19:48:00-06:00",
+          "Sum": 139.0,
+          "Unit": "Count"
+        }
+      ]
+    },
+    "lambda_Invocations": {
+      "statistic": "Sum",
+      "datapoints": [
+        {
+          "Timestamp": "2026-11-16 19:43:00-06:00",
+          "Sum": 32.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 19:44:00-06:00",
+          "Sum": 3337.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 19:45:00-06:00",
+          "Sum": 4524.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 19:46:00-06:00",
+          "Sum": 4725.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 19:47:00-06:00",
+          "Sum": 4843.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 19:48:00-06:00",
+          "Sum": 4863.0,
+          "Unit": "Count"
+        }
+      ]
+    },
+    "lambda_Errors": {
+      "statistic": "Sum",
+      "datapoints": [
+        {
+          "Timestamp": "2026-11-16 19:43:00-06:00",
+          "Sum": 0.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 19:44:00-06:00",
+          "Sum": 0.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 19:45:00-06:00",
+          "Sum": 0.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 19:46:00-06:00",
+          "Sum": 0.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 19:47:00-06:00",
+          "Sum": 0.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 19:48:00-06:00",
+          "Sum": 0.0,
+          "Unit": "Count"
+        }
+      ]
+    },
+    "lambda_Duration": {
+      "statistic": "Average",
+      "datapoints": [
+        {
+          "Timestamp": "2026-11-16 19:43:00-06:00",
+          "Average": 73.786875,
+          "Unit": "Milliseconds"
+        },
+        {
+          "Timestamp": "2026-11-16 19:44:00-06:00",
+          "Average": 16.719376681000913,
+          "Unit": "Milliseconds"
+        },
+        {
+          "Timestamp": "2026-11-16 19:45:00-06:00",
+          "Average": 16.821036687223707,
+          "Unit": "Milliseconds"
+        },
+        {
+          "Timestamp": "2026-11-16 19:46:00-06:00",
+          "Average": 16.644973539280446,
+          "Unit": "Milliseconds"
+        },
+        {
+          "Timestamp": "2026-11-16 19:47:00-06:00",
+          "Average": 16.706611597728713,
+          "Unit": "Milliseconds"
+        },
+        {
+          "Timestamp": "2026-11-16 19:48:00-06:00",
+          "Average": 16.90501335992186,
+          "Unit": "Milliseconds"
+        }
+      ]
+    }
+  }
+}

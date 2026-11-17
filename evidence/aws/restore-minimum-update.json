@@ -1,0 +1,23 @@
+{
+    "update": {
+        "id": "e918f1c6-aacc-393b-a00e-ca3bc0b3e196",
+        "status": "InProgress",
+        "type": "ConfigUpdate",
+        "params": [
+            {
+                "type": "MinSize",
+                "value": "2"
+            },
+            {
+                "type": "MaxSize",
+                "value": "10"
+            },
+            {
+                "type": "DesiredSize",
+                "value": "10"
+            }
+        ],
+        "createdAt": "2026-11-16T22:10:52.787000-06:00",
+        "errors": []
+    }
+}
