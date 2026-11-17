@@ -2,7 +2,7 @@
 
 Prototipo local de una arena 3D de esqueletos anatómicos sobre pogos con rebote continuo. En el **Auditorio del Último Rebote**, médicos observan desde gradas y reaccionan a las eliminaciones. Carrera recorre un mundo surrealista de objetos cotidianos gigantes, **El Sueño del Último Rebote**. Las botellas vuelan sin guías de trayectoria.
 
-**Disponible en AWS:** [abrir el juego](https://d1oif12lvr7c7k.cloudfront.net). Se desplegó la versión del ZIP con cambios de mapa, con EKS, Agones, asignación de salas y monitoreo. Consulta el [despliegue y pendientes del PDF](docs/DESPLIEGUE_AWS.md) antes de preparar la entrega académica.
+**Disponible en AWS:** [abrir el juego](https://d1oif12lvr7c7k.cloudfront.net). La versión del ZIP incluye EKS/Agones, clasificación persistente, CI/CD y métricas. Consulta el [integrador y sus evidencias](docs/INTEGRADOR.md), la [guía para entregar y operar](docs/OPERACION_INTEGRADOR.md) y el [guion de diez minutos](docs/GUION_INTEGRADOR.md). Las seis prácticas individuales son entregas separadas.
 
 El entorno consume crédito promocional. El objetivo de cobro USD 0 depende de conservar la cuenta en **Free activo**; no es alojamiento gratuito permanente. Las instrucciones de retiro están en [infra/aws](infra/aws/README.md).
 

@@ -30,7 +30,7 @@ La cuenta utilizada rechazó la creación de un proveedor OIDC mediante una pol�
 & ./scripts/aws-terraform.ps1 -Directory infra/aws -Profile TU_PERFIL -TerraformArguments @('apply','-input=false','demo.tfplan')
 ```
 
-El wrapper entrega credenciales temporales al proceso de Terraform y las retira de su entorno al terminar. Permite usar el backend S3 de esta versión de Terraform con perfiles de inicio de sesión del navegador.
+El wrapper crea un perfil temporal de configuración con `credential_process` del AWS CLI y lo elimina al terminar. Así el backend S3 puede renovar la credencial durante operaciones largas de EKS, sin escribir claves en archivos. El proveedor conserva el perfil de navegador autorizado.
 
 7. Conectar kubectl usando un archivo propio: `aws eks update-kubeconfig --profile TU_PERFIL --region us-east-2 --name pogo-demo --kubeconfig .tools/pogo.kubeconfig`. Para cada sesión, asignar `$env:KUBECONFIG` a la ruta absoluta de ese archivo.
 8. Instalar las versiones fijadas en `k8s/aws/README.md`. Renderizar el manifiesto con `scripts/aws-manifests.py` e imágenes de ECR.

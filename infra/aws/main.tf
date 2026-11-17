@@ -37,16 +37,16 @@ variable "max_nodes" {
   type    = number
   default = 8
   validation {
-    condition     = var.max_nodes >= 2 && var.max_nodes <= 8
-    error_message = "La demostración permite entre dos y ocho nodos."
+    condition     = var.max_nodes >= 2 && var.max_nodes <= 10
+    error_message = "La demostración permite entre dos y diez nodos. Verificar la cuota regional compartida antes de usar diez."
   }
 }
 variable "min_nodes" {
   type    = number
   default = 2
   validation {
-    condition     = var.min_nodes >= 1 && var.min_nodes <= 2
-    error_message = "Usar uno o dos nodos mínimos para esta demostración."
+    condition     = var.min_nodes >= 1 && var.min_nodes <= var.max_nodes && var.min_nodes <= 10
+    error_message = "El mínimo debe ser entre uno y el máximo permitido. Diez se reserva para la prueba con capacidad preparada."
   }
 }
 

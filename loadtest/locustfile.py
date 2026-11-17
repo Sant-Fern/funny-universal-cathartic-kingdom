@@ -11,7 +11,7 @@ import uuid
 import boto3
 from botocore.config import Config
 import gevent
-from locust import HttpUser, User, constant, events, task
+from locust import HttpUser, User, between, constant, events, task
 from locust.runners import WorkerRunner
 import websocket
 
@@ -186,29 +186,35 @@ class SpectatorUser(HttpUser):
         if not self.segments:
             gevent.sleep(1)
             return
-        now = time.monotonic()
-        self.buffer -= now-self.last_fetch
-        self.last_fetch = now
         start = time.perf_counter()
         segment = self.segments[self.position%len(self.segments)]
         with self.client.get("/hls/"+segment, name="hls_segment", catch_response=True) as response:
+            completed = time.monotonic()
+            underrun = max(0, completed-self.last_fetch-self.buffer)
+            self.buffer = max(0, self.buffer-(completed-self.last_fetch))
+            self.last_fetch = completed
             if response.status_code == 200:
                 self.buffer += 4
+                STATS["bytes"] += len(response.content)
                 self.environment.events.request.fire(request_type="HLS", name="buffer_seconds",
                     response_time=max(0, self.buffer)*1000, response_length=0, exception=None)
             else:
                 response.failure(f"HLS HTTP {response.status_code}")
-        if self.buffer < 0:
+        if underrun > 0:
             self.environment.events.request.fire(request_type="HLS", name="rebuffer",
-                response_time=-self.buffer*1000, response_length=0, exception=RuntimeError("Playback buffer empty"))
-            self.buffer = 0
+                response_time=underrun*1000, response_length=0, exception=RuntimeError("Playback buffer empty"))
         self.position += 1
         gevent.sleep(max(0, 4-(time.perf_counter()-start)))
 
 
 class LeaderboardUser(HttpUser):
-    wait_time = constant(6)
+    wait_time = between(8, 12)
     _lambda = None
+
+    def on_start(self):
+        # Browser sessions do not all refresh their first leaderboard in the
+        # same scheduler batch. Keep the initial ramp below the account burst.
+        gevent.sleep(random.uniform(0, 12))
 
     @task(4)
     def read(self):

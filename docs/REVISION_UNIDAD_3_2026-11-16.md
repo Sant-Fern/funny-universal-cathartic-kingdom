@@ -1,5 +1,7 @@
 # Revisión de entregables de la Unidad 3
 
+**Revisión inicial, conservada como historial.** El estado posterior del despliegue, clasificación, CI/CD y mediciones se encuentra en [INTEGRADOR.md](INTEGRADOR.md) y [DESPLIEGUE_AWS.md](DESPLIEGUE_AWS.md). Las tablas siguientes describen lo encontrado antes de realizar ese trabajo.
+
 Fecha de revisión: 16 de noviembre de 2026.
 
 ## Resultado

@@ -28,6 +28,11 @@ def main():
     record = json.loads((directory / "commands.json").read_text(encoding="utf-8-sig"))
     start = datetime.fromisoformat(record["started_utc"]).timestamp()-30
     end = time.time()
+    runs = [json.loads(path.read_text()) for path in directory.glob('*/run.json')]
+    master = next((run for run in runs if not run['worker_only']), None)
+    if master:
+        start = master['started_epoch']-30
+        end = min(end, master['ended_epoch'])
     result = {"utc": datetime.now(timezone.utc).isoformat(), "start_epoch": start, "end_epoch": end,
               "step_seconds": 15, "queries": {}}
     for name, query in QUERIES.items():

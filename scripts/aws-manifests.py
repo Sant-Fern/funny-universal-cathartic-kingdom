@@ -57,12 +57,14 @@ for mode in ("eliminations", "race"):
         "fleetName": f"pogo-{mode}", "policy": {"type": "Buffer", "buffer": {"bufferSize": 2, "minReplicas": 2, "maxReplicas": 110}}
     })
 
-for name, image, cpu, memory, port in (("gateway", "gateway", "200m", "128Mi", 8000), ("client", "client", "50m", "32Mi", 80)):
+for name, image, cpu, memory, port in (("gateway", "gateway", "400m", "128Mi", 8000), ("client", "client", "50m", "32Mi", 80)):
     pod = {"containers": [{"name": name, "image": f"{args.registry}/pogo/{image}:{args.tag}",
                            "ports": [{"name": "http", "containerPort": port}],
                            "resources": {"requests": {"cpu": cpu, "memory": memory}, "limits": {"cpu": "1", "memory": "512Mi"}},
                            "readinessProbe": {"httpGet": {"path": "/health" if name == "gateway" else "/", "port": port}, "initialDelaySeconds": 3}}]}
     if name == "gateway":
+        pod["topologySpreadConstraints"] = [{"maxSkew": 1, "topologyKey": "kubernetes.io/hostname",
+            "whenUnsatisfiable": "ScheduleAnyway", "labelSelector": {"matchLabels": {"app": "gateway"}}}]
         pod["serviceAccountName"] = "gateway"
         pod["containers"][0]["env"] = [{"name": "POD_NAMESPACE", "value": "pogo"},
                                        {"name": "LEADERBOARD_URL", "value": args.leaderboard_url}]
