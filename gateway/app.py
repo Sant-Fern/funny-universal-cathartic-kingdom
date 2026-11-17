@@ -214,7 +214,7 @@ async def proxy(ws: WebSocket, name: str):
     try:
         target = await router.target(name)
         async with connect(target.replace("http://", "ws://") + f"/ws?token={token}",
-                           max_size=2**20, proxy=None, open_timeout=5) as remote:
+                           max_size=2**20, proxy=None, open_timeout=5, compression=None) as remote:
             await ws.accept()
             router.connections += 1
 

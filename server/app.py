@@ -51,7 +51,9 @@ class Connection:
 
     async def send(self, data):
         async with self.lock:
-            await asyncio.wait_for(self.websocket.send_json(data), timeout=2)
+            # Shared tick snapshots are encoded once per room, not once per player.
+            encoded = data if isinstance(data, str) else json.dumps(data, separators=(",", ":"), ensure_ascii=False)
+            await asyncio.wait_for(self.websocket.send_text(encoded), timeout=2)
 
 
 @dataclass
@@ -100,7 +102,7 @@ class Runtime:
                         self.results_pending += 1
                         self.results_enqueued.add(room.arena.id)
                 if room.connections:
-                    snapshot = room.arena.snapshot()
+                    snapshot = json.dumps(room.arena.snapshot(), separators=(",", ":"), ensure_ascii=False)
                     for conn in room.connections.values():
                         if conn.queue.full():
                             conn.queue.get_nowait()
