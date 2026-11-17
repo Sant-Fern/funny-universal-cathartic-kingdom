@@ -1,0 +1,21 @@
+agones:
+  controller:
+    replicas: 1
+    resources:
+      requests: {cpu: 100m, memory: 128Mi}
+      limits: {cpu: "1", memory: 512Mi}
+  extensions:
+    replicas: 1
+    resources:
+      requests: {cpu: 100m, memory: 128Mi}
+      limits: {cpu: "1", memory: 512Mi}
+  allocator:
+    install: false
+  ping:
+    install: false
+gameservers:
+  namespaces: [pogo]
+  sdk:
+    cpuRequest: 10m
+    memoryRequest: 24Mi
+    memoryLimit: 64Mi

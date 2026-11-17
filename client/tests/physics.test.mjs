@@ -1,7 +1,22 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {arenaObstacles,heightAt,launchVelocity,throwOrigin,trajectory,positionAt,config} from '../../shared/physics.js';
+import {arenaObstacles,heightAt,launchVelocity,throwOrigin,trajectory,positionAt,config,pogoLaunch,pogoMomentum,segmentObstacle,obstacleAt} from '../../shared/physics.js';
 import {towerTracks} from '../../shared/tower.js';
+
+test('lean redirects spring force sideways and its impulse decays through flight',()=>{
+  const upright=pogoLaunch(1),lean=pogoLaunch(1,1,0),diagonal=pogoLaunch(1,1,1);
+  assert.equal(upright.vx,0);
+  assert.ok(lean.vx>3&&lean.vy<upright.vy);
+  assert.ok(Math.abs(Math.hypot(diagonal.vx,diagonal.vy,diagonal.vz)-config.jumpMaxSpeed)<1e-8);
+  const later=pogoMomentum(lean.vx,lean.vz,.7);
+  assert.ok(later.x>0&&later.x<lean.vx);
+});
+test('elliptical surfaces have curved projectile collision instead of solid square corners',()=>{
+  const o=towerTracks[1].find(p=>p.style==='tea-tray'),box=obstacleAt(o,0),y=o.h-.5;
+  const x=o.x+o.w*.49,z=o.z+o.d*.49;
+  assert.equal(segmentObstacle({x,y,z},{x:x+.1,y,z:z+.1},o,box),null);
+  assert.ok(Math.abs(segmentObstacle({x:o.x-o.w,y,z:o.z},{x:o.x+o.w,y,z:o.z},o,box)-.25)<1e-8);
+});
 
 test('power changes speed and distance; gravity produces a descending arc',()=>{
   const origin={x:-15,y:4,z:-10},low=launchVelocity(0,.1,.15),high=launchVelocity(0,.1,1);
@@ -11,8 +26,8 @@ test('power changes speed and distance; gravity produces a descending arc',()=>{
   assert.ok(after.y<before.y);
 });
 test('bottles can fly underneath a suspended deck but stop against its side',()=>{
-  const deck=towerTracks[0][3], left=deck.x-deck.w/2-config.shotRadius;
-  const underneath=trajectory({x:deck.x-5,y:1.8,z:deck.z},{x:20,y:0,z:0},'standard',0,[deck]).at(-1);
+  const deck=towerTracks[0].find(p=>p.style==='book'), left=deck.x-deck.w/2-config.shotRadius;
+  const underneath=trajectory({x:deck.x-5,y:1.8,z:deck.z},{x:30,y:0,z:0},'standard',0,[deck]).at(-1);
   assert.ok(underneath.x>deck.x+deck.w/2);
   const side=trajectory({x:deck.x-5,y:deck.h-deck.thickness/2,z:deck.z},{x:20,y:1,z:0},'standard',0,[deck]).at(-1);
   assert.ok(Math.abs(side.x-left)<.01);

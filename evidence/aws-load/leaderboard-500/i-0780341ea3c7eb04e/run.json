@@ -1,0 +1,16 @@
+{
+  "label": "leaderboard-500",
+  "host": "https://6jc2etk9n4.execute-api.us-east-2.amazonaws.com",
+  "class": "LeaderboardUser",
+  "requested_users": 500,
+  "spawn_rate": 50.0,
+  "duration_requested_seconds": 310,
+  "started_epoch": 1794879836.7449336,
+  "ended_epoch": 1794880148.7354536,
+  "generator": "i-0780341ea3c7eb04e",
+  "worker_only": true,
+  "process_exit_codes": [
+    0,
+    0
+  ]
+}

@@ -1,0 +1,26 @@
+{
+  "class": "PogoUser",
+  "started_utc": "2026-11-17T00:24:49.9533249Z",
+  "rate": 4.0,
+  "tag": "loadtest-20261116-01",
+  "credit_before": {
+    "amount": 162.39,
+    "unit": "USD"
+  },
+  "duration": 40,
+  "users": 20,
+  "commands": [
+    {
+      "instance": "i-0a9b7f44870455186",
+      "command": "98bab44b-c89b-4f08-9f43-d3ca7993e2ed",
+      "master": true
+    },
+    {
+      "instance": "i-0780341ea3c7eb04e",
+      "command": "60f09efe-6211-451c-a8c2-2751d5ab6011",
+      "master": false
+    }
+  ],
+  "host": "https://d1oif12lvr7c7k.cloudfront.net",
+  "label": "distributed-preflight"
+}

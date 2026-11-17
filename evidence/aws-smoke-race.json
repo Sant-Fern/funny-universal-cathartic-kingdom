@@ -1,0 +1,52 @@
+{
+  "utc": "2026-11-16T23:02:21.376360+00:00",
+  "origin": "http://pogo-demo-web-494650335.us-east-2.elb.amazonaws.com",
+  "scope": "single_room_smoke",
+  "mode": "race",
+  "matchId": "bc1bbcfe-3a68-40b7-9f64-c642d1f1f38a",
+  "secondsRequested": 5,
+  "joins": [
+    {
+      "humans": 1,
+      "bots": 9,
+      "joinToWelcomeMs": 630.79
+    },
+    {
+      "humans": 2,
+      "bots": 8,
+      "joinToWelcomeMs": 377.186
+    }
+  ],
+  "afterDisconnect": {
+    "humans": 1,
+    "bots": 9
+  },
+  "rtt": {
+    "count": 10,
+    "p95Ms": 160.325
+  },
+  "clients": [
+    {
+      "inputs": 89,
+      "snapshots": 109,
+      "rttMs": [
+        150.873,
+        150.804,
+        152.806,
+        160.279,
+        152.034
+      ]
+    },
+    {
+      "inputs": 89,
+      "snapshots": 101,
+      "rttMs": [
+        150.765,
+        151.342,
+        152.97,
+        160.325,
+        152.884
+      ]
+    }
+  ]
+}

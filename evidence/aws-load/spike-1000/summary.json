@@ -1,0 +1,95 @@
+{
+  "label": "spike-1000",
+  "class": "PogoUser",
+  "tag": "loadtest-20261116-04",
+  "desired_users": 1000,
+  "rate": 50.0,
+  "requested_duration_seconds": 620,
+  "runner_elapsed_seconds": 629.8,
+  "completed_requested_duration": true,
+  "peak_locust_users": 1000.0,
+  "peak_connected_receivers": 987.0,
+  "peak_hls_viewers": 0.0,
+  "max_worker_cpu_percent": 66.7,
+  "peak_prometheus_ccu": 987.0,
+  "max_rolling_tick_p99_ms": 33.37237254040111,
+  "scaling_observations": {
+    "nodes": {
+      "initial": 4.0,
+      "max": 10.0,
+      "first_increase_seconds": 90.0
+    },
+    "gateway_replicas": {
+      "initial": 2.0,
+      "max": 6.0,
+      "first_increase_seconds": 45.0
+    },
+    "pending_pods": {
+      "initial": 0.0,
+      "max": 16.0,
+      "first_increase_seconds": 45.0
+    }
+  },
+  "received_payload_bytes": 63051389417.0,
+  "connected_player_seconds": 470677.9,
+  "input_events": 9202621.0,
+  "observed_inputs_per_player_second": 19.55,
+  "payload_bytes_per_player_second": 133958.69,
+  "requests": [
+    {
+      "type": "WS",
+      "name": "connect",
+      "count": 12,
+      "failures": 12,
+      "p50_ms": 12000.0,
+      "p95_ms": 20000.0,
+      "p99_ms": 20000.0,
+      "average_content_bytes": 0.0
+    },
+    {
+      "type": "POST",
+      "name": "join",
+      "count": 17607,
+      "failures": 14025,
+      "p50_ms": 130.0,
+      "p95_ms": 3000.0,
+      "p99_ms": 5300.0,
+      "average_content_bytes": 72.47787811665815
+    },
+    {
+      "type": "WS",
+      "name": "join_to_welcome",
+      "count": 3559,
+      "failures": 0,
+      "p50_ms": 2100.0,
+      "p95_ms": 7500.0,
+      "p99_ms": 11000.0,
+      "average_content_bytes": 0.0
+    },
+    {
+      "type": "WS",
+      "name": "ping_rtt",
+      "count": 460495,
+      "failures": 0,
+      "p50_ms": 320.0,
+      "p95_ms": 1400.0,
+      "p99_ms": 2000.0,
+      "average_content_bytes": 42.888098676424285
+    },
+    {
+      "type": "WS",
+      "name": "receive",
+      "count": 32,
+      "failures": 32,
+      "p50_ms": 0.0,
+      "p95_ms": 0.0,
+      "p99_ms": 0.0,
+      "average_content_bytes": 0.0
+    }
+  ],
+  "measurement_notes": [
+    "Prometheus samples every 15 seconds. Tick is active work, not end-to-end latency.",
+    "Locust user count includes retries. Connected receivers and server CCU are separate observations.",
+    "Exit code 0 does not imply no request failures. Inspect CSV counts."
+  ]
+}

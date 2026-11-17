@@ -1,0 +1,230 @@
+{
+  "utc": "2026-11-17T04:16:55.383737+00:00",
+  "label": "leaderboard-500-steady",
+  "metrics": {
+    "ProcessedBytes": {
+      "statistic": "Sum",
+      "datapoints": [
+        {
+          "Timestamp": "2026-11-16 22:09:00-06:00",
+          "Sum": 12522.0,
+          "Unit": "Bytes"
+        },
+        {
+          "Timestamp": "2026-11-16 22:12:00-06:00",
+          "Sum": 2728.0,
+          "Unit": "Bytes"
+        }
+      ]
+    },
+    "ConsumedLCUs": {
+      "statistic": "Average",
+      "datapoints": []
+    },
+    "ActiveConnectionCount": {
+      "statistic": "Sum",
+      "datapoints": [
+        {
+          "Timestamp": "2026-11-16 22:09:00-06:00",
+          "Sum": 24.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 22:10:00-06:00",
+          "Sum": 2.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 22:11:00-06:00",
+          "Sum": 1.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 22:12:00-06:00",
+          "Sum": 2.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 22:13:00-06:00",
+          "Sum": 1.0,
+          "Unit": "Count"
+        }
+      ]
+    },
+    "lambda_ConcurrentExecutions": {
+      "statistic": "Maximum",
+      "datapoints": [
+        {
+          "Timestamp": "2026-11-16 22:09:00-06:00",
+          "Maximum": 10.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 22:10:00-06:00",
+          "Maximum": 6.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 22:11:00-06:00",
+          "Maximum": 7.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 22:12:00-06:00",
+          "Maximum": 7.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 22:13:00-06:00",
+          "Maximum": 8.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 22:14:00-06:00",
+          "Maximum": 6.0,
+          "Unit": "Count"
+        }
+      ]
+    },
+    "lambda_Throttles": {
+      "statistic": "Sum",
+      "datapoints": [
+        {
+          "Timestamp": "2026-11-16 22:09:00-06:00",
+          "Sum": 8.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 22:10:00-06:00",
+          "Sum": 0.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 22:11:00-06:00",
+          "Sum": 0.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 22:12:00-06:00",
+          "Sum": 0.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 22:13:00-06:00",
+          "Sum": 0.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 22:14:00-06:00",
+          "Sum": 0.0,
+          "Unit": "Count"
+        }
+      ]
+    },
+    "lambda_Invocations": {
+      "statistic": "Sum",
+      "datapoints": [
+        {
+          "Timestamp": "2026-11-16 22:09:00-06:00",
+          "Sum": 580.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 22:10:00-06:00",
+          "Sum": 2993.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 22:11:00-06:00",
+          "Sum": 2999.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 22:12:00-06:00",
+          "Sum": 2995.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 22:13:00-06:00",
+          "Sum": 2997.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 22:14:00-06:00",
+          "Sum": 2986.0,
+          "Unit": "Count"
+        }
+      ]
+    },
+    "lambda_Errors": {
+      "statistic": "Sum",
+      "datapoints": [
+        {
+          "Timestamp": "2026-11-16 22:09:00-06:00",
+          "Sum": 0.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 22:10:00-06:00",
+          "Sum": 0.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 22:11:00-06:00",
+          "Sum": 0.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 22:12:00-06:00",
+          "Sum": 0.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 22:13:00-06:00",
+          "Sum": 0.0,
+          "Unit": "Count"
+        },
+        {
+          "Timestamp": "2026-11-16 22:14:00-06:00",
+          "Sum": 0.0,
+          "Unit": "Count"
+        }
+      ]
+    },
+    "lambda_Duration": {
+      "statistic": "Average",
+      "datapoints": [
+        {
+          "Timestamp": "2026-11-16 22:09:00-06:00",
+          "Average": 17.576534482586204,
+          "Unit": "Milliseconds"
+        },
+        {
+          "Timestamp": "2026-11-16 22:10:00-06:00",
+          "Average": 14.5001169363849,
+          "Unit": "Milliseconds"
+        },
+        {
+          "Timestamp": "2026-11-16 22:11:00-06:00",
+          "Average": 14.299269753117718,
+          "Unit": "Milliseconds"
+        },
+        {
+          "Timestamp": "2026-11-16 22:12:00-06:00",
+          "Average": 14.062207007846432,
+          "Unit": "Milliseconds"
+        },
+        {
+          "Timestamp": "2026-11-16 22:13:00-06:00",
+          "Average": 14.167027023256589,
+          "Unit": "Milliseconds"
+        },
+        {
+          "Timestamp": "2026-11-16 22:14:00-06:00",
+          "Average": 14.499356995545872,
+          "Unit": "Milliseconds"
+        }
+      ]
+    }
+  }
+}

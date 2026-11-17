@@ -1,0 +1,110 @@
+{
+  "currency": "USD",
+  "basis": "list prices before credits, Free Tier and taxes",
+  "prices": {
+    "node_hour": "0.0957600000",
+    "generator_hour": "0.0847900000",
+    "eks_cluster_hour": "0.10",
+    "alb_hour": "0.0225000000",
+    "lcu_hour": "0.0080000000",
+    "gp3_gb_month": "0.0800000000",
+    "public_ipv4_hour": "0.005",
+    "cloudfront_reference_gb": "0.085"
+  },
+  "scenarios": [
+    {
+      "nodes": 2,
+      "fixed_hour": "0.33840",
+      "fixed_hour_at_1000_players": "0.00033840"
+    },
+    {
+      "nodes": 3,
+      "fixed_hour": "0.44136",
+      "fixed_hour_at_1000_players": "0.00044136"
+    },
+    {
+      "nodes": 4,
+      "fixed_hour": "0.54431",
+      "fixed_hour_at_1000_players": "0.00054431"
+    },
+    {
+      "nodes": 8,
+      "fixed_hour": "0.95611",
+      "fixed_hour_at_1000_players": "0.00095611"
+    },
+    {
+      "nodes": 10,
+      "fixed_hour": "1.16202",
+      "fixed_hour_at_1000_players": "0.00116202"
+    }
+  ],
+  "generators_fixed_hour": "0.1830868493150684931506849315",
+  "extrapolation_hls": {
+    "viewers": 20000,
+    "kbps_each": 6000,
+    "bandwidth_gbps": "120",
+    "decimal_gb_hour": "54000",
+    "uniform_reference_egress_hour": "4590.000",
+    "notes": "Mathematical scenario only. Uniform reference rate, no volume-tier discounts, no free allowance, no live 20k test."
+  },
+  "measured_runs": [
+    {
+      "label": "distributed-preflight",
+      "received_payload_decimal_gb": "0.094909663",
+      "payload_gb_per_player_hour": "0.4934644523396880415944540728",
+      "peak_connected_per_peak_node": null,
+      "uniform_cf_payload_per_player_hour": "0.04194447844887348353552859619"
+    },
+    {
+      "label": "ramp-1000",
+      "received_payload_decimal_gb": "1.225723956",
+      "payload_gb_per_player_hour": "0.4776219859504042776581120722",
+      "peak_connected_per_peak_node": null,
+      "uniform_cf_payload_per_player_hour": "0.04059786880578436360093952614"
+    },
+    {
+      "label": "ramp-1000-fixed",
+      "received_payload_decimal_gb": "99.581139856",
+      "payload_gb_per_player_hour": "0.479466868553101623803479789",
+      "peak_connected_per_peak_node": "105.375",
+      "uniform_cf_payload_per_player_hour": "0.04075468382701363802329578206",
+      "mean_lcus": "4.9721607186900557015",
+      "alb_variable_hour": "0.03977728574952044561200000000",
+      "reference_compute_network_hour_at_peak": "35.35208999849735976500376894",
+      "reference_compute_network_per_player_hour": "0.04193604982028156555753709246",
+      "subtotal_excludes": "API/Lambda/DynamoDB, ECR/S3, inter-AZ traffic, free allowances, credits and taxes"
+    },
+    {
+      "label": "ramp-1000-optimized",
+      "received_payload_decimal_gb": "125.910408016",
+      "payload_gb_per_player_hour": "0.4798781208398041051363274149",
+      "peak_connected_per_peak_node": "100",
+      "uniform_cf_payload_per_player_hour": "0.04078964027138334893658783027",
+      "mean_lcus": "0.61076411249877851",
+      "alb_variable_hour": "0.004886112899990228080000000",
+      "reference_compute_network_hour_at_peak": "41.95654419250251724685961109",
+      "reference_compute_network_per_player_hour": "0.04195654419250251724685961109",
+      "subtotal_excludes": "API/Lambda/DynamoDB, ECR/S3, inter-AZ traffic, free allowances, credits and taxes"
+    },
+    {
+      "label": "spike-1000",
+      "received_payload_decimal_gb": "63.051389417",
+      "payload_gb_per_player_hour": "0.4822512420940095126624810725",
+      "peak_connected_per_peak_node": "98.7",
+      "uniform_cf_payload_per_player_hour": "0.04099135557799080857631089116",
+      "mean_lcus": "5.702000780806778020727272727",
+      "alb_variable_hour": "0.04561600624645422416581818182",
+      "reference_compute_network_hour_at_peak": "41.66610176994256037117644857",
+      "reference_compute_network_per_player_hour": "0.04221489541027615032540673614",
+      "subtotal_excludes": "API/Lambda/DynamoDB, ECR/S3, inter-AZ traffic, free allowances, credits and taxes"
+    }
+  ],
+  "excluded_from_fixed": [
+    "LCU and CDN variable traffic",
+    "inter-AZ traffic",
+    "ECR/S3/DynamoDB storage and requests",
+    "Lambda/API requests and duration",
+    "monitoring and other account projects"
+  ],
+  "out_of_pocket": "0 while account remains FREE ACTIVE. Credits are consumed; availability ends at balance/plan expiry. Not permanent free hosting."
+}

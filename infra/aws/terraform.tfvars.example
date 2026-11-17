@@ -1,0 +1,8 @@
+profile           = "tu-perfil-aws"
+region            = "us-east-2"
+admin_cidr        = "TU_IP_PUBLICA/32"
+operator_arn      = "ARN_COMPLETO_DEL_ROL_IAM_INCLUYENDO_SU_RUTA"
+python_executable = "C:/ruta/al/proyecto/.venv/Scripts/python.exe"
+max_nodes         = 8
+# Set only after the Kubernetes Ingress has an ALB DNS name.
+origin_dns = ""

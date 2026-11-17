@@ -1,0 +1,15 @@
+# Temporary warm buffer for the measured ~80 s node startup at 2 players/s.
+# Apply before the representative runs; restore bufferSize: 2 afterwards.
+apiVersion: autoscaling.agones.dev/v1
+kind: FleetAutoscaler
+metadata:
+  name: pogo-eliminations
+  namespace: pogo
+spec:
+  fleetName: pogo-eliminations
+  policy:
+    type: Buffer
+    buffer:
+      bufferSize: 16
+      minReplicas: 16
+      maxReplicas: 110

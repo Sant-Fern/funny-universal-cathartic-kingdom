@@ -1,0 +1,633 @@
+{
+  "apiVersion": "v1",
+  "kind": "List",
+  "items": [
+    {
+      "apiVersion": "v1",
+      "kind": "Namespace",
+      "metadata": {
+        "name": "pogo"
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "ServiceAccount",
+      "metadata": {
+        "name": "gateway",
+        "namespace": "pogo"
+      }
+    },
+    {
+      "apiVersion": "rbac.authorization.k8s.io/v1",
+      "kind": "Role",
+      "metadata": {
+        "name": "gateway",
+        "namespace": "pogo"
+      },
+      "rules": [
+        {
+          "apiGroups": [
+            "agones.dev"
+          ],
+          "resources": [
+            "gameservers"
+          ],
+          "verbs": [
+            "get",
+            "list"
+          ]
+        },
+        {
+          "apiGroups": [
+            "allocation.agones.dev"
+          ],
+          "resources": [
+            "gameserverallocations"
+          ],
+          "verbs": [
+            "create"
+          ]
+        },
+        {
+          "apiGroups": [
+            ""
+          ],
+          "resources": [
+            "pods"
+          ],
+          "verbs": [
+            "get"
+          ]
+        }
+      ]
+    },
+    {
+      "apiVersion": "rbac.authorization.k8s.io/v1",
+      "kind": "RoleBinding",
+      "metadata": {
+        "name": "gateway",
+        "namespace": "pogo"
+      },
+      "roleRef": {
+        "apiGroup": "rbac.authorization.k8s.io",
+        "kind": "Role",
+        "name": "gateway"
+      },
+      "subjects": [
+        {
+          "kind": "ServiceAccount",
+          "name": "gateway",
+          "namespace": "pogo"
+        }
+      ]
+    },
+    {
+      "apiVersion": "agones.dev/v1",
+      "kind": "Fleet",
+      "metadata": {
+        "name": "pogo-eliminations",
+        "namespace": "pogo"
+      },
+      "spec": {
+        "replicas": 2,
+        "scheduling": "Packed",
+        "strategy": {
+          "type": "RollingUpdate",
+          "rollingUpdate": {
+            "maxSurge": "25%",
+            "maxUnavailable": "25%"
+          }
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "app": "pogo-game",
+              "mode": "eliminations"
+            }
+          },
+          "spec": {
+            "container": "game",
+            "ports": [
+              {
+                "name": "web",
+                "portPolicy": "None",
+                "containerPort": 8000,
+                "protocol": "TCP"
+              }
+            ],
+            "health": {
+              "initialDelaySeconds": 30,
+              "periodSeconds": 5,
+              "failureThreshold": 3
+            },
+            "counters": {
+              "players": {
+                "count": 0,
+                "capacity": 10
+              }
+            },
+            "template": {
+              "metadata": {
+                "labels": {
+                  "app": "pogo-game",
+                  "mode": "eliminations"
+                }
+              },
+              "spec": {
+                "terminationGracePeriodSeconds": 30,
+                "containers": [
+                  {
+                    "name": "game",
+                    "image": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/server:3e741d55fe6de797065f51a435c87e74a3e10542",
+                    "env": [
+                      {
+                        "name": "MATCH_MODE",
+                        "value": "eliminations"
+                      },
+                      {
+                        "name": "RESULTS_FUNCTION",
+                        "value": "pogo-leaderboard"
+                      },
+                      {
+                        "name": "AWS_DEFAULT_REGION",
+                        "value": "us-east-2"
+                      }
+                    ],
+                    "ports": [
+                      {
+                        "name": "http",
+                        "containerPort": 8000
+                      }
+                    ],
+                    "resources": {
+                      "requests": {
+                        "cpu": "100m",
+                        "memory": "128Mi"
+                      },
+                      "limits": {
+                        "cpu": "1",
+                        "memory": "384Mi"
+                      }
+                    },
+                    "readinessProbe": {
+                      "httpGet": {
+                        "path": "/health",
+                        "port": 8000
+                      },
+                      "initialDelaySeconds": 3
+                    },
+                    "securityContext": {
+                      "allowPrivilegeEscalation": false,
+                      "capabilities": {
+                        "drop": [
+                          "ALL"
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "autoscaling.agones.dev/v1",
+      "kind": "FleetAutoscaler",
+      "metadata": {
+        "name": "pogo-eliminations",
+        "namespace": "pogo"
+      },
+      "spec": {
+        "fleetName": "pogo-eliminations",
+        "policy": {
+          "type": "Buffer",
+          "buffer": {
+            "bufferSize": 2,
+            "minReplicas": 2,
+            "maxReplicas": 110
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "agones.dev/v1",
+      "kind": "Fleet",
+      "metadata": {
+        "name": "pogo-race",
+        "namespace": "pogo"
+      },
+      "spec": {
+        "replicas": 2,
+        "scheduling": "Packed",
+        "strategy": {
+          "type": "RollingUpdate",
+          "rollingUpdate": {
+            "maxSurge": "25%",
+            "maxUnavailable": "25%"
+          }
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "app": "pogo-game",
+              "mode": "race"
+            }
+          },
+          "spec": {
+            "container": "game",
+            "ports": [
+              {
+                "name": "web",
+                "portPolicy": "None",
+                "containerPort": 8000,
+                "protocol": "TCP"
+              }
+            ],
+            "health": {
+              "initialDelaySeconds": 30,
+              "periodSeconds": 5,
+              "failureThreshold": 3
+            },
+            "counters": {
+              "players": {
+                "count": 0,
+                "capacity": 10
+              }
+            },
+            "template": {
+              "metadata": {
+                "labels": {
+                  "app": "pogo-game",
+                  "mode": "race"
+                }
+              },
+              "spec": {
+                "terminationGracePeriodSeconds": 30,
+                "containers": [
+                  {
+                    "name": "game",
+                    "image": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/server:3e741d55fe6de797065f51a435c87e74a3e10542",
+                    "env": [
+                      {
+                        "name": "MATCH_MODE",
+                        "value": "race"
+                      },
+                      {
+                        "name": "RESULTS_FUNCTION",
+                        "value": "pogo-leaderboard"
+                      },
+                      {
+                        "name": "AWS_DEFAULT_REGION",
+                        "value": "us-east-2"
+                      }
+                    ],
+                    "ports": [
+                      {
+                        "name": "http",
+                        "containerPort": 8000
+                      }
+                    ],
+                    "resources": {
+                      "requests": {
+                        "cpu": "100m",
+                        "memory": "128Mi"
+                      },
+                      "limits": {
+                        "cpu": "1",
+                        "memory": "384Mi"
+                      }
+                    },
+                    "readinessProbe": {
+                      "httpGet": {
+                        "path": "/health",
+                        "port": 8000
+                      },
+                      "initialDelaySeconds": 3
+                    },
+                    "securityContext": {
+                      "allowPrivilegeEscalation": false,
+                      "capabilities": {
+                        "drop": [
+                          "ALL"
+                        ]
+                      }
+                    }
+                  }
+                ]
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "autoscaling.agones.dev/v1",
+      "kind": "FleetAutoscaler",
+      "metadata": {
+        "name": "pogo-race",
+        "namespace": "pogo"
+      },
+      "spec": {
+        "fleetName": "pogo-race",
+        "policy": {
+          "type": "Buffer",
+          "buffer": {
+            "bufferSize": 2,
+            "minReplicas": 2,
+            "maxReplicas": 110
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "apps/v1",
+      "kind": "Deployment",
+      "metadata": {
+        "name": "gateway",
+        "namespace": "pogo"
+      },
+      "spec": {
+        "replicas": 2,
+        "selector": {
+          "matchLabels": {
+            "app": "gateway"
+          }
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "app": "gateway"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "name": "gateway",
+                "image": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/gateway:3e741d55fe6de797065f51a435c87e74a3e10542",
+                "ports": [
+                  {
+                    "name": "http",
+                    "containerPort": 8000
+                  }
+                ],
+                "resources": {
+                  "requests": {
+                    "cpu": "400m",
+                    "memory": "128Mi"
+                  },
+                  "limits": {
+                    "cpu": "1",
+                    "memory": "512Mi"
+                  }
+                },
+                "readinessProbe": {
+                  "httpGet": {
+                    "path": "/health",
+                    "port": 8000
+                  },
+                  "initialDelaySeconds": 3
+                },
+                "env": [
+                  {
+                    "name": "POD_NAMESPACE",
+                    "value": "pogo"
+                  },
+                  {
+                    "name": "LEADERBOARD_URL",
+                    "value": "https://6jc2etk9n4.execute-api.us-east-2.amazonaws.com/leaderboard"
+                  }
+                ]
+              }
+            ],
+            "topologySpreadConstraints": [
+              {
+                "maxSkew": 1,
+                "topologyKey": "kubernetes.io/hostname",
+                "whenUnsatisfiable": "ScheduleAnyway",
+                "labelSelector": {
+                  "matchLabels": {
+                    "app": "gateway"
+                  }
+                }
+              }
+            ],
+            "serviceAccountName": "gateway"
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "name": "server",
+        "namespace": "pogo"
+      },
+      "spec": {
+        "selector": {
+          "app": "gateway"
+        },
+        "ports": [
+          {
+            "name": "http",
+            "port": 8000,
+            "targetPort": "http"
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "apps/v1",
+      "kind": "Deployment",
+      "metadata": {
+        "name": "client",
+        "namespace": "pogo"
+      },
+      "spec": {
+        "replicas": 2,
+        "selector": {
+          "matchLabels": {
+            "app": "client"
+          }
+        },
+        "template": {
+          "metadata": {
+            "labels": {
+              "app": "client"
+            }
+          },
+          "spec": {
+            "containers": [
+              {
+                "name": "client",
+                "image": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/client:3e741d55fe6de797065f51a435c87e74a3e10542",
+                "ports": [
+                  {
+                    "name": "http",
+                    "containerPort": 80
+                  }
+                ],
+                "resources": {
+                  "requests": {
+                    "cpu": "50m",
+                    "memory": "32Mi"
+                  },
+                  "limits": {
+                    "cpu": "1",
+                    "memory": "512Mi"
+                  }
+                },
+                "readinessProbe": {
+                  "httpGet": {
+                    "path": "/",
+                    "port": 80
+                  },
+                  "initialDelaySeconds": 3
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "v1",
+      "kind": "Service",
+      "metadata": {
+        "name": "client",
+        "namespace": "pogo"
+      },
+      "spec": {
+        "selector": {
+          "app": "client"
+        },
+        "ports": [
+          {
+            "name": "http",
+            "port": 80,
+            "targetPort": "http"
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "autoscaling/v2",
+      "kind": "HorizontalPodAutoscaler",
+      "metadata": {
+        "name": "gateway",
+        "namespace": "pogo"
+      },
+      "spec": {
+        "scaleTargetRef": {
+          "apiVersion": "apps/v1",
+          "kind": "Deployment",
+          "name": "gateway"
+        },
+        "minReplicas": 2,
+        "maxReplicas": 6,
+        "metrics": [
+          {
+            "type": "Resource",
+            "resource": {
+              "name": "cpu",
+              "target": {
+                "type": "Utilization",
+                "averageUtilization": 60
+              }
+            }
+          }
+        ],
+        "behavior": {
+          "scaleDown": {
+            "stabilizationWindowSeconds": 180
+          }
+        }
+      }
+    },
+    {
+      "apiVersion": "networking.k8s.io/v1",
+      "kind": "Ingress",
+      "metadata": {
+        "name": "pogo",
+        "namespace": "pogo",
+        "annotations": {
+          "alb.ingress.kubernetes.io/scheme": "internet-facing",
+          "alb.ingress.kubernetes.io/target-type": "ip",
+          "alb.ingress.kubernetes.io/load-balancer-name": "pogo-demo-web",
+          "alb.ingress.kubernetes.io/tags": "Project=pogo-arena,ManagedBy=Kubernetes",
+          "alb.ingress.kubernetes.io/load-balancer-attributes": "idle_timeout.timeout_seconds=120",
+          "alb.ingress.kubernetes.io/healthcheck-path": "/"
+        }
+      },
+      "spec": {
+        "ingressClassName": "alb",
+        "rules": [
+          {
+            "http": {
+              "paths": [
+                {
+                  "path": "/",
+                  "pathType": "Prefix",
+                  "backend": {
+                    "service": {
+                      "name": "client",
+                      "port": {
+                        "number": 80
+                      }
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "monitoring.coreos.com/v1",
+      "kind": "PodMonitor",
+      "metadata": {
+        "name": "pogo",
+        "namespace": "pogo"
+      },
+      "spec": {
+        "selector": {
+          "matchLabels": {
+            "app": "pogo-game"
+          }
+        },
+        "podMetricsEndpoints": [
+          {
+            "port": "http",
+            "path": "/metrics",
+            "interval": "15s"
+          }
+        ]
+      }
+    },
+    {
+      "apiVersion": "monitoring.coreos.com/v1",
+      "kind": "PodMonitor",
+      "metadata": {
+        "name": "gateway",
+        "namespace": "pogo"
+      },
+      "spec": {
+        "selector": {
+          "matchLabels": {
+            "app": "gateway"
+          }
+        },
+        "podMetricsEndpoints": [
+          {
+            "port": "http",
+            "path": "/metrics",
+            "interval": "15s"
+          }
+        ]
+      }
+    }
+  ]
+}

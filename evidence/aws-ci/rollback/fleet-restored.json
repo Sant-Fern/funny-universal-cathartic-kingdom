@@ -1,0 +1,136 @@
+{
+    "apiVersion": "agones.dev/v1",
+    "kind": "Fleet",
+    "metadata": {
+        "annotations": {
+            "agones.dev/sdk-version": "1.62.0",
+            "kubectl.kubernetes.io/last-applied-configuration": "{\"apiVersion\":\"agones.dev/v1\",\"kind\":\"Fleet\",\"metadata\":{\"annotations\":{},\"name\":\"pogo-race\",\"namespace\":\"pogo\"},\"spec\":{\"replicas\":2,\"scheduling\":\"Packed\",\"strategy\":{\"rollingUpdate\":{\"maxSurge\":\"25%\",\"maxUnavailable\":\"25%\"},\"type\":\"RollingUpdate\"},\"template\":{\"metadata\":{\"labels\":{\"app\":\"pogo-game\",\"mode\":\"race\"}},\"spec\":{\"container\":\"game\",\"counters\":{\"players\":{\"capacity\":10,\"count\":0}},\"health\":{\"failureThreshold\":3,\"initialDelaySeconds\":30,\"periodSeconds\":5},\"ports\":[{\"containerPort\":8000,\"name\":\"web\",\"portPolicy\":\"None\",\"protocol\":\"TCP\"}],\"template\":{\"metadata\":{\"labels\":{\"app\":\"pogo-game\",\"mode\":\"race\"}},\"spec\":{\"containers\":[{\"env\":[{\"name\":\"MATCH_MODE\",\"value\":\"race\"},{\"name\":\"RESULTS_FUNCTION\",\"value\":\"pogo-leaderboard\"},{\"name\":\"AWS_DEFAULT_REGION\",\"value\":\"us-east-2\"}],\"image\":\"933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/server:integrator-20261116-01\",\"name\":\"game\",\"ports\":[{\"containerPort\":8000,\"name\":\"http\"}],\"readinessProbe\":{\"httpGet\":{\"path\":\"/health\",\"port\":8000},\"initialDelaySeconds\":3},\"resources\":{\"limits\":{\"cpu\":\"1\",\"memory\":\"384Mi\"},\"requests\":{\"cpu\":\"100m\",\"memory\":\"128Mi\"}},\"securityContext\":{\"allowPrivilegeEscalation\":false,\"capabilities\":{\"drop\":[\"ALL\"]}}}],\"terminationGracePeriodSeconds\":30}}}}}}\n"
+        },
+        "creationTimestamp": "2026-11-16T22:58:12Z",
+        "generation": 19,
+        "name": "pogo-race",
+        "namespace": "pogo",
+        "resourceVersion": "81733",
+        "uid": "99051873-0843-46fc-9a51-e01f0b98c81c"
+    },
+    "spec": {
+        "replicas": 3,
+        "scheduling": "Packed",
+        "strategy": {
+            "rollingUpdate": {
+                "maxSurge": "25%",
+                "maxUnavailable": "25%"
+            },
+            "type": "RollingUpdate"
+        },
+        "template": {
+            "metadata": {
+                "labels": {
+                    "app": "pogo-game",
+                    "mode": "race"
+                }
+            },
+            "spec": {
+                "container": "game",
+                "counters": {
+                    "players": {
+                        "capacity": 10,
+                        "count": 0
+                    }
+                },
+                "health": {
+                    "failureThreshold": 3,
+                    "initialDelaySeconds": 30,
+                    "periodSeconds": 5
+                },
+                "immutableReplicas": 1,
+                "ports": [
+                    {
+                        "containerPort": 8000,
+                        "name": "web",
+                        "portPolicy": "None",
+                        "protocol": "TCP"
+                    }
+                ],
+                "sdkServer": {},
+                "template": {
+                    "metadata": {
+                        "labels": {
+                            "app": "pogo-game",
+                            "mode": "race"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "env": [
+                                    {
+                                        "name": "MATCH_MODE",
+                                        "value": "race"
+                                    },
+                                    {
+                                        "name": "RESULTS_FUNCTION",
+                                        "value": "pogo-leaderboard"
+                                    },
+                                    {
+                                        "name": "AWS_DEFAULT_REGION",
+                                        "value": "us-east-2"
+                                    }
+                                ],
+                                "image": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/server:8ee5d87bc043a06aeb8bb83aaf5e1d06988c85b4",
+                                "name": "game",
+                                "ports": [
+                                    {
+                                        "containerPort": 8000,
+                                        "name": "http"
+                                    }
+                                ],
+                                "readinessProbe": {
+                                    "httpGet": {
+                                        "path": "/health",
+                                        "port": 8000
+                                    },
+                                    "initialDelaySeconds": 3
+                                },
+                                "resources": {
+                                    "limits": {
+                                        "cpu": "1",
+                                        "memory": "384Mi"
+                                    },
+                                    "requests": {
+                                        "cpu": "100m",
+                                        "memory": "128Mi"
+                                    }
+                                },
+                                "securityContext": {
+                                    "allowPrivilegeEscalation": false,
+                                    "capabilities": {
+                                        "drop": [
+                                            "ALL"
+                                        ]
+                                    }
+                                }
+                            }
+                        ],
+                        "terminationGracePeriodSeconds": 30
+                    }
+                }
+            }
+        }
+    },
+    "status": {
+        "allocatedReplicas": 1,
+        "allocations": 7,
+        "counters": {
+            "players": {
+                "allocatedCapacity": 10,
+                "allocatedCount": 1,
+                "capacity": 20,
+                "count": 1
+            }
+        },
+        "readyReplicas": 1,
+        "replicas": 2,
+        "reservedReplicas": 0
+    }
+}

@@ -1,0 +1,16 @@
+[
+    {
+        "id": "i-0780341ea3c7eb04e",
+        "state": "running",
+        "volumes": [
+            "vol-09490574a406b9f93"
+        ]
+    },
+    {
+        "id": "i-0a9b7f44870455186",
+        "state": "running",
+        "volumes": [
+            "vol-08ca93c3931107c58"
+        ]
+    }
+]

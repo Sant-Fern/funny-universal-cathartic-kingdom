@@ -1,0 +1,75 @@
+{
+  "label": "hls-500",
+  "class": "SpectatorUser",
+  "tag": "loadtest-20261116-04",
+  "desired_users": 500,
+  "rate": 100.0,
+  "requested_duration_seconds": 310,
+  "runner_elapsed_seconds": 316.9,
+  "completed_requested_duration": true,
+  "peak_locust_users": 500.0,
+  "peak_connected_receivers": 0.0,
+  "peak_hls_viewers": 500.0,
+  "max_worker_cpu_percent": 10.0,
+  "peak_prometheus_ccu": 0.0,
+  "max_rolling_tick_p99_ms": 19.000000000000004,
+  "scaling_observations": {
+    "nodes": {
+      "initial": 7.0,
+      "max": 9.0,
+      "first_increase_seconds": 240.6
+    },
+    "gateway_replicas": {
+      "initial": 2.0,
+      "max": 3.0,
+      "first_increase_seconds": 15.6
+    },
+    "pending_pods": {
+      "initial": 0.0,
+      "max": 9.0,
+      "first_increase_seconds": 15.6
+    }
+  },
+  "received_payload_bytes": 15879630748.0,
+  "connected_player_seconds": 0.0,
+  "input_events": 0.0,
+  "observed_inputs_per_player_second": null,
+  "payload_bytes_per_player_second": null,
+  "requests": [
+    {
+      "type": "HLS",
+      "name": "buffer_seconds",
+      "count": 38513,
+      "failures": 0,
+      "p50_ms": 7800.0,
+      "p95_ms": 7900.0,
+      "p99_ms": 7900.0,
+      "average_content_bytes": 0.0
+    },
+    {
+      "type": "GET",
+      "name": "hls_playlist",
+      "count": 500,
+      "failures": 0,
+      "p50_ms": 69.0,
+      "p95_ms": 130.0,
+      "p99_ms": 150.0,
+      "average_content_bytes": 299.0
+    },
+    {
+      "type": "GET",
+      "name": "hls_segment",
+      "count": 38513,
+      "failures": 0,
+      "p50_ms": 6.0,
+      "p95_ms": 21.0,
+      "p99_ms": 110.0,
+      "average_content_bytes": 413400.9385921637
+    }
+  ],
+  "measurement_notes": [
+    "Prometheus samples every 15 seconds. Tick is active work, not end-to-end latency.",
+    "Locust user count includes retries. Connected receivers and server CCU are separate observations.",
+    "Exit code 0 does not imply no request failures. Inspect CSV counts."
+  ]
+}

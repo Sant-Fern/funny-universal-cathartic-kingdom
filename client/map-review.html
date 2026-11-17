@@ -2,7 +2,7 @@
 <html lang="es">
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Recorrido visual · Instituto del Último Rebote</title>
+<title>Recorrido visual · El Sueño del Último Rebote</title>
 <style>
   *{box-sizing:border-box}body{margin:0;background:#172b34;color:#f3f1dc;font:14px system-ui}
   canvas{width:100vw;height:100vh;display:block;touch-action:none}
@@ -12,18 +12,21 @@
   #ready{color:#a9e9cf}a{color:#b5ebd6}
 </style>
 <canvas id="view" aria-label="Vista del escenario"></canvas>
-<header><h1>INSTITUTO DEL ÚLTIMO REBOTE</h1>
-<label for="section">Escenario</label> <select id="section"><option value="-1">Eliminación · sala de examen</option></select>
+<header><h1>RECORRIDO DE ESCENARIOS</h1>
+<label for="section">Escenario</label> <select id="section"><option value="-1">Eliminación · sala de examen</option><option value="overview">Carrera · El Sueño del Último Rebote · vista completa</option></select>
 <label for="quality">Gráficos</label> <select id="quality"><option value="high">Calidad</option><option value="low">Rendimiento</option></select>
 <button id="retry" hidden>Reintentar carga</button><button id="rotate">Girar la vista</button><a href="/">Volver al juego</a>
 <p>Vista de diseño · usa la geometría real del juego · sin partida en curso</p><p id="ready" role="status">Preparando escenario…</p></header>
 <script type="module">
   import {loadGameWorld} from './src/game-loader.js';
   import {config} from '../shared/physics.js';
-  import {towerTracks} from '../shared/tower.js';
+  import {towerTracks,summit} from '../shared/tower.js';
   const select=document.querySelector('#section'),quality=document.querySelector('#quality');
   const status=document.querySelector('#ready'),retry=document.querySelector('#retry');
   for(const [i,section] of config.race.sections.entries())select.add(new Option(`${i+1} · ${section.name}`,i));
+  select.add(new Option('Cima · terraza de llegada',config.race.sections.length));
+  const requested=new URLSearchParams(location.search).get('section');
+  if([...select.options].some(option=>option.value===requested))select.value=requested;
   let world,controller,attempt=0;
   async function show(){
     const current=++attempt;
@@ -33,7 +36,7 @@
     const currentController=controller;
     const timeout=setTimeout(()=>currentController.abort(new DOMException('La carga tardó demasiado. Elige Rendimiento o vuelve a intentarlo.','TimeoutError')),45000);
     retry.hidden=true;
-    const section=Number(select.value),race=section>=0;
+    const overview=select.value==='overview',section=Number(select.value),race=overview||section>=0;
     try{
       const loaded=await loadGameWorld(document.querySelector('canvas'),()=>{},{
         quality:quality.value,mode:race?'race':'eliminations',preview:true,signal,
@@ -41,9 +44,11 @@
       });
       if(current!==attempt){loaded.dispose();return;}
       world=loaded;
-      const pad=race?towerTracks[1][section*config.race.stepsPerSection+5]:{x:0,z:-19,h:1.7};
-      const yaw=race?Math.atan2(-pad.x,-pad.z):0;
-      world.enter('slot-0',yaw);world.look(0,race?-130:-40);
+      if(overview){status.textContent=`${config.race.mapName} · dos rutas · ${summit.h.toFixed(2)} m`;return;}
+      const pad=race?(section===config.race.sections.length?summit:towerTracks[1][section*config.race.stepsPerSection+5]):{x:0,z:-19,h:1.7};
+      const next=race?(towerTracks[1][section*config.race.stepsPerSection+6]??summit):null;
+      const yaw=race?Math.atan2(next.x-pad.x,next.z-pad.z):0;
+      world.enter('slot-0',yaw);world.look(0,race?80:-40);
       world.setSnapshot({matchId:`review-${section}`,mode:race?'race':'eliminations',status:'waiting',time:0,score:[0,0],shots:[],impacts:[],events:[],
         players:[{id:'slot-0',name:'Vista de diseño',team:race?1:null,bot:false,x:pad.x,y:pad.h,z:pad.z,
           yaw,health:100,balloons:7,grounded:true,landedAt:-100,hitAt:-100,jumpedAt:-100,lastThrowAt:-100,raceStep:pad.step??-1}]

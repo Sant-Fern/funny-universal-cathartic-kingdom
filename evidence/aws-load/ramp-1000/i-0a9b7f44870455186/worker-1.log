@@ -1,0 +1,1734 @@
+[2026-11-17 00:27:49,656] ip-10-176-4-251/INFO/locust.main: Starting Locust 2.47.0
+[2026-11-17 00:37:04,776] ip-10-176-4-251/INFO/locust.runners: Got quit message from master, shutting down...
+[2026-11-17 00:37:04,824] ip-10-176-4-251/INFO/locust.main: Got SIGTERM signal
+[2026-11-17 00:37:04,824] ip-10-176-4-251/INFO/locust.main: Shutting down (exit code 1)
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d49a0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4d5f230>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac288360: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b6ddfbd0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac288400: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ae9d1ef0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2884a0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80adac3bd0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2be5c0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4286970>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac288540: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b42f3cb0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2be480: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b41a3230>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2be3e0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aeb682f0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2be340: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aeb966d0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2be200: <bound method User.stop of <locustfile.PogoUser object at 0x7f80adb2ac10>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2be160: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4df6eb0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2be0c0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aeb69e10>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac288680: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aeaf8e50>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bdf80: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4107e70>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bdee0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b42f18d0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac288720: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ae9e0210>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2887c0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ae9d02f0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bdd00: <bound method User.stop of <locustfile.PogoUser object at 0x7f80adbf4c90>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bdc60: <bound method User.stop of <locustfile.PogoUser object at 0x7f80adaae430>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bdbc0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80adbd3930>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac288860: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aea81b70>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bda80: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ae986510>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bd9e0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aea6faf0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bd940: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aea2faf0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac288900: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4e775b0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bd800: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4e773f0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bd760: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aeb6aeb0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bd6c0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aeb69630>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2889a0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aea6fe70>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bd580: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ae9e3d90>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac288a40: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4ef86e0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac288ae0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aeaf9710>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac288b80: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b6ddf690>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bd300: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4d70d70>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bd260: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b42f33f0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bd1c0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4df51d0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac288c20: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b6f1f750>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bd080: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4e73230>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bcfe0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80adb2aa50>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bcf40: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b41c90f0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac288cc0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ae9e1ef0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bce00: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ac3484b0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bcd60: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aeb684b0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bccc0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4e75b70>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac288d60: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4df50f0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bcb80: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b6dde270>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bcae0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b41a2430>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac288e00: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4e75010>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac288ea0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ae8a4210>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bc900: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ae9e1630>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bc860: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b6d963f0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bc7c0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ae85e890>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac288f40: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aea2d0f0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bc680: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b41a20b0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bc5e0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aea6db70>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bc540: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ad9a6510>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac288fe0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4106dd0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bc400: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aea6c3d0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bc360: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4df4830>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bc2c0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ada6b310>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac289080: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4d47e70>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bc180: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4e0d2b0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bc0e0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4d725f0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac289120: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4d45c50>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2891c0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aea2cad0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28bec0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b41a17f0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28be20: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aea6d1d0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28bd80: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ae986270>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac289260: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ad9a51d0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28bc40: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ace26eb0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28bba0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4284830>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28bb00: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b42f2a50>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28b9c0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aea810f0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28b920: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aea83cb0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28b880: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b6e11010>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2893a0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4105c50>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28b740: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ae9e1d30>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28b6a0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aeb94750>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac289440: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b6ddfa10>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2894e0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4d71d30>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28b4c0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80adac19b0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28b420: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4df7930>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28b380: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aea818d0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac289580: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b6dddd30>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28b240: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ae8a73f0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28b1a0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ae85d7f0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28b100: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ad9f5630>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac289620: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b6f0bf20>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28afc0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b42f2cf0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28ae80: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b42f2430>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2896c0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aeafaf90>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28ad40: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b6e13230>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac289760: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4d473f0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac289800: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ae9e0670>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2898a0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aea6da90>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28aac0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b41c9c50>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28aa20: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ae9d7d90>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28a980: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aeb97690>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac289940: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b41a0d70>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28a840: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aea2c910>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28a7a0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aea80910>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28a700: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aea2d470>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2899e0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ae9d5fd0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28a5c0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aea2c130>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28a520: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4d71630>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28a480: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b42f3070>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac289a80: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4d5cad0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28a340: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aead0f30>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28a2a0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aeb96970>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac289b20: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4284f30>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac289bc0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b41a1630>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28a0c0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ada6b4d0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28a020: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4d46cf0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac289f80: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aeaf84b0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac289c60: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ada69c50>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac289d00: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b6ddcd70>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac289da0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ac349390>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac289e40: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aeaeaa50>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac289ee0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aea81710>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28a160: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4e73150>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28a200: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aea2e890>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28a3e0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aea835b0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28a660: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4df4670>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28a8e0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ae85c3d0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28ab60: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4e77930>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28ac00: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aeafb3f0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28aca0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b6e13e70>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28ade0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ae9d7bd0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28b060: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4e7c450>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28b2e0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b41a18d0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28b560: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4e702f0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28b600: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ae9d4910>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28b7e0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aea2d710>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28ba60: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4d5e510>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28bce0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ace25a90>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac28bf60: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4d710f0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bc040: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ae98fe70>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bc220: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aead2270>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bc4a0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b42f04b0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bc720: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4107150>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bc9a0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aead2510>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bca40: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4d727b0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bcc20: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aea6e7b0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bcea0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ace559b0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bd120: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ae9d5470>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bd3a0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4d47070>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bd440: <bound method User.stop of <locustfile.PogoUser object at 0x7f80adac3070>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bd4e0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80adaaf310>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bd620: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4e0def0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bd8a0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80adac0c90>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bdb20: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4e77770>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bdda0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ae9d2dd0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2bde40: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aea80130>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2be020: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4d47a10>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2be2a0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aeaf8830>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2be520: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4d44210>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d4a40: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4e2d090>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d4ae0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b6e10e50>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d4b80: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b6dddfd0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2882c0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4df4750>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac288220: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4e0e430>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac288180: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ae9d3e70>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d4c20: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4df5c50>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac288040: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aea2d1d0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d7f60: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aea2c590>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d7ec0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4d70210>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d4cc0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4e0d7f0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d7d80: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aeb97930>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d7ce0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ae98def0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d7c40: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aeaea6d0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d4d60: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b42f12b0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d7b00: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4df5710>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d7a60: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aea80d70>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d4e00: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4e0d9b0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d4ea0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b41a2190>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d7880: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ae85e6d0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d77e0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aeb69d30>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d7740: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ae8a75b0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d4f40: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4e0f310>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d7600: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4d44830>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d7560: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ae9d2a50>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d74c0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4e0edd0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d4fe0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4d72430>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d7380: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ae9d7a10>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d72e0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ada69e10>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d7240: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b6d99d90>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d5080: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b6d96c40>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d7100: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b41c9a90>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d7060: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aeb967b0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d5120: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4e75630>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d51c0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b6ddde10>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d6e80: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ae987af0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d6de0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aeafa350>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d6d40: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b6ddc830>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d5260: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aeb94e50>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d6c00: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4e76f90>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d6b60: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4e0f150>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d6ac0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aead3cb0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d5300: <bound method User.stop of <locustfile.PogoUser object at 0x7f80adac27b0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d6980: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b6ddea50>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d68e0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4d442f0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d6840: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4287a10>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d53a0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b42f2dd0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d6700: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aeb69fd0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d6660: <bound method User.stop of <locustfile.PogoUser object at 0x7f80adb28050>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d5440: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ae8a5c50>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d54e0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ae85e7b0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d6480: <bound method User.stop of <locustfile.PogoUser object at 0x7f80adac0f30>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d63e0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b6ddaf90>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d6340: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4287bd0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d5580: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b42858d0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d6200: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ae9d3690>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d6160: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b6d679b0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d60c0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80addc3850>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d5620: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4e57650>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d5f80: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ae9d65f0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d5ee0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aeaec670>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d5e40: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4e77230>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d56c0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b41c8670>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d5d00: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b41a3a10>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d5760: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b41074d0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d5800: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aeb69390>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d58a0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ae8a4d70>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d5940: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4df4c90>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d59e0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b41c89f0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d5a80: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4e74750>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d5b20: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b41066d0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d5bc0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4df7770>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d5c60: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4285a90>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d5da0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4286190>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d6020: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ad9a7e70>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d62a0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b6ddeb30>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d6520: <bound method User.stop of <locustfile.PogoUser object at 0x7f80adac0830>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d65c0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aeaefa10>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d67a0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aeb97770>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d6a20: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aea6e190>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d6ca0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aead2a50>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d6f20: <bound method User.stop of <locustfile.PogoUser object at 0x7f80adac0bb0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d6fc0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b41cb690>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d71a0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aeaee510>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d7420: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b4286270>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d76a0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ae9d5630>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d7920: <bound method User.stop of <locustfile.PogoUser object at 0x7f80b6d66f10>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d79c0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80ac299470>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d7ba0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aeb6bbd0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2d7e20: <bound method User.stop of <locustfile.PogoUser object at 0x7f80aeaefcb0>>(force=False)> failed with Exception
+
+Traceback (most recent call last):
+  File "src/gevent/greenlet.py", line 912, in gevent._gevent_cgreenlet.Greenlet.run
+  File "/usr/local/lib/python3.14/site-packages/locust/user/users.py", line 228, in stop
+    raise Exception(f"Tried to stop User in an unexpected state: {self._state}. This should never happen.")
+Exception: Tried to stop User in an unexpected state: stopping. This should never happen.
+2026-11-17T00:37:04Z <Greenlet at 0x7f80ac2880e0: <bound method User.stop of <locustfile.PogoUser object at 0x7f80adbd1390>>(force=False)> failed with Exception
+
+[2026-11-17 00:37:14,831] ip-10-176-4-251/INFO/locust.runners: Not all users finished their tasks & terminated in 10.0 seconds. Stopping them...

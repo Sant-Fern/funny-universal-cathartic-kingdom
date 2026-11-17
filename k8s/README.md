@@ -1,5 +1,7 @@
 # Comprobación privada en Kubernetes
 
+**AWS desplegado:** las flotas Agones, asignación de partidas, entrada pública, escalado y monitoreo vigentes están en [`aws/`](aws/README.md). Este documento describe la comprobación local histórica de una sola réplica.
+
 El manifiesto [`demo/`](demo/) levanta el cliente Nginx y **una sola réplica** del servidor. Ambos servicios son internos; Nginx resuelve el servicio `server:8000` y sirve HTTP y WebSocket en el mismo origen. Se usa port-forward para la prueba. Este manifiesto no publica el juego, no usa Agones y no es una plantilla de autoescalado.
 
 ## Publicar las imágenes de una revisión

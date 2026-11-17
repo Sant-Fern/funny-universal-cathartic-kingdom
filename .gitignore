@@ -1,4 +1,5 @@
 node_modules/
+.tools/
 .venv/
 __pycache__/
 .pytest_cache/
@@ -13,6 +14,8 @@ infra/gcp/backend.hcl
 *.tfstate.*
 *.tfplan
 *.auto.tfvars
+*.auto.tfvars.json
+infra/aws/backend.hcl
 !*.example
 evidence/local/*.log
 .DS_Store

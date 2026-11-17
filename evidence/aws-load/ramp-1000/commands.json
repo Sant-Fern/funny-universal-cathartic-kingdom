@@ -1,0 +1,26 @@
+{
+  "commands": [
+    {
+      "instance": "i-0a9b7f44870455186",
+      "command": "cf714a8e-3dea-4e3d-b0e5-53e1e95d2178",
+      "master": true
+    },
+    {
+      "instance": "i-0780341ea3c7eb04e",
+      "command": "8e952eed-8b1e-4fc0-95f2-c0bed0e6b5b4",
+      "master": false
+    }
+  ],
+  "started_utc": "2026-11-17T00:27:49.1716447Z",
+  "class": "PogoUser",
+  "tag": "loadtest-20261116-01",
+  "label": "ramp-1000",
+  "users": 1000,
+  "credit_before": {
+    "amount": 162.39,
+    "unit": "USD"
+  },
+  "duration": 1200,
+  "host": "https://d1oif12lvr7c7k.cloudfront.net",
+  "rate": 2.0
+}

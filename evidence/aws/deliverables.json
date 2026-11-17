@@ -1,0 +1,16 @@
+{
+  "pages": 6,
+  "slides": 8,
+  "files": [
+    {
+      "path": "output/pdf/Informe_integrador_AWS.pdf",
+      "sha256": "20268c499c59790f80421a33728d1cc253d025d7fbf2b658eebc055fb39b0ec3",
+      "bytes": 240897
+    },
+    {
+      "path": "output/presentations/Presentacion_integrador_AWS.pptx",
+      "sha256": "7af355ed243092fb1fba830ec59cddfe07e5733716a1fc4a8f7d5ffd3d1b4c74",
+      "bytes": 96194
+    }
+  ]
+}

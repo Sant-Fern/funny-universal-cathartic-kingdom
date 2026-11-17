@@ -1,0 +1,7 @@
+[2026-11-17 01:43:56,461] ip-10-176-4-251/INFO/locust.main: Starting Locust 2.47.0
+[2026-11-17 01:43:58,780] ip-10-176-4-251/INFO/botocore.credentials: Found credentials from IAM Role: pogo-loadgen
+[2026-11-17 01:43:58,844] ip-10-176-4-251/INFO/botocore.credentials: Found credentials from IAM Role: pogo-loadgen
+[2026-11-17 01:43:58,851] ip-10-176-4-251/INFO/botocore.credentials: Found credentials from IAM Role: pogo-loadgen
+[2026-11-17 01:43:58,856] ip-10-176-4-251/INFO/botocore.credentials: Found credentials from IAM Role: pogo-loadgen
+[2026-11-17 01:49:08,417] ip-10-176-4-251/INFO/locust.runners: Got quit message from master, shutting down...
+[2026-11-17 01:49:08,478] ip-10-176-4-251/INFO/locust.main: Shutting down (exit code 0)

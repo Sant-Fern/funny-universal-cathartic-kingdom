@@ -1,4 +1,5 @@
 .git
+.tools
 node_modules
 .venv
 __pycache__
@@ -10,4 +11,7 @@ evidence
 infra
 k8s
 docs
-loadtest
+loadtest/**
+!loadtest/*.py
+!loadtest/requirements.txt
+!loadtest/Dockerfile

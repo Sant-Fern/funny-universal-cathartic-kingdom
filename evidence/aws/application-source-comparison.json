@@ -1,0 +1,32 @@
+{
+  "tested_image_commit": "8ee5d87bc043a06aeb8bb83aaf5e1d06988c85b4",
+  "deployed_image_commit": "3e741d55fe6de797065f51a435c87e74a3e10542",
+  "identical_application_trees": true,
+  "directories": [
+    {
+      "directory": "server",
+      "tested_tree": "22fc0c47d33d026fd8b0d2fb0df0fe953c2a8f21",
+      "deployed_tree": "22fc0c47d33d026fd8b0d2fb0df0fe953c2a8f21"
+    },
+    {
+      "directory": "gateway",
+      "tested_tree": "55d66d9aa4381e3a7c8a3c9e068dc1d64a46c946",
+      "deployed_tree": "55d66d9aa4381e3a7c8a3c9e068dc1d64a46c946"
+    },
+    {
+      "directory": "client",
+      "tested_tree": "17797ed1e16754143b1c8b894aef37c390ff8286",
+      "deployed_tree": "17797ed1e16754143b1c8b894aef37c390ff8286"
+    },
+    {
+      "directory": "shared",
+      "tested_tree": "173209ab80ff49de779c9e675d429cacf30592ea",
+      "deployed_tree": "173209ab80ff49de779c9e675d429cacf30592ea"
+    },
+    {
+      "directory": "serverless",
+      "tested_tree": "2cd31724e1399455d0cb1ad3699c9c953eaad6f0",
+      "deployed_tree": "2cd31724e1399455d0cb1ad3699c9c953eaad6f0"
+    }
+  ]
+}

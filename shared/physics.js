@@ -2,6 +2,35 @@ import config from './arena.json' with { type: 'json' };
 import { towerObstacles } from './tower.js';
 
 export { config };
+export const arenaBounds=mode=>mode==='race'?(config.race.bounds??config):config;
+// Lean redirects part of the pogo's spring impulse into horizontal momentum.
+export function pogoLaunch(power,leanX=0,leanZ=0){
+  const length=Math.hypot(leanX,leanZ),angle=Math.min(1,length)*config.pogo.maxLeanAngle;
+  const speed=config.jumpMinSpeed+Math.max(0,Math.min(1,power))*(config.jumpMaxSpeed-config.jumpMinSpeed);
+  const lateral=speed*Math.sin(angle)/(length||1);
+  return {vx:leanX*lateral,vy:speed*Math.cos(angle),vz:leanZ*lateral};
+}
+export function pogoMomentum(x,z,age){
+  const drag=Math.exp(-config.pogo.airDrag*Math.max(0,age));
+  return {x:x*drag,z:z*drag};
+}
+export function pogoStanceAngles(p){
+  const x=p.leanX??p.moveX??0,z=p.leanZ??p.moveZ??0,yaw=p.yaw??0;
+  const steer=(p.grounded?config.pogo.maxLeanAngle:.14)/Math.max(1,Math.hypot(x,z));
+  return {pitch:steer*(x*Math.sin(yaw)+z*Math.cos(yaw)),roll:-steer*(x*Math.cos(yaw)-z*Math.sin(yaw))};
+}
+// Balloons follow the same pivot and local X/Z rotations as the character stance.
+export function balloonOffsets(p){
+  const {pitch,roll}=pogoStanceAngles(p),yaw=p.yaw??0;
+  const cx=Math.cos(pitch),sx=Math.sin(pitch),cz=Math.cos(roll),sz=Math.sin(roll);
+  const cy=Math.cos(yaw),sy=Math.sin(yaw);
+  return config.balloons.targets.map(([x,y,z])=>{
+    y-=.03;z-=.52;
+    const rx=x*cz-y*sz,ry=x*sz+y*cz;
+    const ty=ry*cx-z*sx+.03,tz=ry*sx+z*cx+.52;
+    return [rx*cy+tz*sy,ty,-rx*sy+tz*cy];
+  });
+}
 export const arenaObstacles = mode => mode === 'race' ? towerObstacles : config.flatObstacles;
 export function heightAt(x, z) {
   const t = config.terrain;
@@ -51,8 +80,29 @@ export function segmentBox(start, end, low, high) {
   }
   return near;
 }
+export function segmentObstacle(start,end,o,box,margin=0){
+  if(o.shape!=='ellipse')return segmentBox(start,end,
+    {x:box.x-o.w/2-margin,y:box.bottom-margin,z:box.z-o.d/2-margin},
+    {x:box.x+o.w/2+margin,y:box.top+margin,z:box.z+o.d/2+margin});
+  const rx=o.w/2+margin,rz=o.d/2+margin,x=(start.x-box.x)/rx,z=(start.z-box.z)/rz;
+  const dx=(end.x-start.x)/rx,dz=(end.z-start.z)/rz,a=dx*dx+dz*dz,b=2*(x*dx+z*dz),c=x*x+z*z-1;
+  let near=0,far=1;
+  if(a<1e-12){if(c>0)return null;}
+  else{
+    const discriminant=b*b-4*a*c;if(discriminant<0)return null;
+    const root=Math.sqrt(discriminant);near=Math.max(near,(-b-root)/(2*a));far=Math.min(far,(-b+root)/(2*a));
+  }
+  const dy=end.y-start.y;
+  if(Math.abs(dy)<1e-12){if(start.y<box.bottom-margin||start.y>box.top+margin)return null;}
+  else{
+    const y1=(box.bottom-margin-start.y)/dy,y2=(box.top+margin-start.y)/dy;
+    near=Math.max(near,Math.min(y1,y2));far=Math.min(far,Math.max(y1,y2));
+  }
+  return near<=far?near:null;
+}
 // Same 50 ms collision samples and ballistic equation as the server.
 export function trajectory(origin, velocity, kind = 'standard', startTime = 0, obstacles = towerObstacles) {
+  const bounds=obstacles===config.flatObstacles?config:arenaBounds('race');
   const stats = bottleStats(kind);
   const points = [origin], step = 1 / config.tickRate, r = stats.shotRadius;
   const reachable = obstacles.filter(o => {
@@ -71,8 +121,7 @@ export function trajectory(origin, velocity, kind = 'standard', startTime = 0, o
         const delta = platformOffset(o, startTime+t)-platformOffset(o, startTime+t-step);
         start = { ...a, [o.motion.axis]: a[o.motion.axis]+delta };
       }
-      const hit = segmentBox(start, b, { x: box.x-o.w/2-r, y: box.bottom-r, z: box.z-o.d/2-r },
-        { x: box.x+o.w/2+r, y: box.top+r, z: box.z+o.d/2+r });
+      const hit = segmentObstacle(start,b,o,box,r);
       if (hit !== null && hit <= nearest) { nearest = hit; collided = true; }
     }
     if (b.y - r <= heightAt(b.x, b.z)) {
@@ -83,8 +132,8 @@ export function trajectory(origin, velocity, kind = 'standard', startTime = 0, o
       }
       if (hi <= nearest) { nearest=hi; collided=true; }
     }
-    if (Math.abs(b.x) > config.width/2 || Math.abs(b.z) > config.depth/2) {
-      for (const [axis, limit] of [['x',config.width/2], ['z',config.depth/2]]) {
+    if (Math.abs(b.x) > bounds.width/2 || Math.abs(b.z) > bounds.depth/2) {
+      for (const [axis, limit] of [['x',bounds.width/2], ['z',bounds.depth/2]]) {
         if (Math.abs(b[axis]) > limit) {
           const hit = ((b[axis] > 0 ? limit : -limit) - a[axis]) / (b[axis]-a[axis]);
           if (hit <= nearest) { nearest = Math.max(0,hit); collided=true; }

@@ -1,0 +1,90 @@
+name: Integrator AWS deployment
+on:
+  push:
+    branches: [codex/integrador-aws, main]
+    paths: ['server/**', 'serverless/**', 'client/**', 'shared/**', 'gateway/**', 'infra/aws/**', '.github/workflows/integrator.yml', 'scripts/aws-push.ps1']
+  workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: pogo-aws-deployment
+  cancel-in-progress: false
+jobs:
+  verify-publish-deploy:
+    if: github.repository == 'Sant-Fern/funny-universal-cathartic-kingdom'
+    runs-on: [self-hosted, Windows, X64, pogo-aws]
+    timeout-minutes: 40
+    defaults:
+      run:
+        shell: pwsh
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Check Free plan and test application
+        run: |
+          $ErrorActionPreference='Stop'
+          $pogoPlan=aws freetier get-account-plan-state --profile neural-chess --region us-east-1 --output json | ConvertFrom-Json
+          if($LASTEXITCODE -ne 0 -or $pogoPlan.accountPlanType -ne 'FREE' -or $pogoPlan.accountPlanStatus -ne 'ACTIVE' -or [decimal]$pogoPlan.accountPlanRemainingCredits.amount -lt 40){throw 'Free plan or credit guard failed'}
+          py -3.14 -m venv .venv
+          .venv/Scripts/python.exe -m pip install -r server/requirements.txt -r serverless/requirements-test.txt
+          if($LASTEXITCODE -ne 0){throw 'Dependency installation failed'}
+          npm ci
+          if($LASTEXITCODE -ne 0){throw 'npm ci failed'}
+          npm test
+          if($LASTEXITCODE -ne 0){throw 'Game tests failed'}
+          .venv/Scripts/python.exe -m pytest serverless/test_handler.py -q
+          if($LASTEXITCODE -ne 0){throw 'Serverless tests failed'}
+          npm run build
+          if($LASTEXITCODE -ne 0){throw 'Client build failed'}
+      - name: Validate and record Terraform plan
+        run: |
+          $ErrorActionPreference='Stop'
+          New-Item -ItemType Directory .tools/terraform -Force | Out-Null
+          Copy-Item -LiteralPath "$env:POGO_TOOL_ROOT/terraform/terraform.exe" -Destination .tools/terraform/terraform.exe
+          Copy-Item -LiteralPath "$env:POGO_SOURCE_ROOT/infra/aws/backend.hcl" -Destination infra/aws/backend.hcl
+          Copy-Item -LiteralPath "$env:POGO_SOURCE_ROOT/infra/aws/local.auto.tfvars.json" -Destination infra/aws/local.auto.tfvars.json
+          & ./scripts/aws-terraform.ps1 -Directory infra/aws -TerraformArguments @('init','-input=false','-backend-config=backend.hcl')
+          if($LASTEXITCODE -ne 0){throw 'Terraform init failed'}
+          .tools/terraform/terraform.exe '-chdir=infra/aws' validate
+          if($LASTEXITCODE -ne 0){throw 'Terraform validate failed'}
+          & ./scripts/aws-terraform.ps1 -Directory infra/aws -TerraformArguments @('plan','-input=false','-no-color') | Tee-Object -FilePath integrator-plan.txt
+          if($LASTEXITCODE -ne 0){throw 'Terraform plan failed'}
+      - name: Publish three immutable commit images
+        env:
+          POGO_SHA: ${{ github.sha }}
+        run: |
+          $ErrorActionPreference='Stop'
+          foreach($pogoImage in @('server','client','gateway')) {
+            docker build -f "$pogoImage/Dockerfile" -t "pogo-${pogoImage}:aws" .
+            if($LASTEXITCODE -ne 0){throw "Image build failed: $pogoImage"}
+          }
+          & ./scripts/aws-push.ps1 -Tag $env:POGO_SHA
+          if($LASTEXITCODE -ne 0){throw 'ECR publication failed'}
+      - name: Update Fleet and verify public connection
+        env:
+          POGO_SHA: ${{ github.sha }}
+        run: |
+          $ErrorActionPreference='Stop'
+          $env:KUBECONFIG="$env:POGO_SOURCE_ROOT/.tools/pogo.kubeconfig"
+          foreach($pogoMode in @('race','eliminations')) {
+            $pogoPatch=@(@{op='replace';path='/spec/template/spec/template/spec/containers/0/image';value="933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/server:$env:POGO_SHA"})
+            ConvertTo-Json -InputObject $pogoPatch -Depth 10 | Set-Content fleet-patch.json
+            kubectl patch fleet "pogo-$pogoMode" -n pogo --type json --patch-file fleet-patch.json
+            if($LASTEXITCODE -ne 0){throw 'Fleet update failed'}
+          }
+          kubectl set image deployment/gateway -n pogo "gateway=933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/gateway:$env:POGO_SHA"
+          if($LASTEXITCODE -ne 0){throw 'Gateway update failed'}
+          kubectl set image deployment/client -n pogo "client=933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/client:$env:POGO_SHA"
+          if($LASTEXITCODE -ne 0){throw 'Client update failed'}
+          kubectl rollout status deployment/gateway -n pogo --timeout=180s
+          if($LASTEXITCODE -ne 0){throw 'Gateway rollout failed'}
+          .venv/Scripts/python.exe -m loadtest.deploy_smoke --url https://d1oif12lvr7c7k.cloudfront.net --output integrator-smoke.json
+          if($LASTEXITCODE -ne 0){throw 'Public smoke test failed'}
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: integrator-deployment-evidence
+          path: |
+            integrator-plan.txt
+            integrator-smoke.json

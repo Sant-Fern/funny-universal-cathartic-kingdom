@@ -1,5 +1,9 @@
 # Funny Universal Cathartic Kingdom — guía para continuar
 
+**Guía vigente del integrador:** [OPERACION_INTEGRADOR.md](OPERACION_INTEGRADOR.md), con informe, presentación, revisión del PR y servicio AWS ya implementado. Las indicaciones posteriores de GCP/Azure y carpetas pendientes se conservan como historial del traspaso inicial; no describen el despliegue actual.
+
+**Actualización del 16 de noviembre de 2026:** la versión del ZIP con cambios de mapa está desplegada en AWS con Eliminación individual y Carrera por equipos. Para trabajar con el entorno real, usar [DESPLIEGUE_AWS.md](DESPLIEGUE_AWS.md), [infra/aws](../infra/aws/README.md) y [k8s/aws](../k8s/aws/README.md). La descripción de nube pendiente de esta guía es histórica. Siguen pendientes las cargas grandes, CI/CD de publicación, clasificación serverless y los entregables finales del PDF.
+
 **Estado:** el juego arranca con Docker y admite partidas 5 contra 5 con bots. Se validó Terraform para la infraestructura base de Google Cloud y se probó el manifiesto privado en Kubernetes local. Falta corregir los problemas del juego que queden por reproducir y completar el despliegue real. Consulta la [evidencia local](../evidence/local/VALIDACION.md). Este documento usa el [plan de trabajo](../Plan_de_trabajo_Pogo_Arena_3D.md) y los [requisitos transcritos](REQUISITOS.md); no sustituye la rúbrica original del curso.
 
 ## 1. Terminar el juego en Antigravity

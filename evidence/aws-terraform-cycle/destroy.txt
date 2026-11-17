@@ -1,0 +1,180 @@
+aws_iam_role_policy.loadgen_upload: Destroying... [id=pogo-validation-loadgen:terraform-4022074f230e59feef349f5b7a]
+aws_eks_pod_identity_association.results: Destroying... [id=a-2crud1thvl5ivyax3]
+aws_apigatewayv2_route.leaderboard: Destroying... [id=htje1vl]
+aws_iam_instance_profile.loadgen: Destroying... [id=pogo-validation-loadgen]
+aws_iam_role_policy.load_balancer: Destroying... [id=pogo-validation-load_balancer:terraform-2d8ddd405372453d4ba28658a7]
+aws_ecr_repository.image["client"]: Destroying... [id=pogo-validation/client]
+aws_eks_pod_identity_association.controller["load_balancer"]: Destroying... [id=a-qb3nd3qth9qfy3bzo]
+aws_ecr_repository.image["server"]: Destroying... [id=pogo-validation/server]
+aws_s3_bucket_server_side_encryption_configuration.artifacts: Destroying... [id=pogo-validation-artifacts-933605931561-us-east-2]
+aws_apigatewayv2_stage.leaderboard: Destroying... [id=$default]
+aws_s3_bucket_server_side_encryption_configuration.artifacts: Destruction complete after 0s
+aws_lambda_permission.leaderboard_api: Destroying... [id=PublicLeaderboardReadOnly]
+aws_apigatewayv2_stage.leaderboard: Destruction complete after 0s
+aws_eks_access_policy_association.operator: Destroying... [id=pogo-validation-demo#arn:aws:iam::933605931561:role/managed/AccountFullAccessRole#arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy]
+aws_iam_role_policy.loadgen_upload: Destruction complete after 0s
+aws_iam_role_policy_attachment.loadgen["AmazonSSMManagedInstanceCore"]: Destroying... [id=pogo-validation-loadgen/arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore]
+aws_iam_role_policy.load_balancer: Destruction complete after 0s
+aws_ecr_repository.image["loadtest"]: Destroying... [id=pogo-validation/loadtest]
+aws_ecr_repository.image["client"]: Destruction complete after 0s
+aws_eks_pod_identity_association.controller["autoscaler"]: Destroying... [id=a-jdur0gswszsqelypo]
+aws_eks_pod_identity_association.results: Destruction complete after 0s
+aws_security_group.loadgen: Destroying... [id=sg-0d1e30778d7e6000e]
+aws_iam_role_policy_attachment.loadgen["AmazonSSMManagedInstanceCore"]: Destruction complete after 0s
+aws_iam_role_policy.results_writer: Destroying... [id=pogo-validation-result-writer:terraform-7d3567da428205065de7a750ee]
+aws_iam_instance_profile.loadgen: Destruction complete after 0s
+aws_iam_role_policy.autoscaler: Destroying... [id=pogo-validation-autoscaler:terraform-5726df845132a380d88a70619f]
+aws_eks_pod_identity_association.controller["load_balancer"]: Destruction complete after 0s
+aws_cloudfront_origin_access_control.media: Destroying... [id=E51IOF18DF6QH]
+aws_ecr_repository.image["server"]: Destruction complete after 0s
+aws_s3_bucket_public_access_block.artifacts: Destroying... [id=pogo-validation-artifacts-933605931561-us-east-2]
+aws_ecr_repository.image["loadtest"]: Destruction complete after 0s
+aws_iam_role_policy.loadgen_results: Destroying... [id=pogo-validation-loadgen:terraform-6119eab908e756299b4e9958cc]
+aws_eks_access_policy_association.operator: Destruction complete after 0s
+aws_iam_role_policy_attachment.loadgen["AmazonEC2ContainerRegistryReadOnly"]: Destroying... [id=pogo-validation-loadgen/arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly]
+aws_iam_role_policy.results_writer: Destruction complete after 0s
+aws_eks_addon.metrics: Destroying... [id=pogo-validation-demo:metrics-server]
+aws_iam_role_policy.autoscaler: Destruction complete after 1s
+aws_ecr_repository.image["gateway"]: Destroying... [id=pogo-validation/gateway]
+aws_apigatewayv2_route.leaderboard: Destruction complete after 1s
+aws_eks_access_entry.operator: Destroying... [id=pogo-validation-demo:arn:aws:iam::933605931561:role/managed/AccountFullAccessRole]
+aws_lambda_permission.leaderboard_api: Destruction complete after 1s
+aws_iam_role.results_writer: Destroying... [id=pogo-validation-result-writer]
+aws_iam_role_policy.loadgen_results: Destruction complete after 1s
+aws_eks_node_group.game: Destroying... [id=pogo-validation-demo:pogo-validation-games]
+aws_iam_role_policy_attachment.loadgen["AmazonEC2ContainerRegistryReadOnly"]: Destruction complete after 1s
+aws_apigatewayv2_integration.leaderboard: Destroying... [id=ide2syr]
+aws_eks_pod_identity_association.controller["autoscaler"]: Destruction complete after 1s
+aws_iam_role.loadgen: Destroying... [id=pogo-validation-loadgen]
+aws_s3_bucket_public_access_block.artifacts: Destruction complete after 1s
+aws_eks_addon.pod_identity: Destroying... [id=pogo-validation-demo:eks-pod-identity-agent]
+aws_ecr_repository.image["gateway"]: Destruction complete after 0s
+aws_iam_role.controller["load_balancer"]: Destroying... [id=pogo-validation-load_balancer]
+aws_apigatewayv2_integration.leaderboard: Destruction complete after 0s
+aws_iam_role.controller["autoscaler"]: Destroying... [id=pogo-validation-autoscaler]
+aws_cloudfront_origin_access_control.media: Destruction complete after 1s
+aws_s3_bucket.artifacts: Destroying... [id=pogo-validation-artifacts-933605931561-us-east-2]
+aws_eks_access_entry.operator: Destruction complete after 0s
+aws_apigatewayv2_api.leaderboard: Destroying... [id=86vgp0cxhl]
+aws_iam_role.results_writer: Destruction complete after 0s
+aws_lambda_function.leaderboard: Destroying... [id=pogo-validation-leaderboard]
+aws_iam_role.controller["load_balancer"]: Destruction complete after 0s
+aws_s3_bucket.artifacts: Destruction complete after 0s
+aws_iam_role.loadgen: Destruction complete after 0s
+aws_iam_role.controller["autoscaler"]: Destruction complete after 0s
+aws_eks_addon.pod_identity: Destruction complete after 1s
+aws_security_group.loadgen: Destruction complete after 2s
+aws_apigatewayv2_api.leaderboard: Destruction complete after 1s
+aws_eks_addon.metrics: Destruction complete after 5s
+aws_lambda_function.leaderboard: Destruction complete after 6s
+aws_iam_role_policy_attachment.leaderboard_logs: Destroying... [id=pogo-validation-leaderboard/arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole]
+aws_iam_role_policy.leaderboard: Destroying... [id=pogo-validation-leaderboard:terraform-fccdac18b451cdd19a19a07dfe]
+aws_cloudwatch_log_group.leaderboard: Destroying... [id=/aws/lambda/pogo-validation-leaderboard]
+aws_iam_role_policy.leaderboard: Destruction complete after 0s
+aws_dynamodb_table.results: Destroying... [id=pogo-validation-results]
+aws_iam_role_policy_attachment.leaderboard_logs: Destruction complete after 0s
+aws_iam_role.leaderboard: Destroying... [id=pogo-validation-leaderboard]
+aws_cloudwatch_log_group.leaderboard: Destruction complete after 0s
+aws_iam_role.leaderboard: Destruction complete after 1s
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 00m10s elapsed]
+aws_dynamodb_table.results: Destruction complete after 7s
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 00m20s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 00m30s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 00m40s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 00m50s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 01m00s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 01m10s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 01m20s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 01m30s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 01m40s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 01m50s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 02m00s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 02m10s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 02m20s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 02m30s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 02m40s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 02m50s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 03m00s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 03m10s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 03m20s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 03m30s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 03m40s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 03m50s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 04m00s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 04m10s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 04m20s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 04m30s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 04m40s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 04m50s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 05m00s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 05m10s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 05m20s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 05m30s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 05m40s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 05m50s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 06m00s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 06m10s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 06m20s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 06m30s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 06m40s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 06m50s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 07m00s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 07m10s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 07m20s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 07m30s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 07m40s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 07m50s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 08m00s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 08m10s elapsed]
+aws_eks_node_group.game: Still destroying... [id=pogo-validation-demo:pogo-validation-games, 08m20s elapsed]
+aws_eks_node_group.game: Destruction complete after 8m25s
+aws_iam_role_policy_attachment.nodes["AmazonEKSWorkerNodePolicy"]: Destroying... [id=pogo-validation-eks-nodes/arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy]
+aws_iam_role_policy_attachment.nodes["AmazonEC2ContainerRegistryReadOnly"]: Destroying... [id=pogo-validation-eks-nodes/arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly]
+aws_route_table_association.public[0]: Destroying... [id=rtbassoc-0dba5014e692e8b24]
+aws_route_table_association.public[1]: Destroying... [id=rtbassoc-03da04c4212128bfb]
+aws_iam_role_policy_attachment.nodes["AmazonEKS_CNI_Policy"]: Destroying... [id=pogo-validation-eks-nodes/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy]
+aws_eks_cluster.demo: Destroying... [id=pogo-validation-demo]
+aws_iam_role_policy_attachment.nodes["AmazonEC2ContainerRegistryReadOnly"]: Destruction complete after 0s
+aws_iam_role_policy_attachment.nodes["AmazonEKSWorkerNodePolicy"]: Destruction complete after 0s
+aws_iam_role_policy_attachment.nodes["AmazonEKS_CNI_Policy"]: Destruction complete after 0s
+aws_iam_role.nodes: Destroying... [id=pogo-validation-eks-nodes]
+aws_route_table_association.public[0]: Destruction complete after 1s
+aws_route_table_association.public[1]: Destruction complete after 1s
+aws_route_table.public: Destroying... [id=rtb-0915cf78a627eb9ab]
+aws_iam_role.nodes: Destruction complete after 1s
+aws_route_table.public: Destruction complete after 1s
+aws_internet_gateway.demo: Destroying... [id=igw-0049859cf401c78eb]
+aws_internet_gateway.demo: Destruction complete after 1s
+aws_eks_cluster.demo: Still destroying... [id=pogo-validation-demo, 00m10s elapsed]
+aws_eks_cluster.demo: Still destroying... [id=pogo-validation-demo, 00m20s elapsed]
+aws_eks_cluster.demo: Still destroying... [id=pogo-validation-demo, 00m30s elapsed]
+aws_eks_cluster.demo: Still destroying... [id=pogo-validation-demo, 00m40s elapsed]
+aws_eks_cluster.demo: Still destroying... [id=pogo-validation-demo, 00m50s elapsed]
+aws_eks_cluster.demo: Still destroying... [id=pogo-validation-demo, 01m00s elapsed]
+aws_eks_cluster.demo: Still destroying... [id=pogo-validation-demo, 01m10s elapsed]
+aws_eks_cluster.demo: Still destroying... [id=pogo-validation-demo, 01m20s elapsed]
+aws_eks_cluster.demo: Still destroying... [id=pogo-validation-demo, 01m30s elapsed]
+aws_eks_cluster.demo: Still destroying... [id=pogo-validation-demo, 01m40s elapsed]
+aws_eks_cluster.demo: Still destroying... [id=pogo-validation-demo, 01m50s elapsed]
+aws_eks_cluster.demo: Still destroying... [id=pogo-validation-demo, 02m00s elapsed]
+aws_eks_cluster.demo: Still destroying... [id=pogo-validation-demo, 02m10s elapsed]
+aws_eks_cluster.demo: Still destroying... [id=pogo-validation-demo, 02m20s elapsed]
+aws_eks_cluster.demo: Still destroying... [id=pogo-validation-demo, 02m30s elapsed]
+aws_eks_cluster.demo: Still destroying... [id=pogo-validation-demo, 02m40s elapsed]
+aws_eks_cluster.demo: Still destroying... [id=pogo-validation-demo, 02m50s elapsed]
+aws_eks_cluster.demo: Still destroying... [id=pogo-validation-demo, 03m00s elapsed]
+aws_eks_cluster.demo: Destruction complete after 3m3s
+aws_iam_role_policy_attachment.cluster: Destroying... [id=pogo-validation-eks-control-plane/arn:aws:iam::aws:policy/AmazonEKSClusterPolicy]
+aws_subnet.public[1]: Destroying... [id=subnet-09e2ce311a02ee35f]
+aws_subnet.public[0]: Destroying... [id=subnet-0f323b5ff4ba5ed35]
+aws_iam_role_policy_attachment.cluster: Destruction complete after 0s
+aws_iam_role.cluster: Destroying... [id=pogo-validation-eks-control-plane]
+aws_subnet.public[0]: Destruction complete after 1s
+aws_subnet.public[1]: Destruction complete after 1s
+aws_vpc.demo: Destroying... [id=vpc-01126a50acfa1e12b]
+aws_iam_role.cluster: Destruction complete after 1s
+aws_vpc.demo: Destruction complete after 1s
+terraform_data.free_plan_required: Destroying... [id=ae43f0f8-8571-e9ec-84a3-73411a5e90ec]
+terraform_data.free_plan_required: Destruction complete after 0s
+
+Apply complete! Resources: 0 added, 0 changed, 55 destroyed.

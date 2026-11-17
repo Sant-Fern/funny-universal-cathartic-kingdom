@@ -1,0 +1,2182 @@
+data.external.cost_guard: Reading...
+data.archive_file.leaderboard: Reading...
+data.archive_file.leaderboard: Read complete after 0s [id=5b235a2eb52aee6bb1e7563183cade5b5ec34832]
+data.aws_ssm_parameter.loadgen_ami: Reading...
+data.aws_caller_identity.current: Reading...
+data.aws_availability_zones.available: Reading...
+aws_cloudfront_origin_access_control.media: Refreshing state... [id=E51IOF18DF6QH]
+aws_cloudwatch_log_group.leaderboard: Refreshing state... [id=/aws/lambda/pogo-validation-leaderboard]
+aws_iam_role.leaderboard: Refreshing state... [id=pogo-validation-leaderboard]
+aws_apigatewayv2_api.leaderboard: Refreshing state... [id=86vgp0cxhl]
+aws_iam_role.loadgen: Refreshing state... [id=pogo-validation-loadgen]
+data.aws_caller_identity.current: Read complete after 0s [id=933605931561]
+aws_s3_bucket.artifacts: Refreshing state... [id=pogo-validation-artifacts-933605931561-us-east-2]
+aws_apigatewayv2_stage.leaderboard: Refreshing state... [id=$default]
+data.aws_ssm_parameter.loadgen_ami: Read complete after 1s [id=/aws/service/ami-amazon-linux-latest/al2023-ami-kernel-default-x86_64]
+data.aws_availability_zones.available: Read complete after 1s [id=us-east-2]
+aws_iam_role_policy_attachment.leaderboard_logs: Refreshing state... [id=pogo-validation-leaderboard/arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole]
+aws_iam_role_policy_attachment.loadgen["AmazonSSMManagedInstanceCore"]: Refreshing state... [id=pogo-validation-loadgen/arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore]
+aws_iam_role_policy.loadgen_upload: Refreshing state... [id=pogo-validation-loadgen:terraform-4022074f230e59feef349f5b7a]
+aws_iam_instance_profile.loadgen: Refreshing state... [id=pogo-validation-loadgen]
+aws_iam_role_policy_attachment.loadgen["AmazonEC2ContainerRegistryReadOnly"]: Refreshing state... [id=pogo-validation-loadgen/arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly]
+data.external.cost_guard: Read complete after 2s [id=-]
+terraform_data.free_plan_required: Refreshing state... [id=ae43f0f8-8571-e9ec-84a3-73411a5e90ec]
+aws_iam_role.nodes: Refreshing state... [id=pogo-validation-eks-nodes]
+aws_vpc.demo: Refreshing state... [id=vpc-01126a50acfa1e12b]
+aws_iam_role.cluster: Refreshing state... [id=pogo-validation-eks-control-plane]
+aws_ecr_repository.image["client"]: Refreshing state... [id=pogo-validation/client]
+aws_dynamodb_table.results: Refreshing state... [id=pogo-validation-results]
+aws_ecr_repository.image["loadtest"]: Refreshing state... [id=pogo-validation/loadtest]
+aws_ecr_repository.image["gateway"]: Refreshing state... [id=pogo-validation/gateway]
+aws_ecr_repository.image["server"]: Refreshing state... [id=pogo-validation/server]
+aws_iam_role_policy_attachment.cluster: Refreshing state... [id=pogo-validation-eks-control-plane/arn:aws:iam::aws:policy/AmazonEKSClusterPolicy]
+aws_iam_role_policy_attachment.nodes["AmazonEKSWorkerNodePolicy"]: Refreshing state... [id=pogo-validation-eks-nodes/arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy]
+aws_iam_role_policy_attachment.nodes["AmazonEC2ContainerRegistryReadOnly"]: Refreshing state... [id=pogo-validation-eks-nodes/arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly]
+aws_iam_role_policy_attachment.nodes["AmazonEKS_CNI_Policy"]: Refreshing state... [id=pogo-validation-eks-nodes/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy]
+aws_s3_bucket_public_access_block.artifacts: Refreshing state... [id=pogo-validation-artifacts-933605931561-us-east-2]
+aws_s3_bucket_server_side_encryption_configuration.artifacts: Refreshing state... [id=pogo-validation-artifacts-933605931561-us-east-2]
+aws_iam_role_policy.leaderboard: Refreshing state... [id=pogo-validation-leaderboard:terraform-fccdac18b451cdd19a19a07dfe]
+aws_internet_gateway.demo: Refreshing state... [id=igw-0049859cf401c78eb]
+aws_subnet.public[0]: Refreshing state... [id=subnet-0f323b5ff4ba5ed35]
+aws_subnet.public[1]: Refreshing state... [id=subnet-09e2ce311a02ee35f]
+aws_security_group.loadgen: Refreshing state... [id=sg-0d1e30778d7e6000e]
+aws_lambda_function.leaderboard: Refreshing state... [id=pogo-validation-leaderboard]
+aws_route_table.public: Refreshing state... [id=rtb-0915cf78a627eb9ab]
+aws_route_table_association.public[0]: Refreshing state... [id=rtbassoc-0dba5014e692e8b24]
+aws_route_table_association.public[1]: Refreshing state... [id=rtbassoc-03da04c4212128bfb]
+aws_eks_cluster.demo: Refreshing state... [id=pogo-validation-demo]
+aws_eks_access_entry.operator: Refreshing state... [id=pogo-validation-demo:arn:aws:iam::933605931561:role/managed/AccountFullAccessRole]
+aws_iam_role.results_writer: Refreshing state... [id=pogo-validation-result-writer]
+aws_iam_role.controller["load_balancer"]: Refreshing state... [id=pogo-validation-load_balancer]
+aws_eks_node_group.game: Refreshing state... [id=pogo-validation-demo:pogo-validation-games]
+data.aws_eks_addon_version.metrics: Reading...
+data.aws_eks_addon_version.pod_identity: Reading...
+aws_iam_role.controller["autoscaler"]: Refreshing state... [id=pogo-validation-autoscaler]
+aws_iam_role_policy.loadgen_results: Refreshing state... [id=pogo-validation-loadgen:terraform-6119eab908e756299b4e9958cc]
+aws_lambda_permission.leaderboard_api: Refreshing state... [id=PublicLeaderboardReadOnly]
+aws_apigatewayv2_integration.leaderboard: Refreshing state... [id=ide2syr]
+aws_apigatewayv2_route.leaderboard: Refreshing state... [id=htje1vl]
+data.aws_eks_addon_version.pod_identity: Read complete after 0s [id=eks-pod-identity-agent]
+aws_eks_addon.pod_identity: Refreshing state... [id=pogo-validation-demo:eks-pod-identity-agent]
+data.aws_eks_addon_version.metrics: Read complete after 0s [id=metrics-server]
+aws_eks_addon.metrics: Refreshing state... [id=pogo-validation-demo:metrics-server]
+aws_eks_access_policy_association.operator: Refreshing state... [id=pogo-validation-demo#arn:aws:iam::933605931561:role/managed/AccountFullAccessRole#arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy]
+aws_iam_role_policy.results_writer: Refreshing state... [id=pogo-validation-result-writer:terraform-7d3567da428205065de7a750ee]
+aws_eks_pod_identity_association.results: Refreshing state... [id=a-2crud1thvl5ivyax3]
+aws_iam_role_policy.autoscaler: Refreshing state... [id=pogo-validation-autoscaler:terraform-5726df845132a380d88a70619f]
+aws_iam_role_policy.load_balancer: Refreshing state... [id=pogo-validation-load_balancer:terraform-2d8ddd405372453d4ba28658a7]
+aws_eks_pod_identity_association.controller["load_balancer"]: Refreshing state... [id=a-qb3nd3qth9qfy3bzo]
+aws_eks_pod_identity_association.controller["autoscaler"]: Refreshing state... [id=a-jdur0gswszsqelypo]
+
+Terraform used the selected providers to generate the following execution
+plan. Resource actions are indicated with the following symbols:
+  - destroy
+
+Terraform will perform the following actions:
+
+  # aws_apigatewayv2_api.leaderboard will be destroyed
+  - resource "aws_apigatewayv2_api" "leaderboard" {
+      - api_endpoint                 = "https://86vgp0cxhl.execute-api.us-east-2.amazonaws.com" -> null
+      - api_key_selection_expression = "$request.header.x-api-key" -> null
+      - arn                          = "arn:aws:apigateway:us-east-2::/apis/86vgp0cxhl" -> null
+      - disable_execute_api_endpoint = false -> null
+      - execution_arn                = "arn:aws:execute-api:us-east-2:933605931561:86vgp0cxhl" -> null
+      - id                           = "86vgp0cxhl" -> null
+      - ip_address_type              = "ipv4" -> null
+      - name                         = "pogo-validation-leaderboard" -> null
+      - protocol_type                = "HTTP" -> null
+      - region                       = "us-east-2" -> null
+      - route_selection_expression   = "$request.method $request.path" -> null
+      - tags                         = {} -> null
+      - tags_all                     = {
+          - "ManagedBy" = "Terraform"
+          - "Project"   = "pogo-arena"
+        } -> null
+        # (2 unchanged attributes hidden)
+    }
+
+  # aws_apigatewayv2_integration.leaderboard will be destroyed
+  - resource "aws_apigatewayv2_integration" "leaderboard" {
+      - api_id                                    = "86vgp0cxhl" -> null
+      - connection_type                           = "INTERNET" -> null
+      - id                                        = "ide2syr" -> null
+      - integration_method                        = "POST" -> null
+      - integration_type                          = "AWS_PROXY" -> null
+      - integration_uri                           = "arn:aws:apigateway:us-east-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-2:933605931561:function:pogo-validation-leaderboard/invocations" -> null
+      - payload_format_version                    = "2.0" -> null
+      - region                                    = "us-east-2" -> null
+      - request_parameters                        = {} -> null
+      - request_templates                         = {} -> null
+      - timeout_milliseconds                      = 30000 -> null
+        # (8 unchanged attributes hidden)
+    }
+
+  # aws_apigatewayv2_route.leaderboard will be destroyed
+  - resource "aws_apigatewayv2_route" "leaderboard" {
+      - api_id                              = "86vgp0cxhl" -> null
+      - api_key_required                    = false -> null
+      - authorization_scopes                = [] -> null
+      - authorization_type                  = "NONE" -> null
+      - id                                  = "htje1vl" -> null
+      - region                              = "us-east-2" -> null
+      - request_models                      = {} -> null
+      - route_key                           = "GET /leaderboard" -> null
+      - target                              = "integrations/ide2syr" -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # aws_apigatewayv2_stage.leaderboard will be destroyed
+  - resource "aws_apigatewayv2_stage" "leaderboard" {
+      - api_id                = "86vgp0cxhl" -> null
+      - arn                   = "arn:aws:apigateway:us-east-2::/apis/86vgp0cxhl/stages/$default" -> null
+      - auto_deploy           = true -> null
+      - deployment_id         = "kk3pvt" -> null
+      - execution_arn         = "arn:aws:execute-api:us-east-2:933605931561:86vgp0cxhl/$default" -> null
+      - id                    = "$default" -> null
+      - invoke_url            = "https://86vgp0cxhl.execute-api.us-east-2.amazonaws.com/" -> null
+      - name                  = "$default" -> null
+      - region                = "us-east-2" -> null
+      - stage_variables       = {} -> null
+      - tags                  = {} -> null
+      - tags_all              = {
+          - "ManagedBy" = "Terraform"
+          - "Project"   = "pogo-arena"
+        } -> null
+        # (2 unchanged attributes hidden)
+
+      - default_route_settings {
+          - data_trace_enabled       = false -> null
+          - detailed_metrics_enabled = false -> null
+          - throttling_burst_limit   = 500 -> null
+          - throttling_rate_limit    = 300 -> null
+            # (1 unchanged attribute hidden)
+        }
+    }
+
+  # aws_cloudfront_origin_access_control.media will be destroyed
+  - resource "aws_cloudfront_origin_access_control" "media" {
+      - arn                               = "arn:aws:cloudfront::933605931561:origin-access-control/E51IOF18DF6QH" -> null
+      - description                       = "Managed by Terraform" -> null
+      - etag                              = "ETVPDKIKX0DER" -> null
+      - id                                = "E51IOF18DF6QH" -> null
+      - name                              = "pogo-validation-hls" -> null
+      - origin_access_control_origin_type = "s3" -> null
+      - signing_behavior                  = "always" -> null
+      - signing_protocol                  = "sigv4" -> null
+    }
+
+  # aws_cloudwatch_log_group.leaderboard will be destroyed
+  - resource "aws_cloudwatch_log_group" "leaderboard" {
+      - arn                         = "arn:aws:logs:us-east-2:933605931561:log-group:/aws/lambda/pogo-validation-leaderboard" -> null
+      - deletion_protection_enabled = false -> null
+      - id                          = "/aws/lambda/pogo-validation-leaderboard" -> null
+      - log_group_class             = "STANDARD" -> null
+      - name                        = "/aws/lambda/pogo-validation-leaderboard" -> null
+      - region                      = "us-east-2" -> null
+      - retention_in_days           = 7 -> null
+      - skip_destroy                = false -> null
+      - tags                        = {} -> null
+      - tags_all                    = {
+          - "ManagedBy" = "Terraform"
+          - "Project"   = "pogo-arena"
+        } -> null
+        # (2 unchanged attributes hidden)
+    }
+
+  # aws_dynamodb_table.results will be destroyed
+  - resource "aws_dynamodb_table" "results" {
+      - arn                         = "arn:aws:dynamodb:us-east-2:933605931561:table/pogo-validation-results" -> null
+      - billing_mode                = "PAY_PER_REQUEST" -> null
+      - deletion_protection_enabled = false -> null
+      - hash_key                    = "pk" -> null
+      - id                          = "pogo-validation-results" -> null
+      - name                        = "pogo-validation-results" -> null
+      - range_key                   = "sk" -> null
+      - read_capacity               = 0 -> null
+      - region                      = "us-east-2" -> null
+      - stream_enabled              = false -> null
+      - table_class                 = "STANDARD" -> null
+      - tags                        = {} -> null
+      - tags_all                    = {
+          - "ManagedBy" = "Terraform"
+          - "Project"   = "pogo-arena"
+        } -> null
+      - write_capacity              = 0 -> null
+        # (3 unchanged attributes hidden)
+
+      - attribute {
+          - name = "pk" -> null
+          - type = "S" -> null
+        }
+      - attribute {
+          - name = "sk" -> null
+          - type = "S" -> null
+        }
+
+      - on_demand_throughput {
+          - max_read_request_units  = 1000 -> null
+          - max_write_request_units = 1000 -> null
+        }
+
+      - point_in_time_recovery {
+          - enabled                 = false -> null
+          - recovery_period_in_days = 0 -> null
+        }
+
+      - ttl {
+          - attribute_name = "expiresAt" -> null
+          - enabled        = true -> null
+        }
+    }
+
+  # aws_ecr_repository.image["client"] will be destroyed
+  - resource "aws_ecr_repository" "image" {
+      - arn                  = "arn:aws:ecr:us-east-2:933605931561:repository/pogo-validation/client" -> null
+      - force_delete         = true -> null
+      - id                   = "pogo-validation/client" -> null
+      - image_tag_mutability = "IMMUTABLE" -> null
+      - name                 = "pogo-validation/client" -> null
+      - region               = "us-east-2" -> null
+      - registry_id          = "933605931561" -> null
+      - repository_url       = "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo-validation/client" -> null
+      - tags                 = {} -> null
+      - tags_all             = {
+          - "ManagedBy" = "Terraform"
+          - "Project"   = "pogo-arena"
+        } -> null
+
+      - encryption_configuration {
+          - encryption_type = "AES256" -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - image_scanning_configuration {
+          - scan_on_push = false -> null
+        }
+    }
+
+  # aws_ecr_repository.image["gateway"] will be destroyed
+  - resource "aws_ecr_repository" "image" {
+      - arn                  = "arn:aws:ecr:us-east-2:933605931561:repository/pogo-validation/gateway" -> null
+      - force_delete         = true -> null
+      - id                   = "pogo-validation/gateway" -> null
+      - image_tag_mutability = "IMMUTABLE" -> null
+      - name                 = "pogo-validation/gateway" -> null
+      - region               = "us-east-2" -> null
+      - registry_id          = "933605931561" -> null
+      - repository_url       = "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo-validation/gateway" -> null
+      - tags                 = {} -> null
+      - tags_all             = {
+          - "ManagedBy" = "Terraform"
+          - "Project"   = "pogo-arena"
+        } -> null
+
+      - encryption_configuration {
+          - encryption_type = "AES256" -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - image_scanning_configuration {
+          - scan_on_push = false -> null
+        }
+    }
+
+  # aws_ecr_repository.image["loadtest"] will be destroyed
+  - resource "aws_ecr_repository" "image" {
+      - arn                  = "arn:aws:ecr:us-east-2:933605931561:repository/pogo-validation/loadtest" -> null
+      - force_delete         = true -> null
+      - id                   = "pogo-validation/loadtest" -> null
+      - image_tag_mutability = "IMMUTABLE" -> null
+      - name                 = "pogo-validation/loadtest" -> null
+      - region               = "us-east-2" -> null
+      - registry_id          = "933605931561" -> null
+      - repository_url       = "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo-validation/loadtest" -> null
+      - tags                 = {} -> null
+      - tags_all             = {
+          - "ManagedBy" = "Terraform"
+          - "Project"   = "pogo-arena"
+        } -> null
+
+      - encryption_configuration {
+          - encryption_type = "AES256" -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - image_scanning_configuration {
+          - scan_on_push = false -> null
+        }
+    }
+
+  # aws_ecr_repository.image["server"] will be destroyed
+  - resource "aws_ecr_repository" "image" {
+      - arn                  = "arn:aws:ecr:us-east-2:933605931561:repository/pogo-validation/server" -> null
+      - force_delete         = true -> null
+      - id                   = "pogo-validation/server" -> null
+      - image_tag_mutability = "IMMUTABLE" -> null
+      - name                 = "pogo-validation/server" -> null
+      - region               = "us-east-2" -> null
+      - registry_id          = "933605931561" -> null
+      - repository_url       = "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo-validation/server" -> null
+      - tags                 = {} -> null
+      - tags_all             = {
+          - "ManagedBy" = "Terraform"
+          - "Project"   = "pogo-arena"
+        } -> null
+
+      - encryption_configuration {
+          - encryption_type = "AES256" -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - image_scanning_configuration {
+          - scan_on_push = false -> null
+        }
+    }
+
+  # aws_eks_access_entry.operator will be destroyed
+  - resource "aws_eks_access_entry" "operator" {
+      - access_entry_arn  = "arn:aws:eks:us-east-2:933605931561:access-entry/pogo-validation-demo/role/933605931561/AccountFullAccessRole/b0d0f38b-f038-a7d2-7ed0-e4feeeeea7f8" -> null
+      - cluster_name      = "pogo-validation-demo" -> null
+      - created_at        = "2026-11-17T01:21:04Z" -> null
+      - id                = "pogo-validation-demo:arn:aws:iam::933605931561:role/managed/AccountFullAccessRole" -> null
+      - kubernetes_groups = [] -> null
+      - modified_at       = "2026-11-17T01:21:04Z" -> null
+      - principal_arn     = "arn:aws:iam::933605931561:role/managed/AccountFullAccessRole" -> null
+      - region            = "us-east-2" -> null
+      - tags              = {} -> null
+      - tags_all          = {
+          - "ManagedBy" = "Terraform"
+          - "Project"   = "pogo-arena"
+        } -> null
+      - type              = "STANDARD" -> null
+      - user_name         = "arn:aws:sts::933605931561:assumed-role/AccountFullAccessRole/{{SessionName}}" -> null
+    }
+
+  # aws_eks_access_policy_association.operator will be destroyed
+  - resource "aws_eks_access_policy_association" "operator" {
+      - associated_at = "2026-11-17 01:21:05.255 +0000 UTC" -> null
+      - cluster_name  = "pogo-validation-demo" -> null
+      - id            = "pogo-validation-demo#arn:aws:iam::933605931561:role/managed/AccountFullAccessRole#arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy" -> null
+      - modified_at   = "2026-11-17 01:21:05.255 +0000 UTC" -> null
+      - policy_arn    = "arn:aws:eks::aws:cluster-access-policy/AmazonEKSClusterAdminPolicy" -> null
+      - principal_arn = "arn:aws:iam::933605931561:role/managed/AccountFullAccessRole" -> null
+      - region        = "us-east-2" -> null
+
+      - access_scope {
+          - namespaces = [] -> null
+          - type       = "cluster" -> null
+        }
+    }
+
+  # aws_eks_addon.metrics will be destroyed
+  - resource "aws_eks_addon" "metrics" {
+      - addon_name               = "metrics-server" -> null
+      - addon_version            = "v0.9.1-eksbuild.2" -> null
+      - arn                      = "arn:aws:eks:us-east-2:933605931561:addon/pogo-validation-demo/metrics-server/78d0f38b-f159-7a9a-4d78-34a7daf0d91c" -> null
+      - cluster_name             = "pogo-validation-demo" -> null
+      - created_at               = "2026-11-17T01:21:04Z" -> null
+      - id                       = "pogo-validation-demo:metrics-server" -> null
+      - modified_at              = "2026-11-17T01:27:31Z" -> null
+      - region                   = "us-east-2" -> null
+      - tags                     = {} -> null
+      - tags_all                 = {
+          - "ManagedBy" = "Terraform"
+          - "Project"   = "pogo-arena"
+        } -> null
+        # (2 unchanged attributes hidden)
+
+      - namespace_config {
+          - namespace = "kube-system" -> null
+        }
+    }
+
+  # aws_eks_addon.pod_identity will be destroyed
+  - resource "aws_eks_addon" "pod_identity" {
+      - addon_name               = "eks-pod-identity-agent" -> null
+      - addon_version            = "v1.4.1-eksbuild.3" -> null
+      - arn                      = "arn:aws:eks:us-east-2:933605931561:addon/pogo-validation-demo/eks-pod-identity-agent/2ad0f38b-f0bd-a7ca-2bf3-fc80d2c20461" -> null
+      - cluster_name             = "pogo-validation-demo" -> null
+      - created_at               = "2026-11-17T01:21:04Z" -> null
+      - id                       = "pogo-validation-demo:eks-pod-identity-agent" -> null
+      - modified_at              = "2026-11-17T01:21:10Z" -> null
+      - region                   = "us-east-2" -> null
+      - tags                     = {} -> null
+      - tags_all                 = {
+          - "ManagedBy" = "Terraform"
+          - "Project"   = "pogo-arena"
+        } -> null
+        # (2 unchanged attributes hidden)
+
+      - namespace_config {
+          - namespace = "kube-system" -> null
+        }
+    }
+
+  # aws_eks_cluster.demo will be destroyed
+  - resource "aws_eks_cluster" "demo" {
+      - arn                           = "arn:aws:eks:us-east-2:933605931561:cluster/pogo-validation-demo" -> null
+      - bootstrap_self_managed_addons = true -> null
+      - certificate_authority         = [
+          - {
+              - data = "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURNVENDQWhtZ0F3SUJBZ0lRZjI5czQrQ3JaaGszNkk4dS9GMy9VakFOQmdrcWhraUc5dzBCQVFzRkFEQW4KTVJBd0RnWURWUVFLRXdkQlYxTWdSVXRUTVJNd0VRWURWUVFERXdwcmRXSmxjbTVsZEdWek1CNFhEVEkyTVRFeApOekF4TVRJek0xb1hEVE14TVRFeE5qQXhNVEl6TTFvd0p6RVFNQTRHQTFVRUNoTUhRVmRUSUVWTFV6RVRNQkVHCkExVUVBeE1LYTNWaVpYSnVaWFJsY3pDQ0FTSXdEUVlKS29aSWh2Y05BUUVCQlFBRGdnRVBBRENDQVFvQ2dnRUIKQUwzTndRUlJYUHBqV1MwdzdUaDBTMmNYa3RIWG5ZQWtoT04rcnp0THhOUXJ6N3NtMzE0NXNUa055ckhtR2FZdQowcU41dUNtVk1VRGIxQnFQQWlnMnhCdk9XaW5xbGlnOENPRksveS9qdHV5bnF6dUkyRjkzajh4TkJtcG03RDlYCnZDOHJlQkZ2Qm9QNHlFcjJEeGZ4UUFBOUUvWG1KT3YwTUpSQWZJb09NNkJaQ3ZlSWhHL3I3NXBSM2Uyek16bDUKSFZOUmljcE9EeGg1Qm50bDlHZ01RbzlWb1VxOERpMHFlYXBwZUxReHpNeWRUbjR5YVBOQWNHUENNNTdDdGtYLwpXRlp5Vnk4SnREYzRiRHMwM2tVY0tNUFVFcUNVb0JyanJnclZDcEJuUGNTdGxyd0ZiTTFwTnlwTElVbU1uc21aCkZVUlFGRU5EK1JlS3BwZ3dEWVBtZlJrQ0F3RUFBYU5aTUZjd0RnWURWUjBQQVFIL0JBUURBZ0trTUE4R0ExVWQKRXdFQi93UUZNQU1CQWY4d0hRWURWUjBPQkJZRUZJblpHNlJVbUp0aDI1bTZmVTVUVXdVTTRzNTlNQlVHQTFVZApFUVFPTUF5Q0NtdDFZbVZ5Ym1WMFpYTXdEUVlKS29aSWh2Y05BUUVMQlFBRGdnRUJBSVRhVzFKUFJ5dGkvMW5uCkpMNXpMUDRLR3F5RW4vbTBHK2R5OFFxOVFuZWszQURGZkNMVGNibDd0R0IwK2xuM0YyeWZQZ20rUzJESFRjS0kKQlVwNGRhalpON1hOZWFPWmxteUswTEducjhmQjlXVGpTcE5VeEdNaGE3T1M4dHlhQUYrcXg3M3BMVGI4WnQ1Nwpqc1pSMXJZaEVrSWUvYnNJZkFOR1lvcTVVbVFKMEN2bUpMVDdCRTRuM1gvMWVCUER0QkFLWlJWemNFQncxQk1zCnJ0UlAveFBtSnRMekVMQ2s4RUcxM255TURyNjdWVzlQMXRya3Z5UmVLOUg3VURtL2FWMzE1amV4YXpDY2pmeTUKczBzSi9RSDNXRU1uUjVjWlpaeVc3RkJBSCt6RnFLWXJ0djVaaHJZRjZpQXBKQ2RXQlpodWRBNG5pV0lCQnpPcwpnYUIvM0VjPQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg=="
+            },
+        ] -> null
+      - created_at                    = "2026-11-17T01:12:26Z" -> null
+      - deletion_protection           = false -> null
+      - enabled_cluster_log_types     = [] -> null
+      - endpoint                      = "https://A2D0E73552709C1B2F8A93EDF22B9398.gr7.us-east-2.eks.amazonaws.com" -> null
+      - id                            = "pogo-validation-demo" -> null
+      - identity                      = [
+          - {
+              - oidc = [
+                  - {
+                      - issuer = "https://oidc.eks.us-east-2.amazonaws.com/id/A2D0E73552709C1B2F8A93EDF22B9398"
+                    },
+                ]
+            },
+        ] -> null
+      - name                          = "pogo-validation-demo" -> null
+      - platform_version              = "eks.29" -> null
+      - region                        = "us-east-2" -> null
+      - role_arn                      = "arn:aws:iam::933605931561:role/pogo-validation-eks-control-plane" -> null
+      - status                        = "ACTIVE" -> null
+      - tags                          = {} -> null
+      - tags_all                      = {
+          - "ManagedBy" = "Terraform"
+          - "Project"   = "pogo-arena"
+        } -> null
+      - version                       = "1.35" -> null
+
+      - access_config {
+          - authentication_mode                         = "API_AND_CONFIG_MAP" -> null
+          - bootstrap_cluster_creator_admin_permissions = false -> null
+        }
+
+      - compute_config {
+          - enabled       = false -> null
+          - node_pools    = [] -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - control_plane_scaling_config {
+          - tier = "standard" -> null
+        }
+
+      - kube_api_server_config {
+          - event_ttl = "60m" -> null
+
+          - service_node_port_range {
+              - max_port = 32767 -> null
+              - min_port = 30000 -> null
+            }
+        }
+
+      - kube_controller_manager_config {
+          - horizontal_pod_autoscaler_controller_config {
+              - horizontal_pod_autoscaler_sync_period = "15s" -> null
+            }
+          - pod_gc_controller_config {
+              - terminated_pod_gc_threshold = 12500 -> null
+            }
+        }
+
+      - kube_scheduler_config {
+          - node_resources_fit {
+              - scoring_strategy {
+                  - type = "LeastAllocated" -> null
+
+                  - resource {
+                      - name   = "cpu" -> null
+                      - weight = 1 -> null
+                    }
+                  - resource {
+                      - name   = "memory" -> null
+                      - weight = 1 -> null
+                    }
+                }
+            }
+        }
+
+      - kubernetes_network_config {
+          - ip_family         = "ipv4" -> null
+          - service_ipv4_cidr = "172.20.0.0/16" -> null
+            # (1 unchanged attribute hidden)
+
+          - elastic_load_balancing {
+              - enabled = false -> null
+            }
+        }
+
+      - storage_config {
+          - block_storage {
+              - enabled = false -> null
+            }
+        }
+
+      - upgrade_policy {
+          - support_type = "STANDARD" -> null
+        }
+
+      - vpc_config {
+          - cluster_security_group_id = "sg-08f22d9254f021b4f" -> null
+          - control_plane_egress_mode = "AWS_MANAGED" -> null
+          - endpoint_private_access   = true -> null
+          - endpoint_public_access    = true -> null
+          - public_access_cidrs       = [
+              - "187.204.75.9/32",
+            ] -> null
+          - security_group_ids        = [] -> null
+          - subnet_ids                = [
+              - "subnet-09e2ce311a02ee35f",
+              - "subnet-0f323b5ff4ba5ed35",
+            ] -> null
+          - vpc_id                    = "vpc-01126a50acfa1e12b" -> null
+        }
+    }
+
+  # aws_eks_node_group.game will be destroyed
+  - resource "aws_eks_node_group" "game" {
+      - ami_type               = "AL2023_x86_64_STANDARD" -> null
+      - arn                    = "arn:aws:eks:us-east-2:933605931561:nodegroup/pogo-validation-demo/pogo-validation-games/e0d0f38b-f03f-6dcd-9b2c-7635b5ec6546" -> null
+      - capacity_type          = "ON_DEMAND" -> null
+      - cluster_name           = "pogo-validation-demo" -> null
+      - disk_size              = 20 -> null
+      - id                     = "pogo-validation-demo:pogo-validation-games" -> null
+      - instance_types         = [
+          - "m7i-flex.large",
+        ] -> null
+      - labels                 = {} -> null
+      - node_group_name        = "pogo-validation-games" -> null
+      - node_role_arn          = "arn:aws:iam::933605931561:role/pogo-validation-eks-nodes" -> null
+      - region                 = "us-east-2" -> null
+      - release_version        = "1.35.9-20261112" -> null
+      - resources              = [
+          - {
+              - autoscaling_groups              = [
+                  - {
+                      - name = "eks-pogo-validation-games-e0d0f38b-f03f-6dcd-9b2c-7635b5ec6546"
+                    },
+                ]
+                # (1 unchanged attribute hidden)
+            },
+        ] -> null
+      - status                 = "ACTIVE" -> null
+      - subnet_ids             = [
+          - "subnet-09e2ce311a02ee35f",
+          - "subnet-0f323b5ff4ba5ed35",
+        ] -> null
+      - tags                   = {} -> null
+      - tags_all               = {
+          - "ManagedBy" = "Terraform"
+          - "Project"   = "pogo-arena"
+        } -> null
+      - version                = "1.35" -> null
+        # (1 unchanged attribute hidden)
+
+      - scaling_config {
+          - desired_size = 2 -> null
+          - max_size     = 2 -> null
+          - min_size     = 1 -> null
+        }
+
+      - update_config {
+          - max_unavailable            = 1 -> null
+          - max_unavailable_percentage = 0 -> null
+            # (1 unchanged attribute hidden)
+        }
+    }
+
+  # aws_eks_pod_identity_association.controller["autoscaler"] will be destroyed
+  - resource "aws_eks_pod_identity_association" "controller" {
+      - association_arn      = "arn:aws:eks:us-east-2:933605931561:podidentityassociation/pogo-validation-demo/a-jdur0gswszsqelypo" -> null
+      - association_id       = "a-jdur0gswszsqelypo" -> null
+      - cluster_name         = "pogo-validation-demo" -> null
+      - disable_session_tags = false -> null
+      - id                   = "a-jdur0gswszsqelypo" -> null
+      - namespace            = "kube-system" -> null
+      - region               = "us-east-2" -> null
+      - role_arn             = "arn:aws:iam::933605931561:role/pogo-validation-autoscaler" -> null
+      - service_account      = "cluster-autoscaler" -> null
+      - tags_all             = {
+          - "ManagedBy" = "Terraform"
+          - "Project"   = "pogo-arena"
+        } -> null
+    }
+
+  # aws_eks_pod_identity_association.controller["load_balancer"] will be destroyed
+  - resource "aws_eks_pod_identity_association" "controller" {
+      - association_arn      = "arn:aws:eks:us-east-2:933605931561:podidentityassociation/pogo-validation-demo/a-qb3nd3qth9qfy3bzo" -> null
+      - association_id       = "a-qb3nd3qth9qfy3bzo" -> null
+      - cluster_name         = "pogo-validation-demo" -> null
+      - disable_session_tags = false -> null
+      - id                   = "a-qb3nd3qth9qfy3bzo" -> null
+      - namespace            = "kube-system" -> null
+      - region               = "us-east-2" -> null
+      - role_arn             = "arn:aws:iam::933605931561:role/pogo-validation-load_balancer" -> null
+      - service_account      = "aws-load-balancer-controller" -> null
+      - tags_all             = {
+          - "ManagedBy" = "Terraform"
+          - "Project"   = "pogo-arena"
+        } -> null
+    }
+
+  # aws_eks_pod_identity_association.results will be destroyed
+  - resource "aws_eks_pod_identity_association" "results" {
+      - association_arn      = "arn:aws:eks:us-east-2:933605931561:podidentityassociation/pogo-validation-demo/a-2crud1thvl5ivyax3" -> null
+      - association_id       = "a-2crud1thvl5ivyax3" -> null
+      - cluster_name         = "pogo-validation-demo" -> null
+      - disable_session_tags = false -> null
+      - id                   = "a-2crud1thvl5ivyax3" -> null
+      - namespace            = "pogo" -> null
+      - region               = "us-east-2" -> null
+      - role_arn             = "arn:aws:iam::933605931561:role/pogo-validation-result-writer" -> null
+      - service_account      = "agones-sdk" -> null
+      - tags_all             = {
+          - "ManagedBy" = "Terraform"
+          - "Project"   = "pogo-arena"
+        } -> null
+    }
+
+  # aws_iam_instance_profile.loadgen will be destroyed
+  - resource "aws_iam_instance_profile" "loadgen" {
+      - arn         = "arn:aws:iam::933605931561:instance-profile/pogo-validation-loadgen" -> null
+      - create_date = "2026-11-17T01:12:08Z" -> null
+      - id          = "pogo-validation-loadgen" -> null
+      - name        = "pogo-validation-loadgen" -> null
+      - path        = "/" -> null
+      - role        = "pogo-validation-loadgen" -> null
+      - tags        = {} -> null
+      - tags_all    = {
+          - "ManagedBy" = "Terraform"
+          - "Project"   = "pogo-arena"
+        } -> null
+      - unique_id   = "AIPA5SXZ77IURPS6FUEQK" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_iam_role.cluster will be destroyed
+  - resource "aws_iam_role" "cluster" {
+      - arn                   = "arn:aws:iam::933605931561:role/pogo-validation-eks-control-plane" -> null
+      - assume_role_policy    = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action    = "sts:AssumeRole"
+                      - Effect    = "Allow"
+                      - Principal = {
+                          - Service = "eks.amazonaws.com"
+                        }
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - create_date           = "2026-11-17T01:12:07Z" -> null
+      - force_detach_policies = false -> null
+      - id                    = "pogo-validation-eks-control-plane" -> null
+      - managed_policy_arns   = [
+          - "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy",
+        ] -> null
+      - max_session_duration  = 3600 -> null
+      - name                  = "pogo-validation-eks-control-plane" -> null
+      - path                  = "/" -> null
+      - tags                  = {} -> null
+      - tags_all              = {
+          - "ManagedBy" = "Terraform"
+          - "Project"   = "pogo-arena"
+        } -> null
+      - unique_id             = "AROA5SXZ77IUTQQ7RQTBZ" -> null
+        # (3 unchanged attributes hidden)
+    }
+
+  # aws_iam_role.controller["autoscaler"] will be destroyed
+  - resource "aws_iam_role" "controller" {
+      - arn                   = "arn:aws:iam::933605931561:role/pogo-validation-autoscaler" -> null
+      - assume_role_policy    = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action    = [
+                          - "sts:AssumeRole",
+                          - "sts:TagSession",
+                        ]
+                      - Condition = {
+                          - StringEquals = {
+                              - "aws:RequestTag/eks-cluster-name"           = "pogo-validation-demo"
+                              - "aws:RequestTag/kubernetes-namespace"       = "kube-system"
+                              - "aws:RequestTag/kubernetes-service-account" = "cluster-autoscaler"
+                            }
+                        }
+                      - Effect    = "Allow"
+                      - Principal = {
+                          - Service = "pods.eks.amazonaws.com"
+                        }
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - create_date           = "2026-11-17T01:21:04Z" -> null
+      - force_detach_policies = false -> null
+      - id                    = "pogo-validation-autoscaler" -> null
+      - managed_policy_arns   = [] -> null
+      - max_session_duration  = 3600 -> null
+      - name                  = "pogo-validation-autoscaler" -> null
+      - path                  = "/" -> null
+      - tags                  = {} -> null
+      - tags_all              = {
+          - "ManagedBy" = "Terraform"
+          - "Project"   = "pogo-arena"
+        } -> null
+      - unique_id             = "AROA5SXZ77IUXAIDL4ML5" -> null
+        # (3 unchanged attributes hidden)
+
+      - inline_policy {
+          - name   = "terraform-5726df845132a380d88a70619f" -> null
+          - policy = jsonencode(
+                {
+                  - Statement = [
+                      - {
+                          - Action   = [
+                              - "autoscaling:SetDesiredCapacity",
+                              - "autoscaling:TerminateInstanceInAutoScalingGroup",
+                            ]
+                          - Effect   = "Allow"
+                          - Resource = "arn:aws:autoscaling:us-east-2:933605931561:autoScalingGroup:*:autoScalingGroupName/eks-pogo-validation-games-e0d0f38b-f03f-6dcd-9b2c-7635b5ec6546"
+                        },
+                      - {
+                          - Action   = [
+                              - "autoscaling:DescribeAutoScalingGroups",
+                              - "autoscaling:DescribeAutoScalingInstances",
+                              - "autoscaling:DescribeLaunchConfigurations",
+                              - "autoscaling:DescribeScalingActivities",
+                              - "autoscaling:DescribeTags",
+                              - "ec2:DescribeImages",
+                              - "ec2:DescribeInstanceTypes",
+                              - "ec2:DescribeLaunchTemplateVersions",
+                              - "ec2:GetInstanceTypesFromInstanceRequirements",
+                              - "eks:DescribeNodegroup",
+                            ]
+                          - Effect   = "Allow"
+                          - Resource = "*"
+                        },
+                    ]
+                  - Version   = "2012-10-17"
+                }
+            ) -> null
+        }
+    }
+
+  # aws_iam_role.controller["load_balancer"] will be destroyed
+  - resource "aws_iam_role" "controller" {
+      - arn                   = "arn:aws:iam::933605931561:role/pogo-validation-load_balancer" -> null
+      - assume_role_policy    = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action    = [
+                          - "sts:AssumeRole",
+                          - "sts:TagSession",
+                        ]
+                      - Condition = {
+                          - StringEquals = {
+                              - "aws:RequestTag/eks-cluster-name"           = "pogo-validation-demo"
+                              - "aws:RequestTag/kubernetes-namespace"       = "kube-system"
+                              - "aws:RequestTag/kubernetes-service-account" = "aws-load-balancer-controller"
+                            }
+                        }
+                      - Effect    = "Allow"
+                      - Principal = {
+                          - Service = "pods.eks.amazonaws.com"
+                        }
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - create_date           = "2026-11-17T01:21:04Z" -> null
+      - force_detach_policies = false -> null
+      - id                    = "pogo-validation-load_balancer" -> null
+      - managed_policy_arns   = [] -> null
+      - max_session_duration  = 3600 -> null
+      - name                  = "pogo-validation-load_balancer" -> null
+      - path                  = "/" -> null
+      - tags                  = {} -> null
+      - tags_all              = {
+          - "ManagedBy" = "Terraform"
+          - "Project"   = "pogo-arena"
+        } -> null
+      - unique_id             = "AROA5SXZ77IU5KIROQ4E6" -> null
+        # (3 unchanged attributes hidden)
+
+      - inline_policy {
+          - name   = "terraform-2d8ddd405372453d4ba28658a7" -> null
+          - policy = jsonencode(
+                {
+                  - Statement = [
+                      - {
+                          - Action    = [
+                              - "iam:CreateServiceLinkedRole",
+                            ]
+                          - Condition = {
+                              - StringEquals = {
+                                  - "iam:AWSServiceName" = "elasticloadbalancing.amazonaws.com"
+                                }
+                            }
+                          - Effect    = "Allow"
+                          - Resource  = "*"
+                        },
+                      - {
+                          - Action   = [
+                              - "ec2:DescribeAccountAttributes",
+                              - "ec2:DescribeAddresses",
+                              - "ec2:DescribeAvailabilityZones",
+                              - "ec2:DescribeInternetGateways",
+                              - "ec2:DescribeVpcs",
+                              - "ec2:DescribeVpcPeeringConnections",
+                              - "ec2:DescribeSubnets",
+                              - "ec2:DescribeSecurityGroups",
+                              - "ec2:DescribeInstances",
+                              - "ec2:DescribeNetworkInterfaces",
+                              - "ec2:DescribeTags",
+                              - "ec2:GetCoipPoolUsage",
+                              - "ec2:DescribeCoipPools",
+                              - "ec2:GetSecurityGroupsForVpc",
+                              - "ec2:DescribeIpamPools",
+                              - "ec2:DescribeRouteTables",
+                              - "elasticloadbalancing:DescribeLoadBalancers",
+                              - "elasticloadbalancing:DescribeLoadBalancerAttributes",
+                              - "elasticloadbalancing:DescribeListeners",
+                              - "elasticloadbalancing:DescribeListenerCertificates",
+                              - "elasticloadbalancing:DescribeSSLPolicies",
+                              - "elasticloadbalancing:DescribeRules",
+                              - "elasticloadbalancing:DescribeTargetGroups",
+                              - "elasticloadbalancing:DescribeTargetGroupAttributes",
+                              - "elasticloadbalancing:DescribeTargetHealth",
+                              - "elasticloadbalancing:DescribeTags",
+                              - "elasticloadbalancing:DescribeTrustStores",
+                              - "elasticloadbalancing:DescribeListenerAttributes",
+                              - "elasticloadbalancing:DescribeCapacityReservation",
+                            ]
+                          - Effect   = "Allow"
+                          - Resource = "*"
+                        },
+                      - {
+                          - Action   = [
+                              - "cognito-idp:DescribeUserPoolClient",
+                              - "acm:ListCertificates",
+                              - "acm:DescribeCertificate",
+                              - "iam:ListServerCertificates",
+                              - "iam:GetServerCertificate",
+                              - "waf-regional:GetWebACL",
+                              - "waf-regional:GetWebACLForResource",
+                              - "waf-regional:AssociateWebACL",
+                              - "waf-regional:DisassociateWebACL",
+                              - "wafv2:GetWebACL",
+                              - "wafv2:GetWebACLForResource",
+                              - "wafv2:AssociateWebACL",
+                              - "wafv2:DisassociateWebACL",
+                              - "shield:GetSubscriptionState",
+                              - "shield:DescribeProtection",
+                              - "shield:CreateProtection",
+                              - "shield:DeleteProtection",
+                            ]
+                          - Effect   = "Allow"
+                          - Resource = "*"
+                        },
+                      - {
+                          - Action   = [
+                              - "ec2:AuthorizeSecurityGroupIngress",
+                              - "ec2:RevokeSecurityGroupIngress",
+                            ]
+                          - Effect   = "Allow"
+                          - Resource = "*"
+                        },
+                      - {
+                          - Action   = [
+                              - "ec2:CreateSecurityGroup",
+                            ]
+                          - Effect   = "Allow"
+                          - Resource = "*"
+                        },
+                      - {
+                          - Action    = [
+                              - "ec2:CreateTags",
+                            ]
+                          - Condition = {
+                              - Null         = {
+                                  - "aws:RequestTag/elbv2.k8s.aws/cluster" = "false"
+                                }
+                              - StringEquals = {
+                                  - "ec2:CreateAction" = "CreateSecurityGroup"
+                                }
+                            }
+                          - Effect    = "Allow"
+                          - Resource  = "arn:aws:ec2:*:*:security-group/*"
+                        },
+                      - {
+                          - Action    = [
+                              - "ec2:CreateTags",
+                              - "ec2:DeleteTags",
+                            ]
+                          - Condition = {
+                              - Null = {
+                                  - "aws:RequestTag/elbv2.k8s.aws/cluster"  = "true"
+                                  - "aws:ResourceTag/elbv2.k8s.aws/cluster" = "false"
+                                }
+                            }
+                          - Effect    = "Allow"
+                          - Resource  = "arn:aws:ec2:*:*:security-group/*"
+                        },
+                      - {
+                          - Action    = [
+                              - "ec2:AuthorizeSecurityGroupIngress",
+                              - "ec2:RevokeSecurityGroupIngress",
+                              - "ec2:DeleteSecurityGroup",
+                            ]
+                          - Condition = {
+                              - Null = {
+                                  - "aws:ResourceTag/elbv2.k8s.aws/cluster" = "false"
+                                }
+                            }
+                          - Effect    = "Allow"
+                          - Resource  = "*"
+                        },
+                      - {
+                          - Action    = [
+                              - "elasticloadbalancing:CreateLoadBalancer",
+                              - "elasticloadbalancing:CreateTargetGroup",
+                            ]
+                          - Condition = {
+                              - Null = {
+                                  - "aws:RequestTag/elbv2.k8s.aws/cluster" = "false"
+                                }
+                            }
+                          - Effect    = "Allow"
+                          - Resource  = "*"
+                        },
+                      - {
+                          - Action   = [
+                              - "elasticloadbalancing:CreateListener",
+                              - "elasticloadbalancing:DeleteListener",
+                              - "elasticloadbalancing:CreateRule",
+                              - "elasticloadbalancing:DeleteRule",
+                            ]
+                          - Effect   = "Allow"
+                          - Resource = "*"
+                        },
+                      - {
+                          - Action    = [
+                              - "elasticloadbalancing:AddTags",
+                              - "elasticloadbalancing:RemoveTags",
+                            ]
+                          - Condition = {
+                              - Null = {
+                                  - "aws:RequestTag/elbv2.k8s.aws/cluster"  = "true"
+                                  - "aws:ResourceTag/elbv2.k8s.aws/cluster" = "false"
+                                }
+                            }
+                          - Effect    = "Allow"
+                          - Resource  = [
+                              - "arn:aws:elasticloadbalancing:*:*:targetgroup/*/*",
+                              - "arn:aws:elasticloadbalancing:*:*:loadbalancer/net/*/*",
+                              - "arn:aws:elasticloadbalancing:*:*:loadbalancer/app/*/*",
+                            ]
+                        },
+                      - {
+                          - Action   = [
+                              - "elasticloadbalancing:AddTags",
+                              - "elasticloadbalancing:RemoveTags",
+                            ]
+                          - Effect   = "Allow"
+                          - Resource = [
+                              - "arn:aws:elasticloadbalancing:*:*:listener/net/*/*/*",
+                              - "arn:aws:elasticloadbalancing:*:*:listener/app/*/*/*",
+                              - "arn:aws:elasticloadbalancing:*:*:listener-rule/net/*/*/*",
+                              - "arn:aws:elasticloadbalancing:*:*:listener-rule/app/*/*/*",
+                            ]
+                        },
+                      - {
+                          - Action    = [
+                              - "elasticloadbalancing:ModifyLoadBalancerAttributes",
+                              - "elasticloadbalancing:SetIpAddressType",
+                              - "elasticloadbalancing:SetSecurityGroups",
+                              - "elasticloadbalancing:SetSubnets",
+                              - "elasticloadbalancing:DeleteLoadBalancer",
+                              - "elasticloadbalancing:ModifyTargetGroup",
+                              - "elasticloadbalancing:ModifyTargetGroupAttributes",
+                              - "elasticloadbalancing:DeleteTargetGroup",
+                              - "elasticloadbalancing:ModifyListenerAttributes",
+                              - "elasticloadbalancing:ModifyCapacityReservation",
+                              - "elasticloadbalancing:ModifyIpPools",
+                            ]
+                          - Condition = {
+                              - Null = {
+                                  - "aws:ResourceTag/elbv2.k8s.aws/cluster" = "false"
+                                }
+                            }
+                          - Effect    = "Allow"
+                          - Resource  = "*"
+                        },
+                      - {
+                          - Action    = [
+                              - "elasticloadbalancing:AddTags",
+                            ]
+                          - Condition = {
+                              - Null         = {
+                                  - "aws:RequestTag/elbv2.k8s.aws/cluster" = "false"
+                                }
+                              - StringEquals = {
+                                  - "elasticloadbalancing:CreateAction" = [
+                                      - "CreateTargetGroup",
+                                      - "CreateLoadBalancer",
+                                    ]
+                                }
+                            }
+                          - Effect    = "Allow"
+                          - Resource  = [
+                              - "arn:aws:elasticloadbalancing:*:*:targetgroup/*/*",
+                              - "arn:aws:elasticloadbalancing:*:*:loadbalancer/net/*/*",
+                              - "arn:aws:elasticloadbalancing:*:*:loadbalancer/app/*/*",
+                            ]
+                        },
+                      - {
+                          - Action   = [
+                              - "elasticloadbalancing:RegisterTargets",
+                              - "elasticloadbalancing:DeregisterTargets",
+                            ]
+                          - Effect   = "Allow"
+                          - Resource = "arn:aws:elasticloadbalancing:*:*:targetgroup/*/*"
+                        },
+                      - {
+                          - Action   = [
+                              - "elasticloadbalancing:SetWebAcl",
+                              - "elasticloadbalancing:ModifyListener",
+                              - "elasticloadbalancing:AddListenerCertificates",
+                              - "elasticloadbalancing:RemoveListenerCertificates",
+                              - "elasticloadbalancing:ModifyRule",
+                              - "elasticloadbalancing:SetRulePriorities",
+                            ]
+                          - Effect   = "Allow"
+                          - Resource = "*"
+                        },
+                    ]
+                  - Version   = "2012-10-17"
+                }
+            ) -> null
+        }
+    }
+
+  # aws_iam_role.leaderboard will be destroyed
+  - resource "aws_iam_role" "leaderboard" {
+      - arn                   = "arn:aws:iam::933605931561:role/pogo-validation-leaderboard" -> null
+      - assume_role_policy    = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action    = "sts:AssumeRole"
+                      - Effect    = "Allow"
+                      - Principal = {
+                          - Service = "lambda.amazonaws.com"
+                        }
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - create_date           = "2026-11-17T01:12:07Z" -> null
+      - force_detach_policies = false -> null
+      - id                    = "pogo-validation-leaderboard" -> null
+      - managed_policy_arns   = [
+          - "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole",
+        ] -> null
+      - max_session_duration  = 3600 -> null
+      - name                  = "pogo-validation-leaderboard" -> null
+      - path                  = "/" -> null
+      - tags                  = {} -> null
+      - tags_all              = {
+          - "ManagedBy" = "Terraform"
+          - "Project"   = "pogo-arena"
+        } -> null
+      - unique_id             = "AROA5SXZ77IUWOBOBBTXV" -> null
+        # (3 unchanged attributes hidden)
+
+      - inline_policy {
+          - name   = "terraform-fccdac18b451cdd19a19a07dfe" -> null
+          - policy = jsonencode(
+                {
+                  - Id        = "IamPolicyAutopilot"
+                  - Statement = [
+                      - {
+                          - Action   = [
+                              - "dynamodb:ConditionCheckItem",
+                              - "dynamodb:DeleteItem",
+                              - "dynamodb:GetItem",
+                              - "dynamodb:PutItem",
+                              - "dynamodb:Query",
+                              - "dynamodb:ReadDataForReplication",
+                              - "dynamodb:UpdateItem",
+                            ]
+                          - Effect   = "Allow"
+                          - Resource = [
+                              - "arn:aws:dynamodb:us-east-2:933605931561:table/pogo-validation-results",
+                              - "arn:aws:dynamodb:us-east-2:933605931561:table/pogo-validation-results/index/*",
+                            ]
+                        },
+                      - {
+                          - Action    = [
+                              - "kms:Decrypt",
+                            ]
+                          - Condition = {
+                              - StringEquals = {
+                                  - "kms:ViaService" = [
+                                      - "dynamodb.us-east-2.amazonaws.com",
+                                    ]
+                                }
+                            }
+                          - Effect    = "Allow"
+                          - Resource  = [
+                              - "arn:aws:kms:us-east-2:933605931561:key/*",
+                            ]
+                        },
+                    ]
+                  - Version   = "2012-10-17"
+                }
+            ) -> null
+        }
+    }
+
+  # aws_iam_role.loadgen will be destroyed
+  - resource "aws_iam_role" "loadgen" {
+      - arn                   = "arn:aws:iam::933605931561:role/pogo-validation-loadgen" -> null
+      - assume_role_policy    = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action    = "sts:AssumeRole"
+                      - Effect    = "Allow"
+                      - Principal = {
+                          - Service = "ec2.amazonaws.com"
+                        }
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - create_date           = "2026-11-17T01:12:07Z" -> null
+      - force_detach_policies = false -> null
+      - id                    = "pogo-validation-loadgen" -> null
+      - managed_policy_arns   = [
+          - "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
+          - "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore",
+        ] -> null
+      - max_session_duration  = 3600 -> null
+      - name                  = "pogo-validation-loadgen" -> null
+      - path                  = "/" -> null
+      - tags                  = {} -> null
+      - tags_all              = {
+          - "ManagedBy" = "Terraform"
+          - "Project"   = "pogo-arena"
+        } -> null
+      - unique_id             = "AROA5SXZ77IU74M4CBQK2" -> null
+        # (3 unchanged attributes hidden)
+
+      - inline_policy {
+          - name   = "terraform-4022074f230e59feef349f5b7a" -> null
+          - policy = jsonencode(
+                {
+                  - Id        = "IamPolicyAutopilot"
+                  - Statement = [
+                      - {
+                          - Action   = [
+                              - "s3:PutObject",
+                              - "s3:PutObjectAcl",
+                              - "s3:PutObjectLegalHold",
+                              - "s3:PutObjectRetention",
+                              - "s3:PutObjectTagging",
+                            ]
+                          - Effect   = "Allow"
+                          - Resource = [
+                              - "arn:aws:s3:::pogo-validation-artifacts-933605931561-us-east-2/*",
+                            ]
+                        },
+                    ]
+                  - Version   = "2012-10-17"
+                }
+            ) -> null
+        }
+      - inline_policy {
+          - name   = "terraform-6119eab908e756299b4e9958cc" -> null
+          - policy = jsonencode(
+                {
+                  - Id        = "IamPolicyAutopilot"
+                  - Statement = [
+                      - {
+                          - Action   = [
+                              - "lambda:InvokeFunction",
+                            ]
+                          - Effect   = "Allow"
+                          - Resource = [
+                              - "arn:aws:lambda:us-east-2:933605931561:function:pogo-validation-leaderboard",
+                            ]
+                        },
+                    ]
+                  - Version   = "2012-10-17"
+                }
+            ) -> null
+        }
+    }
+
+  # aws_iam_role.nodes will be destroyed
+  - resource "aws_iam_role" "nodes" {
+      - arn                   = "arn:aws:iam::933605931561:role/pogo-validation-eks-nodes" -> null
+      - assume_role_policy    = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action    = "sts:AssumeRole"
+                      - Effect    = "Allow"
+                      - Principal = {
+                          - Service = "ec2.amazonaws.com"
+                        }
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - create_date           = "2026-11-17T01:12:07Z" -> null
+      - force_detach_policies = false -> null
+      - id                    = "pogo-validation-eks-nodes" -> null
+      - managed_policy_arns   = [
+          - "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly",
+          - "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy",
+          - "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy",
+        ] -> null
+      - max_session_duration  = 3600 -> null
+      - name                  = "pogo-validation-eks-nodes" -> null
+      - path                  = "/" -> null
+      - tags                  = {} -> null
+      - tags_all              = {
+          - "ManagedBy" = "Terraform"
+          - "Project"   = "pogo-arena"
+        } -> null
+      - unique_id             = "AROA5SXZ77IU7JQUZ2K54" -> null
+        # (3 unchanged attributes hidden)
+    }
+
+  # aws_iam_role.results_writer will be destroyed
+  - resource "aws_iam_role" "results_writer" {
+      - arn                   = "arn:aws:iam::933605931561:role/pogo-validation-result-writer" -> null
+      - assume_role_policy    = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action    = [
+                          - "sts:AssumeRole",
+                          - "sts:TagSession",
+                        ]
+                      - Condition = {
+                          - StringEquals = {
+                              - "aws:RequestTag/eks-cluster-name"           = "pogo-validation-demo"
+                              - "aws:RequestTag/kubernetes-namespace"       = "pogo"
+                              - "aws:RequestTag/kubernetes-service-account" = "agones-sdk"
+                            }
+                        }
+                      - Effect    = "Allow"
+                      - Principal = {
+                          - Service = "pods.eks.amazonaws.com"
+                        }
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - create_date           = "2026-11-17T01:21:04Z" -> null
+      - force_detach_policies = false -> null
+      - id                    = "pogo-validation-result-writer" -> null
+      - managed_policy_arns   = [] -> null
+      - max_session_duration  = 3600 -> null
+      - name                  = "pogo-validation-result-writer" -> null
+      - path                  = "/" -> null
+      - tags                  = {} -> null
+      - tags_all              = {
+          - "ManagedBy" = "Terraform"
+          - "Project"   = "pogo-arena"
+        } -> null
+      - unique_id             = "AROA5SXZ77IU22HVNLQU5" -> null
+        # (3 unchanged attributes hidden)
+
+      - inline_policy {
+          - name   = "terraform-7d3567da428205065de7a750ee" -> null
+          - policy = jsonencode(
+                {
+                  - Id        = "IamPolicyAutopilot"
+                  - Statement = [
+                      - {
+                          - Action   = [
+                              - "lambda:InvokeFunction",
+                            ]
+                          - Effect   = "Allow"
+                          - Resource = [
+                              - "arn:aws:lambda:us-east-2:933605931561:function:pogo-validation-leaderboard",
+                            ]
+                        },
+                    ]
+                  - Version   = "2012-10-17"
+                }
+            ) -> null
+        }
+    }
+
+  # aws_iam_role_policy.autoscaler will be destroyed
+  - resource "aws_iam_role_policy" "autoscaler" {
+      - id          = "pogo-validation-autoscaler:terraform-5726df845132a380d88a70619f" -> null
+      - name        = "terraform-5726df845132a380d88a70619f" -> null
+      - name_prefix = "terraform-" -> null
+      - policy      = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action   = [
+                          - "autoscaling:SetDesiredCapacity",
+                          - "autoscaling:TerminateInstanceInAutoScalingGroup",
+                        ]
+                      - Effect   = "Allow"
+                      - Resource = "arn:aws:autoscaling:us-east-2:933605931561:autoScalingGroup:*:autoScalingGroupName/eks-pogo-validation-games-e0d0f38b-f03f-6dcd-9b2c-7635b5ec6546"
+                    },
+                  - {
+                      - Action   = [
+                          - "autoscaling:DescribeAutoScalingGroups",
+                          - "autoscaling:DescribeAutoScalingInstances",
+                          - "autoscaling:DescribeLaunchConfigurations",
+                          - "autoscaling:DescribeScalingActivities",
+                          - "autoscaling:DescribeTags",
+                          - "ec2:DescribeImages",
+                          - "ec2:DescribeInstanceTypes",
+                          - "ec2:DescribeLaunchTemplateVersions",
+                          - "ec2:GetInstanceTypesFromInstanceRequirements",
+                          - "eks:DescribeNodegroup",
+                        ]
+                      - Effect   = "Allow"
+                      - Resource = "*"
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - role        = "pogo-validation-autoscaler" -> null
+    }
+
+  # aws_iam_role_policy.leaderboard will be destroyed
+  - resource "aws_iam_role_policy" "leaderboard" {
+      - id          = "pogo-validation-leaderboard:terraform-fccdac18b451cdd19a19a07dfe" -> null
+      - name        = "terraform-fccdac18b451cdd19a19a07dfe" -> null
+      - name_prefix = "terraform-" -> null
+      - policy      = jsonencode(
+            {
+              - Id        = "IamPolicyAutopilot"
+              - Statement = [
+                  - {
+                      - Action   = [
+                          - "dynamodb:ConditionCheckItem",
+                          - "dynamodb:DeleteItem",
+                          - "dynamodb:GetItem",
+                          - "dynamodb:PutItem",
+                          - "dynamodb:Query",
+                          - "dynamodb:ReadDataForReplication",
+                          - "dynamodb:UpdateItem",
+                        ]
+                      - Effect   = "Allow"
+                      - Resource = [
+                          - "arn:aws:dynamodb:us-east-2:933605931561:table/pogo-validation-results",
+                          - "arn:aws:dynamodb:us-east-2:933605931561:table/pogo-validation-results/index/*",
+                        ]
+                    },
+                  - {
+                      - Action    = [
+                          - "kms:Decrypt",
+                        ]
+                      - Condition = {
+                          - StringEquals = {
+                              - "kms:ViaService" = [
+                                  - "dynamodb.us-east-2.amazonaws.com",
+                                ]
+                            }
+                        }
+                      - Effect    = "Allow"
+                      - Resource  = [
+                          - "arn:aws:kms:us-east-2:933605931561:key/*",
+                        ]
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - role        = "pogo-validation-leaderboard" -> null
+    }
+
+  # aws_iam_role_policy.load_balancer will be destroyed
+  - resource "aws_iam_role_policy" "load_balancer" {
+      - id          = "pogo-validation-load_balancer:terraform-2d8ddd405372453d4ba28658a7" -> null
+      - name        = "terraform-2d8ddd405372453d4ba28658a7" -> null
+      - name_prefix = "terraform-" -> null
+      - policy      = jsonencode(
+            {
+              - Statement = [
+                  - {
+                      - Action    = [
+                          - "iam:CreateServiceLinkedRole",
+                        ]
+                      - Condition = {
+                          - StringEquals = {
+                              - "iam:AWSServiceName" = "elasticloadbalancing.amazonaws.com"
+                            }
+                        }
+                      - Effect    = "Allow"
+                      - Resource  = "*"
+                    },
+                  - {
+                      - Action   = [
+                          - "ec2:DescribeAccountAttributes",
+                          - "ec2:DescribeAddresses",
+                          - "ec2:DescribeAvailabilityZones",
+                          - "ec2:DescribeInternetGateways",
+                          - "ec2:DescribeVpcs",
+                          - "ec2:DescribeVpcPeeringConnections",
+                          - "ec2:DescribeSubnets",
+                          - "ec2:DescribeSecurityGroups",
+                          - "ec2:DescribeInstances",
+                          - "ec2:DescribeNetworkInterfaces",
+                          - "ec2:DescribeTags",
+                          - "ec2:GetCoipPoolUsage",
+                          - "ec2:DescribeCoipPools",
+                          - "ec2:GetSecurityGroupsForVpc",
+                          - "ec2:DescribeIpamPools",
+                          - "ec2:DescribeRouteTables",
+                          - "elasticloadbalancing:DescribeLoadBalancers",
+                          - "elasticloadbalancing:DescribeLoadBalancerAttributes",
+                          - "elasticloadbalancing:DescribeListeners",
+                          - "elasticloadbalancing:DescribeListenerCertificates",
+                          - "elasticloadbalancing:DescribeSSLPolicies",
+                          - "elasticloadbalancing:DescribeRules",
+                          - "elasticloadbalancing:DescribeTargetGroups",
+                          - "elasticloadbalancing:DescribeTargetGroupAttributes",
+                          - "elasticloadbalancing:DescribeTargetHealth",
+                          - "elasticloadbalancing:DescribeTags",
+                          - "elasticloadbalancing:DescribeTrustStores",
+                          - "elasticloadbalancing:DescribeListenerAttributes",
+                          - "elasticloadbalancing:DescribeCapacityReservation",
+                        ]
+                      - Effect   = "Allow"
+                      - Resource = "*"
+                    },
+                  - {
+                      - Action   = [
+                          - "cognito-idp:DescribeUserPoolClient",
+                          - "acm:ListCertificates",
+                          - "acm:DescribeCertificate",
+                          - "iam:ListServerCertificates",
+                          - "iam:GetServerCertificate",
+                          - "waf-regional:GetWebACL",
+                          - "waf-regional:GetWebACLForResource",
+                          - "waf-regional:AssociateWebACL",
+                          - "waf-regional:DisassociateWebACL",
+                          - "wafv2:GetWebACL",
+                          - "wafv2:GetWebACLForResource",
+                          - "wafv2:AssociateWebACL",
+                          - "wafv2:DisassociateWebACL",
+                          - "shield:GetSubscriptionState",
+                          - "shield:DescribeProtection",
+                          - "shield:CreateProtection",
+                          - "shield:DeleteProtection",
+                        ]
+                      - Effect   = "Allow"
+                      - Resource = "*"
+                    },
+                  - {
+                      - Action   = [
+                          - "ec2:AuthorizeSecurityGroupIngress",
+                          - "ec2:RevokeSecurityGroupIngress",
+                        ]
+                      - Effect   = "Allow"
+                      - Resource = "*"
+                    },
+                  - {
+                      - Action   = [
+                          - "ec2:CreateSecurityGroup",
+                        ]
+                      - Effect   = "Allow"
+                      - Resource = "*"
+                    },
+                  - {
+                      - Action    = [
+                          - "ec2:CreateTags",
+                        ]
+                      - Condition = {
+                          - Null         = {
+                              - "aws:RequestTag/elbv2.k8s.aws/cluster" = "false"
+                            }
+                          - StringEquals = {
+                              - "ec2:CreateAction" = "CreateSecurityGroup"
+                            }
+                        }
+                      - Effect    = "Allow"
+                      - Resource  = "arn:aws:ec2:*:*:security-group/*"
+                    },
+                  - {
+                      - Action    = [
+                          - "ec2:CreateTags",
+                          - "ec2:DeleteTags",
+                        ]
+                      - Condition = {
+                          - Null = {
+                              - "aws:RequestTag/elbv2.k8s.aws/cluster"  = "true"
+                              - "aws:ResourceTag/elbv2.k8s.aws/cluster" = "false"
+                            }
+                        }
+                      - Effect    = "Allow"
+                      - Resource  = "arn:aws:ec2:*:*:security-group/*"
+                    },
+                  - {
+                      - Action    = [
+                          - "ec2:AuthorizeSecurityGroupIngress",
+                          - "ec2:RevokeSecurityGroupIngress",
+                          - "ec2:DeleteSecurityGroup",
+                        ]
+                      - Condition = {
+                          - Null = {
+                              - "aws:ResourceTag/elbv2.k8s.aws/cluster" = "false"
+                            }
+                        }
+                      - Effect    = "Allow"
+                      - Resource  = "*"
+                    },
+                  - {
+                      - Action    = [
+                          - "elasticloadbalancing:CreateLoadBalancer",
+                          - "elasticloadbalancing:CreateTargetGroup",
+                        ]
+                      - Condition = {
+                          - Null = {
+                              - "aws:RequestTag/elbv2.k8s.aws/cluster" = "false"
+                            }
+                        }
+                      - Effect    = "Allow"
+                      - Resource  = "*"
+                    },
+                  - {
+                      - Action   = [
+                          - "elasticloadbalancing:CreateListener",
+                          - "elasticloadbalancing:DeleteListener",
+                          - "elasticloadbalancing:CreateRule",
+                          - "elasticloadbalancing:DeleteRule",
+                        ]
+                      - Effect   = "Allow"
+                      - Resource = "*"
+                    },
+                  - {
+                      - Action    = [
+                          - "elasticloadbalancing:AddTags",
+                          - "elasticloadbalancing:RemoveTags",
+                        ]
+                      - Condition = {
+                          - Null = {
+                              - "aws:RequestTag/elbv2.k8s.aws/cluster"  = "true"
+                              - "aws:ResourceTag/elbv2.k8s.aws/cluster" = "false"
+                            }
+                        }
+                      - Effect    = "Allow"
+                      - Resource  = [
+                          - "arn:aws:elasticloadbalancing:*:*:targetgroup/*/*",
+                          - "arn:aws:elasticloadbalancing:*:*:loadbalancer/net/*/*",
+                          - "arn:aws:elasticloadbalancing:*:*:loadbalancer/app/*/*",
+                        ]
+                    },
+                  - {
+                      - Action   = [
+                          - "elasticloadbalancing:AddTags",
+                          - "elasticloadbalancing:RemoveTags",
+                        ]
+                      - Effect   = "Allow"
+                      - Resource = [
+                          - "arn:aws:elasticloadbalancing:*:*:listener/net/*/*/*",
+                          - "arn:aws:elasticloadbalancing:*:*:listener/app/*/*/*",
+                          - "arn:aws:elasticloadbalancing:*:*:listener-rule/net/*/*/*",
+                          - "arn:aws:elasticloadbalancing:*:*:listener-rule/app/*/*/*",
+                        ]
+                    },
+                  - {
+                      - Action    = [
+                          - "elasticloadbalancing:ModifyLoadBalancerAttributes",
+                          - "elasticloadbalancing:SetIpAddressType",
+                          - "elasticloadbalancing:SetSecurityGroups",
+                          - "elasticloadbalancing:SetSubnets",
+                          - "elasticloadbalancing:DeleteLoadBalancer",
+                          - "elasticloadbalancing:ModifyTargetGroup",
+                          - "elasticloadbalancing:ModifyTargetGroupAttributes",
+                          - "elasticloadbalancing:DeleteTargetGroup",
+                          - "elasticloadbalancing:ModifyListenerAttributes",
+                          - "elasticloadbalancing:ModifyCapacityReservation",
+                          - "elasticloadbalancing:ModifyIpPools",
+                        ]
+                      - Condition = {
+                          - Null = {
+                              - "aws:ResourceTag/elbv2.k8s.aws/cluster" = "false"
+                            }
+                        }
+                      - Effect    = "Allow"
+                      - Resource  = "*"
+                    },
+                  - {
+                      - Action    = [
+                          - "elasticloadbalancing:AddTags",
+                        ]
+                      - Condition = {
+                          - Null         = {
+                              - "aws:RequestTag/elbv2.k8s.aws/cluster" = "false"
+                            }
+                          - StringEquals = {
+                              - "elasticloadbalancing:CreateAction" = [
+                                  - "CreateTargetGroup",
+                                  - "CreateLoadBalancer",
+                                ]
+                            }
+                        }
+                      - Effect    = "Allow"
+                      - Resource  = [
+                          - "arn:aws:elasticloadbalancing:*:*:targetgroup/*/*",
+                          - "arn:aws:elasticloadbalancing:*:*:loadbalancer/net/*/*",
+                          - "arn:aws:elasticloadbalancing:*:*:loadbalancer/app/*/*",
+                        ]
+                    },
+                  - {
+                      - Action   = [
+                          - "elasticloadbalancing:RegisterTargets",
+                          - "elasticloadbalancing:DeregisterTargets",
+                        ]
+                      - Effect   = "Allow"
+                      - Resource = "arn:aws:elasticloadbalancing:*:*:targetgroup/*/*"
+                    },
+                  - {
+                      - Action   = [
+                          - "elasticloadbalancing:SetWebAcl",
+                          - "elasticloadbalancing:ModifyListener",
+                          - "elasticloadbalancing:AddListenerCertificates",
+                          - "elasticloadbalancing:RemoveListenerCertificates",
+                          - "elasticloadbalancing:ModifyRule",
+                          - "elasticloadbalancing:SetRulePriorities",
+                        ]
+                      - Effect   = "Allow"
+                      - Resource = "*"
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - role        = "pogo-validation-load_balancer" -> null
+    }
+
+  # aws_iam_role_policy.loadgen_results will be destroyed
+  - resource "aws_iam_role_policy" "loadgen_results" {
+      - id          = "pogo-validation-loadgen:terraform-6119eab908e756299b4e9958cc" -> null
+      - name        = "terraform-6119eab908e756299b4e9958cc" -> null
+      - name_prefix = "terraform-" -> null
+      - policy      = jsonencode(
+            {
+              - Id        = "IamPolicyAutopilot"
+              - Statement = [
+                  - {
+                      - Action   = [
+                          - "lambda:InvokeFunction",
+                        ]
+                      - Effect   = "Allow"
+                      - Resource = [
+                          - "arn:aws:lambda:us-east-2:933605931561:function:pogo-validation-leaderboard",
+                        ]
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - role        = "pogo-validation-loadgen" -> null
+    }
+
+  # aws_iam_role_policy.loadgen_upload will be destroyed
+  - resource "aws_iam_role_policy" "loadgen_upload" {
+      - id          = "pogo-validation-loadgen:terraform-4022074f230e59feef349f5b7a" -> null
+      - name        = "terraform-4022074f230e59feef349f5b7a" -> null
+      - name_prefix = "terraform-" -> null
+      - policy      = jsonencode(
+            {
+              - Id        = "IamPolicyAutopilot"
+              - Statement = [
+                  - {
+                      - Action   = [
+                          - "s3:PutObject",
+                          - "s3:PutObjectAcl",
+                          - "s3:PutObjectLegalHold",
+                          - "s3:PutObjectRetention",
+                          - "s3:PutObjectTagging",
+                        ]
+                      - Effect   = "Allow"
+                      - Resource = [
+                          - "arn:aws:s3:::pogo-validation-artifacts-933605931561-us-east-2/*",
+                        ]
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - role        = "pogo-validation-loadgen" -> null
+    }
+
+  # aws_iam_role_policy.results_writer will be destroyed
+  - resource "aws_iam_role_policy" "results_writer" {
+      - id          = "pogo-validation-result-writer:terraform-7d3567da428205065de7a750ee" -> null
+      - name        = "terraform-7d3567da428205065de7a750ee" -> null
+      - name_prefix = "terraform-" -> null
+      - policy      = jsonencode(
+            {
+              - Id        = "IamPolicyAutopilot"
+              - Statement = [
+                  - {
+                      - Action   = [
+                          - "lambda:InvokeFunction",
+                        ]
+                      - Effect   = "Allow"
+                      - Resource = [
+                          - "arn:aws:lambda:us-east-2:933605931561:function:pogo-validation-leaderboard",
+                        ]
+                    },
+                ]
+              - Version   = "2012-10-17"
+            }
+        ) -> null
+      - role        = "pogo-validation-result-writer" -> null
+    }
+
+  # aws_iam_role_policy_attachment.cluster will be destroyed
+  - resource "aws_iam_role_policy_attachment" "cluster" {
+      - id         = "pogo-validation-eks-control-plane/arn:aws:iam::aws:policy/AmazonEKSClusterPolicy" -> null
+      - policy_arn = "arn:aws:iam::aws:policy/AmazonEKSClusterPolicy" -> null
+      - role       = "pogo-validation-eks-control-plane" -> null
+    }
+
+  # aws_iam_role_policy_attachment.leaderboard_logs will be destroyed
+  - resource "aws_iam_role_policy_attachment" "leaderboard_logs" {
+      - id         = "pogo-validation-leaderboard/arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole" -> null
+      - policy_arn = "arn:aws:iam::aws:policy/service-role/AWSLambdaBasicExecutionRole" -> null
+      - role       = "pogo-validation-leaderboard" -> null
+    }
+
+  # aws_iam_role_policy_attachment.loadgen["AmazonEC2ContainerRegistryReadOnly"] will be destroyed
+  - resource "aws_iam_role_policy_attachment" "loadgen" {
+      - id         = "pogo-validation-loadgen/arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly" -> null
+      - policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly" -> null
+      - role       = "pogo-validation-loadgen" -> null
+    }
+
+  # aws_iam_role_policy_attachment.loadgen["AmazonSSMManagedInstanceCore"] will be destroyed
+  - resource "aws_iam_role_policy_attachment" "loadgen" {
+      - id         = "pogo-validation-loadgen/arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore" -> null
+      - policy_arn = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore" -> null
+      - role       = "pogo-validation-loadgen" -> null
+    }
+
+  # aws_iam_role_policy_attachment.nodes["AmazonEC2ContainerRegistryReadOnly"] will be destroyed
+  - resource "aws_iam_role_policy_attachment" "nodes" {
+      - id         = "pogo-validation-eks-nodes/arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly" -> null
+      - policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly" -> null
+      - role       = "pogo-validation-eks-nodes" -> null
+    }
+
+  # aws_iam_role_policy_attachment.nodes["AmazonEKSWorkerNodePolicy"] will be destroyed
+  - resource "aws_iam_role_policy_attachment" "nodes" {
+      - id         = "pogo-validation-eks-nodes/arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy" -> null
+      - policy_arn = "arn:aws:iam::aws:policy/AmazonEKSWorkerNodePolicy" -> null
+      - role       = "pogo-validation-eks-nodes" -> null
+    }
+
+  # aws_iam_role_policy_attachment.nodes["AmazonEKS_CNI_Policy"] will be destroyed
+  - resource "aws_iam_role_policy_attachment" "nodes" {
+      - id         = "pogo-validation-eks-nodes/arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy" -> null
+      - policy_arn = "arn:aws:iam::aws:policy/AmazonEKS_CNI_Policy" -> null
+      - role       = "pogo-validation-eks-nodes" -> null
+    }
+
+  # aws_internet_gateway.demo will be destroyed
+  - resource "aws_internet_gateway" "demo" {
+      - arn      = "arn:aws:ec2:us-east-2:933605931561:internet-gateway/igw-0049859cf401c78eb" -> null
+      - id       = "igw-0049859cf401c78eb" -> null
+      - owner_id = "933605931561" -> null
+      - region   = "us-east-2" -> null
+      - tags     = {} -> null
+      - tags_all = {
+          - "ManagedBy" = "Terraform"
+          - "Project"   = "pogo-arena"
+        } -> null
+      - vpc_id   = "vpc-01126a50acfa1e12b" -> null
+    }
+
+  # aws_lambda_function.leaderboard will be destroyed
+  - resource "aws_lambda_function" "leaderboard" {
+      - architectures                  = [
+          - "arm64",
+        ] -> null
+      - arn                            = "arn:aws:lambda:us-east-2:933605931561:function:pogo-validation-leaderboard" -> null
+      - code_sha256                    = "mhBkRw4woMdD/TX4wnNWRGOS9yCitLsJUgdLWnQJyz0=" -> null
+      - filename                       = "./.terraform/leaderboard.zip" -> null
+      - function_name                  = "pogo-validation-leaderboard" -> null
+      - handler                        = "handler.handler" -> null
+      - id                             = "pogo-validation-leaderboard" -> null
+      - invoke_arn                     = "arn:aws:apigateway:us-east-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-2:933605931561:function:pogo-validation-leaderboard/invocations" -> null
+      - last_modified                  = "2026-11-17T01:12:20.002+0000" -> null
+      - layers                         = [] -> null
+      - memory_size                    = 256 -> null
+      - package_type                   = "Zip" -> null
+      - publish                        = false -> null
+      - qualified_arn                  = "arn:aws:lambda:us-east-2:933605931561:function:pogo-validation-leaderboard:$LATEST" -> null
+      - qualified_invoke_arn           = "arn:aws:apigateway:us-east-2:lambda:path/2015-03-31/functions/arn:aws:lambda:us-east-2:933605931561:function:pogo-validation-leaderboard:$LATEST/invocations" -> null
+      - region                         = "us-east-2" -> null
+      - reserved_concurrent_executions = -1 -> null
+      - response_streaming_invoke_arn  = "arn:aws:apigateway:us-east-2:lambda:path/2021-11-15/functions/arn:aws:lambda:us-east-2:933605931561:function:pogo-validation-leaderboard/response-streaming-invocations" -> null
+      - role                           = "arn:aws:iam::933605931561:role/pogo-validation-leaderboard" -> null
+      - runtime                        = "python3.14" -> null
+      - skip_destroy                   = false -> null
+      - source_code_hash               = "mhBkRw4woMdD/TX4wnNWRGOS9yCitLsJUgdLWnQJyz0=" -> null
+      - source_code_size               = 2191 -> null
+      - tags                           = {} -> null
+      - tags_all                       = {
+          - "ManagedBy" = "Terraform"
+          - "Project"   = "pogo-arena"
+        } -> null
+      - timeout                        = 10 -> null
+      - version                        = "$LATEST" -> null
+        # (7 unchanged attributes hidden)
+
+      - environment {
+          - variables = {
+              - "RESULTS_TABLE" = "pogo-validation-results"
+            } -> null
+        }
+
+      - ephemeral_storage {
+          - size = 512 -> null
+        }
+
+      - logging_config {
+          - log_format            = "Text" -> null
+          - log_group             = "/aws/lambda/pogo-validation-leaderboard" -> null
+            # (2 unchanged attributes hidden)
+        }
+
+      - tracing_config {
+          - mode = "PassThrough" -> null
+        }
+    }
+
+  # aws_lambda_permission.leaderboard_api will be destroyed
+  - resource "aws_lambda_permission" "leaderboard_api" {
+      - action                 = "lambda:InvokeFunction" -> null
+      - function_name          = "pogo-validation-leaderboard" -> null
+      - id                     = "PublicLeaderboardReadOnly" -> null
+      - principal              = "apigateway.amazonaws.com" -> null
+      - region                 = "us-east-2" -> null
+      - source_account         = "933605931561" -> null
+      - source_arn             = "arn:aws:execute-api:us-east-2:933605931561:86vgp0cxhl/*/GET/leaderboard" -> null
+      - statement_id           = "PublicLeaderboardReadOnly" -> null
+        # (5 unchanged attributes hidden)
+    }
+
+  # aws_route_table.public will be destroyed
+  - resource "aws_route_table" "public" {
+      - arn              = "arn:aws:ec2:us-east-2:933605931561:route-table/rtb-0915cf78a627eb9ab" -> null
+      - id               = "rtb-0915cf78a627eb9ab" -> null
+      - owner_id         = "933605931561" -> null
+      - propagating_vgws = [] -> null
+      - region           = "us-east-2" -> null
+      - route            = [
+          - {
+              - cidr_block                 = "0.0.0.0/0"
+              - gateway_id                 = "igw-0049859cf401c78eb"
+                # (12 unchanged attributes hidden)
+            },
+        ] -> null
+      - tags             = {} -> null
+      - tags_all         = {
+          - "ManagedBy" = "Terraform"
+          - "Project"   = "pogo-arena"
+        } -> null
+      - vpc_id           = "vpc-01126a50acfa1e12b" -> null
+    }
+
+  # aws_route_table_association.public[0] will be destroyed
+  - resource "aws_route_table_association" "public" {
+      - id             = "rtbassoc-0dba5014e692e8b24" -> null
+      - region         = "us-east-2" -> null
+      - route_table_id = "rtb-0915cf78a627eb9ab" -> null
+      - subnet_id      = "subnet-0f323b5ff4ba5ed35" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_route_table_association.public[1] will be destroyed
+  - resource "aws_route_table_association" "public" {
+      - id             = "rtbassoc-03da04c4212128bfb" -> null
+      - region         = "us-east-2" -> null
+      - route_table_id = "rtb-0915cf78a627eb9ab" -> null
+      - subnet_id      = "subnet-09e2ce311a02ee35f" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_s3_bucket.artifacts will be destroyed
+  - resource "aws_s3_bucket" "artifacts" {
+      - arn                         = "arn:aws:s3:::pogo-validation-artifacts-933605931561-us-east-2" -> null
+      - bucket                      = "pogo-validation-artifacts-933605931561-us-east-2" -> null
+      - bucket_domain_name          = "pogo-validation-artifacts-933605931561-us-east-2.s3.amazonaws.com" -> null
+      - bucket_namespace            = "global" -> null
+      - bucket_region               = "us-east-2" -> null
+      - bucket_regional_domain_name = "pogo-validation-artifacts-933605931561-us-east-2.s3.us-east-2.amazonaws.com" -> null
+      - force_destroy               = false -> null
+      - hosted_zone_id              = "Z2O1EMRO9K5GLX" -> null
+      - id                          = "pogo-validation-artifacts-933605931561-us-east-2" -> null
+      - object_lock_enabled         = false -> null
+      - region                      = "us-east-2" -> null
+      - request_payer               = "BucketOwner" -> null
+      - tags                        = {} -> null
+      - tags_all                    = {
+          - "ManagedBy" = "Terraform"
+          - "Project"   = "pogo-arena"
+        } -> null
+        # (3 unchanged attributes hidden)
+
+      - grant {
+          - id          = "ec9454e3adc2b5405edebeb5f5d617661be97401969f6adfb122daea181147eb" -> null
+          - permissions = [
+              - "FULL_CONTROL",
+            ] -> null
+          - type        = "CanonicalUser" -> null
+            # (1 unchanged attribute hidden)
+        }
+
+      - server_side_encryption_configuration {
+          - rule {
+              - bucket_key_enabled = false -> null
+
+              - apply_server_side_encryption_by_default {
+                  - sse_algorithm     = "AES256" -> null
+                    # (1 unchanged attribute hidden)
+                }
+            }
+        }
+
+      - versioning {
+          - enabled    = false -> null
+          - mfa_delete = false -> null
+        }
+    }
+
+  # aws_s3_bucket_public_access_block.artifacts will be destroyed
+  - resource "aws_s3_bucket_public_access_block" "artifacts" {
+      - block_public_acls       = true -> null
+      - block_public_policy     = true -> null
+      - bucket                  = "pogo-validation-artifacts-933605931561-us-east-2" -> null
+      - id                      = "pogo-validation-artifacts-933605931561-us-east-2" -> null
+      - ignore_public_acls      = true -> null
+      - region                  = "us-east-2" -> null
+      - restrict_public_buckets = true -> null
+    }
+
+  # aws_s3_bucket_server_side_encryption_configuration.artifacts will be destroyed
+  - resource "aws_s3_bucket_server_side_encryption_configuration" "artifacts" {
+      - bucket                = "pogo-validation-artifacts-933605931561-us-east-2" -> null
+      - id                    = "pogo-validation-artifacts-933605931561-us-east-2" -> null
+      - region                = "us-east-2" -> null
+        # (1 unchanged attribute hidden)
+
+      - rule {
+          - blocked_encryption_types = [
+              - "SSE-C",
+            ] -> null
+          - bucket_key_enabled       = false -> null
+
+          - apply_server_side_encryption_by_default {
+              - sse_algorithm     = "AES256" -> null
+                # (1 unchanged attribute hidden)
+            }
+        }
+    }
+
+  # aws_security_group.loadgen will be destroyed
+  - resource "aws_security_group" "loadgen" {
+      - arn                    = "arn:aws:ec2:us-east-2:933605931561:security-group/sg-0d1e30778d7e6000e" -> null
+      - description            = "Managed by Terraform" -> null
+      - egress                 = [
+          - {
+              - cidr_blocks      = [
+                  - "0.0.0.0/0",
+                ]
+              - from_port        = 0
+              - ipv6_cidr_blocks = []
+              - prefix_list_ids  = []
+              - protocol         = "-1"
+              - security_groups  = []
+              - self             = false
+              - to_port          = 0
+                # (1 unchanged attribute hidden)
+            },
+        ] -> null
+      - id                     = "sg-0d1e30778d7e6000e" -> null
+      - ingress                = [
+          - {
+              - cidr_blocks      = []
+              - from_port        = 5557
+              - ipv6_cidr_blocks = []
+              - prefix_list_ids  = []
+              - protocol         = "tcp"
+              - security_groups  = []
+              - self             = true
+              - to_port          = 5557
+                # (1 unchanged attribute hidden)
+            },
+        ] -> null
+      - name                   = "pogo-validation-loadgen" -> null
+      - owner_id               = "933605931561" -> null
+      - region                 = "us-east-2" -> null
+      - revoke_rules_on_delete = false -> null
+      - tags                   = {} -> null
+      - tags_all               = {
+          - "ManagedBy" = "Terraform"
+          - "Project"   = "pogo-arena"
+        } -> null
+      - vpc_id                 = "vpc-01126a50acfa1e12b" -> null
+        # (1 unchanged attribute hidden)
+    }
+
+  # aws_subnet.public[0] will be destroyed
+  - resource "aws_subnet" "public" {
+      - arn                                            = "arn:aws:ec2:us-east-2:933605931561:subnet/subnet-0f323b5ff4ba5ed35" -> null
+      - assign_ipv6_address_on_creation                = false -> null
+      - availability_zone                              = "us-east-2a" -> null
+      - availability_zone_id                           = "use2-az1" -> null
+      - cidr_block                                     = "10.176.0.0/20" -> null
+      - enable_dns64                                   = false -> null
+      - enable_lni_at_device_index                     = 0 -> null
+      - enable_resource_name_dns_a_record_on_launch    = false -> null
+      - enable_resource_name_dns_aaaa_record_on_launch = false -> null
+      - id                                             = "subnet-0f323b5ff4ba5ed35" -> null
+      - ipv6_native                                    = false -> null
+      - map_customer_owned_ip_on_launch                = false -> null
+      - map_public_ip_on_launch                        = true -> null
+      - owner_id                                       = "933605931561" -> null
+      - private_dns_hostname_type_on_launch            = "ip-name" -> null
+      - region                                         = "us-east-2" -> null
+      - tags                                           = {
+          - "kubernetes.io/role/elb" = "1"
+        } -> null
+      - tags_all                                       = {
+          - "ManagedBy"              = "Terraform"
+          - "Project"                = "pogo-arena"
+          - "kubernetes.io/role/elb" = "1"
+        } -> null
+      - vpc_id                                         = "vpc-01126a50acfa1e12b" -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # aws_subnet.public[1] will be destroyed
+  - resource "aws_subnet" "public" {
+      - arn                                            = "arn:aws:ec2:us-east-2:933605931561:subnet/subnet-09e2ce311a02ee35f" -> null
+      - assign_ipv6_address_on_creation                = false -> null
+      - availability_zone                              = "us-east-2b" -> null
+      - availability_zone_id                           = "use2-az2" -> null
+      - cidr_block                                     = "10.176.16.0/20" -> null
+      - enable_dns64                                   = false -> null
+      - enable_lni_at_device_index                     = 0 -> null
+      - enable_resource_name_dns_a_record_on_launch    = false -> null
+      - enable_resource_name_dns_aaaa_record_on_launch = false -> null
+      - id                                             = "subnet-09e2ce311a02ee35f" -> null
+      - ipv6_native                                    = false -> null
+      - map_customer_owned_ip_on_launch                = false -> null
+      - map_public_ip_on_launch                        = true -> null
+      - owner_id                                       = "933605931561" -> null
+      - private_dns_hostname_type_on_launch            = "ip-name" -> null
+      - region                                         = "us-east-2" -> null
+      - tags                                           = {
+          - "kubernetes.io/role/elb" = "1"
+        } -> null
+      - tags_all                                       = {
+          - "ManagedBy"              = "Terraform"
+          - "Project"                = "pogo-arena"
+          - "kubernetes.io/role/elb" = "1"
+        } -> null
+      - vpc_id                                         = "vpc-01126a50acfa1e12b" -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # aws_vpc.demo will be destroyed
+  - resource "aws_vpc" "demo" {
+      - arn                                  = "arn:aws:ec2:us-east-2:933605931561:vpc/vpc-01126a50acfa1e12b" -> null
+      - assign_generated_ipv6_cidr_block     = false -> null
+      - cidr_block                           = "10.176.0.0/16" -> null
+      - default_network_acl_id               = "acl-054f43255967098f9" -> null
+      - default_route_table_id               = "rtb-0202d9c2940507c85" -> null
+      - default_security_group_id            = "sg-0c5eeef23b420373f" -> null
+      - dhcp_options_id                      = "dopt-0dde0b3d1e0f86dfd" -> null
+      - enable_dns_hostnames                 = true -> null
+      - enable_dns_support                   = true -> null
+      - enable_network_address_usage_metrics = false -> null
+      - id                                   = "vpc-01126a50acfa1e12b" -> null
+      - instance_tenancy                     = "default" -> null
+      - ipv6_netmask_length                  = 0 -> null
+      - main_route_table_id                  = "rtb-0202d9c2940507c85" -> null
+      - owner_id                             = "933605931561" -> null
+      - region                               = "us-east-2" -> null
+      - tags                                 = {} -> null
+      - tags_all                             = {
+          - "ManagedBy" = "Terraform"
+          - "Project"   = "pogo-arena"
+        } -> null
+        # (4 unchanged attributes hidden)
+    }
+
+  # terraform_data.free_plan_required will be destroyed
+  - resource "terraform_data" "free_plan_required" {
+      - id     = "ae43f0f8-8571-e9ec-84a3-73411a5e90ec" -> null
+      - input  = {
+          - allowed    = "true"
+          - credit_usd = "162.39"
+          - plan       = "FREE"
+        } -> null
+      - output = {
+          - allowed    = "true"
+          - credit_usd = "162.39"
+          - plan       = "FREE"
+        } -> null
+    }
+
+Plan: 0 to add, 0 to change, 55 to destroy.
+
+Changes to Outputs:
+  - artifacts_bucket    = "pogo-validation-artifacts-933605931561-us-east-2" -> null
+  - cluster             = "pogo-validation-demo" -> null
+  - controller_roles    = {
+      - autoscaler    = "arn:aws:iam::933605931561:role/pogo-validation-autoscaler"
+      - load_balancer = "arn:aws:iam::933605931561:role/pogo-validation-load_balancer"
+    } -> null
+  - leaderboard_url     = "https://86vgp0cxhl.execute-api.us-east-2.amazonaws.com/leaderboard" -> null
+  - load_generators     = [] -> null
+  - node_security_group = "sg-08f22d9254f021b4f" -> null
+  - repositories        = {
+      - client   = "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo-validation/client"
+      - gateway  = "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo-validation/gateway"
+      - loadtest = "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo-validation/loadtest"
+      - server   = "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo-validation/server"
+    } -> null
+  - results_function    = "pogo-validation-leaderboard" -> null
+  - vpc_id              = "vpc-01126a50acfa1e12b" -> null
+
+─────────────────────────────────────────────────────────────────────────────
+
+Saved the plan to: destroy.tfplan
+
+To perform exactly these actions, run the following command to apply:
+    terraform apply "destroy.tfplan"

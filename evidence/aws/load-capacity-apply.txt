@@ -1,0 +1,36 @@
+aws_eks_node_group.game: Modifying... [id=pogo-demo:pogo-games]
+aws_eks_node_group.game: Still modifying... [id=pogo-demo:pogo-games, 00m10s elapsed]
+aws_eks_node_group.game: Still modifying... [id=pogo-demo:pogo-games, 00m20s elapsed]
+aws_eks_node_group.game: Modifications complete after 25s [id=pogo-demo:pogo-games]
+
+Apply complete! Resources: 0 added, 1 changed, 0 destroyed.
+
+Outputs:
+
+artifacts_bucket = "pogo-artifacts-933605931561-us-east-2"
+cluster = "pogo-demo"
+controller_roles = {
+  "autoscaler" = "arn:aws:iam::933605931561:role/pogo-autoscaler"
+  "load_balancer" = "arn:aws:iam::933605931561:role/pogo-load_balancer"
+}
+game_url = "https://d1oif12lvr7c7k.cloudfront.net"
+leaderboard_url = "https://6jc2etk9n4.execute-api.us-east-2.amazonaws.com/leaderboard"
+load_generators = [
+  {
+    "id" = "i-0a9b7f44870455186"
+    "private_ip" = "10.176.4.251"
+  },
+  {
+    "id" = "i-0780341ea3c7eb04e"
+    "private_ip" = "10.176.31.120"
+  },
+]
+node_security_group = "sg-0d09a2c40fdf20750"
+repositories = {
+  "client" = "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/client"
+  "gateway" = "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/gateway"
+  "loadtest" = "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/loadtest"
+  "server" = "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/server"
+}
+results_function = "pogo-leaderboard"
+vpc_id = "vpc-0a6eb9bafaaecba84"

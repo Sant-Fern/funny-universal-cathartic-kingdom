@@ -1,0 +1,550 @@
+{
+    "apiVersion": "v1",
+    "items": [
+        {
+            "apiVersion": "agones.dev/v1",
+            "kind": "GameServer",
+            "metadata": {
+                "annotations": {
+                    "agones.dev/sdk-version": "1.62.0"
+                },
+                "creationTimestamp": "2026-11-17T01:46:00Z",
+                "finalizers": [
+                    "agones.dev/controller"
+                ],
+                "generateName": "pogo-race-fr8z7-",
+                "generation": 6,
+                "labels": {
+                    "agones.dev/fleet": "pogo-race",
+                    "agones.dev/gameserverset": "pogo-race-fr8z7",
+                    "app": "pogo-game",
+                    "mode": "race"
+                },
+                "name": "pogo-race-fr8z7-s57v2",
+                "namespace": "pogo",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "agones.dev/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "GameServerSet",
+                        "name": "pogo-race-fr8z7",
+                        "uid": "c73465e1-01ad-4643-9eda-dd2054ffbc18"
+                    }
+                ],
+                "resourceVersion": "81570",
+                "uid": "2deaf81a-7d85-410d-b601-f4ab1bf30124"
+            },
+            "spec": {
+                "container": "game",
+                "counters": {
+                    "players": {
+                        "capacity": 10,
+                        "count": 0
+                    }
+                },
+                "eviction": {
+                    "safe": "Never"
+                },
+                "health": {
+                    "failureThreshold": 3,
+                    "initialDelaySeconds": 30,
+                    "periodSeconds": 5
+                },
+                "immutableReplicas": 1,
+                "ports": [
+                    {
+                        "container": "game",
+                        "containerPort": 8000,
+                        "name": "web",
+                        "portPolicy": "None",
+                        "protocol": "TCP",
+                        "range": "default"
+                    }
+                ],
+                "scheduling": "Packed",
+                "sdkServer": {
+                    "grpcPort": 9357,
+                    "httpPort": 9358,
+                    "logLevel": "Info"
+                },
+                "template": {
+                    "metadata": {
+                        "labels": {
+                            "app": "pogo-game",
+                            "mode": "race"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "env": [
+                                    {
+                                        "name": "MATCH_MODE",
+                                        "value": "race"
+                                    },
+                                    {
+                                        "name": "RESULTS_FUNCTION",
+                                        "value": "pogo-leaderboard"
+                                    },
+                                    {
+                                        "name": "AWS_DEFAULT_REGION",
+                                        "value": "us-east-2"
+                                    }
+                                ],
+                                "image": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/server:integrator-20261116-03",
+                                "name": "game",
+                                "ports": [
+                                    {
+                                        "containerPort": 8000,
+                                        "name": "http"
+                                    }
+                                ],
+                                "readinessProbe": {
+                                    "httpGet": {
+                                        "path": "/health",
+                                        "port": 8000
+                                    },
+                                    "initialDelaySeconds": 3
+                                },
+                                "resources": {
+                                    "limits": {
+                                        "cpu": "1",
+                                        "memory": "384Mi"
+                                    },
+                                    "requests": {
+                                        "cpu": "100m",
+                                        "memory": "128Mi"
+                                    }
+                                },
+                                "securityContext": {
+                                    "allowPrivilegeEscalation": false,
+                                    "capabilities": {
+                                        "drop": [
+                                            "ALL"
+                                        ]
+                                    }
+                                }
+                            }
+                        ],
+                        "terminationGracePeriodSeconds": 30
+                    }
+                }
+            },
+            "status": {
+                "address": "ec2-3-23-105-0.us-east-2.compute.amazonaws.com",
+                "addresses": [
+                    {
+                        "address": "10.176.31.81",
+                        "type": "InternalIP"
+                    },
+                    {
+                        "address": "3.23.105.0",
+                        "type": "ExternalIP"
+                    },
+                    {
+                        "address": "ip-10-176-31-81.us-east-2.compute.internal",
+                        "type": "InternalDNS"
+                    },
+                    {
+                        "address": "ip-10-176-31-81.us-east-2.compute.internal",
+                        "type": "Hostname"
+                    },
+                    {
+                        "address": "ec2-3-23-105-0.us-east-2.compute.amazonaws.com",
+                        "type": "ExternalDNS"
+                    },
+                    {
+                        "address": "10.176.22.209",
+                        "type": "PodIP"
+                    }
+                ],
+                "counters": {
+                    "players": {
+                        "capacity": 10,
+                        "count": 0
+                    }
+                },
+                "eviction": {
+                    "safe": "Never"
+                },
+                "immutableReplicas": 1,
+                "nodeName": "ip-10-176-31-81.us-east-2.compute.internal",
+                "players": null,
+                "ports": [
+                    {
+                        "name": "web",
+                        "port": 8000
+                    }
+                ],
+                "reservedUntil": null,
+                "state": "Ready"
+            }
+        },
+        {
+            "apiVersion": "agones.dev/v1",
+            "kind": "GameServer",
+            "metadata": {
+                "annotations": {
+                    "agones.dev/sdk-version": "1.62.0"
+                },
+                "creationTimestamp": "2026-11-17T01:46:00Z",
+                "finalizers": [
+                    "agones.dev/controller"
+                ],
+                "generateName": "pogo-race-fr8z7-",
+                "generation": 6,
+                "labels": {
+                    "agones.dev/fleet": "pogo-race",
+                    "agones.dev/gameserverset": "pogo-race-fr8z7",
+                    "app": "pogo-game",
+                    "mode": "race"
+                },
+                "name": "pogo-race-fr8z7-w4nw5",
+                "namespace": "pogo",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "agones.dev/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "GameServerSet",
+                        "name": "pogo-race-fr8z7",
+                        "uid": "c73465e1-01ad-4643-9eda-dd2054ffbc18"
+                    }
+                ],
+                "resourceVersion": "81573",
+                "uid": "0e80b60e-2238-492b-906e-f8d9df5c458d"
+            },
+            "spec": {
+                "container": "game",
+                "counters": {
+                    "players": {
+                        "capacity": 10,
+                        "count": 0
+                    }
+                },
+                "eviction": {
+                    "safe": "Never"
+                },
+                "health": {
+                    "failureThreshold": 3,
+                    "initialDelaySeconds": 30,
+                    "periodSeconds": 5
+                },
+                "immutableReplicas": 1,
+                "ports": [
+                    {
+                        "container": "game",
+                        "containerPort": 8000,
+                        "name": "web",
+                        "portPolicy": "None",
+                        "protocol": "TCP",
+                        "range": "default"
+                    }
+                ],
+                "scheduling": "Packed",
+                "sdkServer": {
+                    "grpcPort": 9357,
+                    "httpPort": 9358,
+                    "logLevel": "Info"
+                },
+                "template": {
+                    "metadata": {
+                        "labels": {
+                            "app": "pogo-game",
+                            "mode": "race"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "env": [
+                                    {
+                                        "name": "MATCH_MODE",
+                                        "value": "race"
+                                    },
+                                    {
+                                        "name": "RESULTS_FUNCTION",
+                                        "value": "pogo-leaderboard"
+                                    },
+                                    {
+                                        "name": "AWS_DEFAULT_REGION",
+                                        "value": "us-east-2"
+                                    }
+                                ],
+                                "image": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/server:integrator-20261116-03",
+                                "name": "game",
+                                "ports": [
+                                    {
+                                        "containerPort": 8000,
+                                        "name": "http"
+                                    }
+                                ],
+                                "readinessProbe": {
+                                    "httpGet": {
+                                        "path": "/health",
+                                        "port": 8000
+                                    },
+                                    "initialDelaySeconds": 3
+                                },
+                                "resources": {
+                                    "limits": {
+                                        "cpu": "1",
+                                        "memory": "384Mi"
+                                    },
+                                    "requests": {
+                                        "cpu": "100m",
+                                        "memory": "128Mi"
+                                    }
+                                },
+                                "securityContext": {
+                                    "allowPrivilegeEscalation": false,
+                                    "capabilities": {
+                                        "drop": [
+                                            "ALL"
+                                        ]
+                                    }
+                                }
+                            }
+                        ],
+                        "terminationGracePeriodSeconds": 30
+                    }
+                }
+            },
+            "status": {
+                "address": "ec2-3-23-105-0.us-east-2.compute.amazonaws.com",
+                "addresses": [
+                    {
+                        "address": "10.176.31.81",
+                        "type": "InternalIP"
+                    },
+                    {
+                        "address": "3.23.105.0",
+                        "type": "ExternalIP"
+                    },
+                    {
+                        "address": "ip-10-176-31-81.us-east-2.compute.internal",
+                        "type": "InternalDNS"
+                    },
+                    {
+                        "address": "ip-10-176-31-81.us-east-2.compute.internal",
+                        "type": "Hostname"
+                    },
+                    {
+                        "address": "ec2-3-23-105-0.us-east-2.compute.amazonaws.com",
+                        "type": "ExternalDNS"
+                    },
+                    {
+                        "address": "10.176.21.18",
+                        "type": "PodIP"
+                    }
+                ],
+                "counters": {
+                    "players": {
+                        "capacity": 10,
+                        "count": 0
+                    }
+                },
+                "eviction": {
+                    "safe": "Never"
+                },
+                "immutableReplicas": 1,
+                "nodeName": "ip-10-176-31-81.us-east-2.compute.internal",
+                "players": null,
+                "ports": [
+                    {
+                        "name": "web",
+                        "port": 8000
+                    }
+                ],
+                "reservedUntil": null,
+                "state": "Ready"
+            }
+        },
+        {
+            "apiVersion": "agones.dev/v1",
+            "kind": "GameServer",
+            "metadata": {
+                "annotations": {
+                    "agones.dev/last-allocated": "2026-11-17T01:38:03.413497562Z",
+                    "agones.dev/sdk-version": "1.62.0"
+                },
+                "creationTimestamp": "2026-11-17T01:37:34Z",
+                "finalizers": [
+                    "agones.dev/controller"
+                ],
+                "generateName": "pogo-race-r44gk-",
+                "generation": 8,
+                "labels": {
+                    "agones.dev/fleet": "pogo-race",
+                    "agones.dev/gameserverset": "pogo-race-r44gk",
+                    "app": "pogo-game",
+                    "mode": "race"
+                },
+                "name": "pogo-race-r44gk-d64dv",
+                "namespace": "pogo",
+                "ownerReferences": [
+                    {
+                        "apiVersion": "agones.dev/v1",
+                        "blockOwnerDeletion": true,
+                        "controller": true,
+                        "kind": "GameServerSet",
+                        "name": "pogo-race-r44gk",
+                        "uid": "82ff5a94-3eed-4b5a-b2ad-3d70a823d73e"
+                    }
+                ],
+                "resourceVersion": "81275",
+                "uid": "6523f291-a9d3-41cd-8a9c-eed41b0d23a4"
+            },
+            "spec": {
+                "container": "game",
+                "counters": {
+                    "players": {
+                        "capacity": 10,
+                        "count": 0
+                    }
+                },
+                "eviction": {
+                    "safe": "Never"
+                },
+                "health": {
+                    "failureThreshold": 3,
+                    "initialDelaySeconds": 30,
+                    "periodSeconds": 5
+                },
+                "immutableReplicas": 1,
+                "ports": [
+                    {
+                        "container": "game",
+                        "containerPort": 8000,
+                        "name": "web",
+                        "portPolicy": "None",
+                        "protocol": "TCP",
+                        "range": "default"
+                    }
+                ],
+                "scheduling": "Packed",
+                "sdkServer": {
+                    "grpcPort": 9357,
+                    "httpPort": 9358,
+                    "logLevel": "Info"
+                },
+                "template": {
+                    "metadata": {
+                        "labels": {
+                            "app": "pogo-game",
+                            "mode": "race"
+                        }
+                    },
+                    "spec": {
+                        "containers": [
+                            {
+                                "env": [
+                                    {
+                                        "name": "MATCH_MODE",
+                                        "value": "race"
+                                    },
+                                    {
+                                        "name": "RESULTS_FUNCTION",
+                                        "value": "pogo-leaderboard"
+                                    },
+                                    {
+                                        "name": "AWS_DEFAULT_REGION",
+                                        "value": "us-east-2"
+                                    }
+                                ],
+                                "image": "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/server:8ee5d87bc043a06aeb8bb83aaf5e1d06988c85b4",
+                                "name": "game",
+                                "ports": [
+                                    {
+                                        "containerPort": 8000,
+                                        "name": "http"
+                                    }
+                                ],
+                                "readinessProbe": {
+                                    "httpGet": {
+                                        "path": "/health",
+                                        "port": 8000
+                                    },
+                                    "initialDelaySeconds": 3
+                                },
+                                "resources": {
+                                    "limits": {
+                                        "cpu": "1",
+                                        "memory": "384Mi"
+                                    },
+                                    "requests": {
+                                        "cpu": "100m",
+                                        "memory": "128Mi"
+                                    }
+                                },
+                                "securityContext": {
+                                    "allowPrivilegeEscalation": false,
+                                    "capabilities": {
+                                        "drop": [
+                                            "ALL"
+                                        ]
+                                    }
+                                }
+                            }
+                        ],
+                        "terminationGracePeriodSeconds": 30
+                    }
+                }
+            },
+            "status": {
+                "address": "ec2-13-185-47-103.us-east-2.compute.amazonaws.com",
+                "addresses": [
+                    {
+                        "address": "10.176.9.38",
+                        "type": "InternalIP"
+                    },
+                    {
+                        "address": "13.185.47.103",
+                        "type": "ExternalIP"
+                    },
+                    {
+                        "address": "ip-10-176-9-38.us-east-2.compute.internal",
+                        "type": "InternalDNS"
+                    },
+                    {
+                        "address": "ip-10-176-9-38.us-east-2.compute.internal",
+                        "type": "Hostname"
+                    },
+                    {
+                        "address": "ec2-13-185-47-103.us-east-2.compute.amazonaws.com",
+                        "type": "ExternalDNS"
+                    },
+                    {
+                        "address": "10.176.10.245",
+                        "type": "PodIP"
+                    }
+                ],
+                "counters": {
+                    "players": {
+                        "capacity": 10,
+                        "count": 1
+                    }
+                },
+                "eviction": {
+                    "safe": "Never"
+                },
+                "immutableReplicas": 1,
+                "nodeName": "ip-10-176-9-38.us-east-2.compute.internal",
+                "players": null,
+                "ports": [
+                    {
+                        "name": "web",
+                        "port": 8000
+                    }
+                ],
+                "reservedUntil": null,
+                "state": "Allocated"
+            }
+        }
+    ],
+    "kind": "List",
+    "metadata": {
+        "resourceVersion": ""
+    }
+}

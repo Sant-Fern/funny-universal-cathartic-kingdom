@@ -1,0 +1,17 @@
+{
+  "label": "spike-1000",
+  "host": "https://d1oif12lvr7c7k.cloudfront.net",
+  "class": "PogoUser",
+  "requested_users": 1000,
+  "spawn_rate": 50.0,
+  "duration_requested_seconds": 620,
+  "started_epoch": 1794886252.8536747,
+  "ended_epoch": 1794886882.6502495,
+  "generator": "i-0a9b7f44870455186",
+  "worker_only": false,
+  "process_exit_codes": [
+    0,
+    1,
+    1
+  ]
+}

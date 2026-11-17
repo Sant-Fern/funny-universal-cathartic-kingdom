@@ -1,0 +1,33 @@
+aws_instance.loadgen[0]: Destroying... [id=i-0a9b7f44870455186]
+aws_instance.loadgen[1]: Destroying... [id=i-0780341ea3c7eb04e]
+aws_instance.loadgen[0]: Still destroying... [id=i-0a9b7f44870455186, 00m10s elapsed]
+aws_instance.loadgen[1]: Still destroying... [id=i-0780341ea3c7eb04e, 00m10s elapsed]
+aws_instance.loadgen[0]: Still destroying... [id=i-0a9b7f44870455186, 00m20s elapsed]
+aws_instance.loadgen[1]: Still destroying... [id=i-0780341ea3c7eb04e, 00m20s elapsed]
+aws_instance.loadgen[0]: Still destroying... [id=i-0a9b7f44870455186, 00m30s elapsed]
+aws_instance.loadgen[1]: Still destroying... [id=i-0780341ea3c7eb04e, 00m30s elapsed]
+aws_instance.loadgen[0]: Destruction complete after 31s
+aws_instance.loadgen[1]: Destruction complete after 31s
+
+Apply complete! Resources: 0 added, 0 changed, 2 destroyed.
+
+Outputs:
+
+artifacts_bucket = "pogo-artifacts-933605931561-us-east-2"
+cluster = "pogo-demo"
+controller_roles = {
+  "autoscaler" = "arn:aws:iam::933605931561:role/pogo-autoscaler"
+  "load_balancer" = "arn:aws:iam::933605931561:role/pogo-load_balancer"
+}
+game_url = "https://d1oif12lvr7c7k.cloudfront.net"
+leaderboard_url = "https://6jc2etk9n4.execute-api.us-east-2.amazonaws.com/leaderboard"
+load_generators = []
+node_security_group = "sg-0d09a2c40fdf20750"
+repositories = {
+  "client" = "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/client"
+  "gateway" = "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/gateway"
+  "loadtest" = "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/loadtest"
+  "server" = "933605931561.dkr.ecr.us-east-2.amazonaws.com/pogo/server"
+}
+results_function = "pogo-leaderboard"
+vpc_id = "vpc-0a6eb9bafaaecba84"

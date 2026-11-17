@@ -29,7 +29,7 @@ def test_humans_replace_bots_balanced_and_capacity_is_ten():
 
 
 def test_player_can_only_move_while_airborne():
-    arena = Arena(seed=2, mode="race")
+    arena = Arena(seed=2, mode="race", auto_bounce=False)
     p = arena.join("Prueba")
     arena.players = {p.id: p}
     p.x, p.z = -22, 9
@@ -41,14 +41,16 @@ def test_player_can_only_move_while_airborne():
 
     arena.apply_input(p.id, controls(10, moveX=1, moveZ=1, jumpPower=1))
     arena.step(0.05)
-    assert math.hypot(p.x-start[0], p.z-start[1]) == pytest.approx(CONFIG["airSpeed"] * 0.05)
+    # Ground lean now adds real takeoff momentum to air steering.
+    assert math.hypot(p.x-start[0], p.z-start[1]) > CONFIG["airSpeed"] * 0.05
     for _ in range(12):
         arena.step(.05)
     assert not p.grounded
     start = (p.x, p.z)
     for _ in range(10):
         arena.step(.05)
-    assert (p.x, p.z) == start and p.grounded
+    assert p.grounded
+    start = (p.x, p.z)
     arena.apply_input(p.id, controls(11, moveX=1))
     arena.step(.05)
     assert (p.x, p.z) == start and p.grounded
@@ -62,20 +64,23 @@ def test_old_sequences_do_not_override_new_input():
     assert p.controls.seq == 5
 
 
-def test_bots_split_across_both_tower_entrances():
+def test_both_teams_climb_their_symmetric_routes():
     arena = Arena(seed=1,mode='race')
     arena.join('Prueba')
     routes = {0:set(),1:set()}
     for _ in range(1000):
         arena.step(.05)
         for p in arena.players.values():
-            if p.bot and p.grounded and abs(p.y-CONFIG['race']['entry']['h']) < .01:
-                routes[p.team].add(p.x > 0)
-    assert routes == {0:{False,True},1:{False,True}}
+            if p.bot and p.grounded and p.race_step > 0:
+                step = min(p.race_step, len(TOWER_TRACKS[0]))-1
+                lane = min(range(2), key=lambda lane: math.hypot(p.x-TOWER_TRACKS[lane][step]['x'], p.z-TOWER_TRACKS[lane][step]['z']))
+                routes[p.team].add(lane)
+    assert routes == {0:{0},1:{1}}
+    assert all(any(p.bot and p.team==team and p.best_height>20 for p in arena.players.values()) for team in (0,1))
 
 
 def test_ground_direction_carries_into_the_jump_after_the_key_is_released():
-    arena = Arena(seed=2, mode="race")
+    arena = Arena(seed=2, mode="race", auto_bounce=False)
     p = arena.join("Prueba")
     arena.players = {p.id: p}
     start = p.x
@@ -99,17 +104,19 @@ def test_players_cannot_jump_through_each_other_at_the_same_height(height_gap):
         arena.apply_input(a.id, controls(seq, moveX=1))
         arena.apply_input(b.id, controls(seq, moveX=-1))
         arena.step(.05)
+        if not height_gap:
+            assert b.x-a.x >= 2*CONFIG['playerRadius']-1e-8
     if height_gap:
         assert a.x > b.x
     else:
-        assert b.x-a.x == pytest.approx(2*CONFIG["playerRadius"])
+        assert a.collision_x < 0 < b.collision_x
 
 
 def test_collisions_boundaries_and_obstacle():
     arena = Arena(mode="race")
-    assert not arena.can_move(CONFIG["width"]/2, 0, 0)
+    assert not arena.can_move(CONFIG['race']['bounds']["width"]/2, 0, 0)
     assert arena.can_move(20, 0, 0)
-    assert not arena.can_move(0, 0, 4)
+    assert arena.can_move(0, 0, 4)  # The surreal course has no central tower.
     assert arena.can_move(0, 0, SUMMIT["h"]+2)
     assert segment_box((-5, 1, 0), (5, 1, 0), (-1, 0, -1), (1, 2, 1)) == pytest.approx(0.4)
     assert segment_sphere((-5, 1, 0), (5, 1, 0), (0, 1, 0), 1) == pytest.approx(0.4)
@@ -147,7 +154,7 @@ def test_flat_arena_has_low_cover_and_no_tower_collision():
     flat, tower = Arena(), Arena(mode="race")
     assert max(top for _, _, top in boxes_at(0, "eliminations")) < 2
     assert flat.can_move(0, 0, 4)
-    assert not tower.can_move(0, 0, 4)
+    assert tower.can_move(0, 0, 4)
 
 
 def test_all_elimination_spawns_clear_the_new_stages_and_each_other():
@@ -169,8 +176,14 @@ def test_race_requires_landing_in_the_finish_ring():
     assert not arena.finished
     for _ in range(15):
         arena.step(.05)
+    assert not arena.finished and arena.winner is None
+    assert mint.finish_position == 1 and mint.race_points == 10
+    assert arena.score == [10, 0]
+    coral.x, coral.y, coral.z = SUMMIT["x"]+1.2, SUMMIT["h"], SUMMIT["z"]
+    coral.grounded = True
+    arena.step(.05)
     assert arena.finished and arena.winner == mint.team
-    assert arena.score == [SUMMIT["h"], 0]
+    assert coral.finish_position == 2 and arena.score == [10, 9]
     assert coral.health == mint.health == 100
 
 
@@ -182,16 +195,19 @@ def test_race_bots_can_finish(seed):
         arena.step(.05)
         if arena.finished:
             break
-    assert arena.finished and max(arena.score) == SUMMIT["h"]
-    assert 120 <= arena.time < arena.duration
+    assert arena.finished and max(arena.score) >= 10
+    assert any(p.finish_position is not None for p in arena.players.values())
+    assert 120 <= arena.time <= arena.duration
+    assert arena.score == [sum(p.race_points for p in arena.players.values() if p.team == t) for t in (0, 1)]
     assert all(p.health == 100 for p in arena.players.values())
 
 
 def test_pogo_cannot_pass_upward_through_a_suspended_deck():
-    arena = Arena(seed=1, mode="race")
+    arena = Arena(seed=1, mode="race", auto_bounce=False)
     p = arena.join("Prueba")
     arena.players = {p.id: p}
-    deck = TOWER_TRACKS[0][1]
+    deck = next(deck for deck in TOWER_TRACKS[0]
+                if HEAD_CLEARANCE+.1 < deck['h']-deck['thickness'] < HEAD_CLEARANCE+2.52)
     p.x, p.z = deck["x"], deck["z"]
     arena.apply_input(p.id, controls(1, jumpPower=1))
     high = p.y
@@ -202,9 +218,9 @@ def test_pogo_cannot_pass_upward_through_a_suspended_deck():
     assert p.grounded and p.y == 0
 
 
-@pytest.mark.parametrize("shuttle_index", [0, 4])
+@pytest.mark.parametrize("shuttle_index", [0, 3])
 def test_moving_platform_carries_a_grounded_player(shuttle_index):
-    arena = Arena(seed=1, mode="race")
+    arena = Arena(seed=1, mode="race", auto_bounce=False)
     p = arena.join("Prueba")
     arena.players = {p.id: p}
     def shuttle(tick):
@@ -222,7 +238,7 @@ def test_moving_platform_carries_a_grounded_player(shuttle_index):
 def test_manual_jump_height_and_single_landing():
     heights = []
     for power in (None, 0, .5, 1):
-        arena = Arena(seed=3, mode="race")
+        arena = Arena(seed=3, mode="race", auto_bounce=False)
         p = arena.join("Prueba")
         arena.players = {p.id: p}
         arena.apply_input(p.id, controls(1, jumpPower=power))
@@ -244,7 +260,7 @@ def test_manual_jump_height_and_single_landing():
 
 
 @pytest.mark.parametrize("team", [0, 1])
-def test_complete_tower_routes_take_at_least_two_minutes(team):
+def test_complete_surreal_routes_with_continuous_bouncing(team):
     arena = Arena(seed=3, mode="race")
     if team == 1:
         arena.join("Menta")
@@ -263,7 +279,7 @@ def test_complete_tower_routes_take_at_least_two_minutes(team):
         assert p.grounded and p.y == pytest.approx(deck["h"])
         assert overlaps(deck, p.x, p.z)
     assert arena.finished and arena.winner == team
-    assert 120 <= arena.time < arena.duration
+    assert 40 <= arena.time < arena.duration
 
 
 def test_bots_attack_each_other_with_an_idle_human():

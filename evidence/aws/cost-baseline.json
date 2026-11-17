@@ -1,0 +1,21 @@
+{
+  "currency": "USD",
+  "basis": "list_prices_before_credits_and_free_allowances",
+  "node_hour": "0.0957600000",
+  "eks_hour": "0.10",
+  "alb_hour": "0.0225000000",
+  "two_node_base_hour": "0.3140200000",
+  "eight_node_base_hour": "0.8885800000",
+  "excluded": [
+    "EBS",
+    "public IPv4",
+    "LCU",
+    "cross-AZ and internet traffic",
+    "CloudFront",
+    "ECR",
+    "S3",
+    "other projects"
+  ],
+  "out_of_pocket_condition": "FREE account plan remains ACTIVE; do not upgrade to Paid",
+  "warning": "Resources consume promotional credits. This baseline is not the complete cost of the environment."
+}
